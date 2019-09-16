@@ -1,0 +1,40 @@
+0000000000000000000000000000000000000000 80d15a5c6379bce5fa0755d60622acae68e95786 maheshshah196 <maheshshah196@gmail.com> 1550221864 +0530	commit (initial): first initialization
+80d15a5c6379bce5fa0755d60622acae68e95786 263258f6b04d0da4d98ec694b5b2c2b9a689f117 maheshshah196 <maheshshah196@gmail.com> 1550476944 +0530	commit: uk contact urls in resident countries modified and blogs adding started
+263258f6b04d0da4d98ec694b5b2c2b9a689f117 fae803e233c83983f884b5990f4b54b9ffdb9ce0 maheshshah196 <maheshshah196@gmail.com> 1550660484 +0530	commit: changes in map & dropdown data and also changed in one article
+fae803e233c83983f884b5990f4b54b9ffdb9ce0 f361fc2f2b9e1befbe40e233df211993be5608b3 maheshshah196 <maheshshah196@gmail.com> 1550661769 +0530	commit (merge): merged blog
+f361fc2f2b9e1befbe40e233df211993be5608b3 876f12c46254cb64a6322b03f2047fdff621c054 maheshshah196 <maheshshah196@gmail.com> 1551876348 +0530	commit: huge modification did
+876f12c46254cb64a6322b03f2047fdff621c054 60e01675b8ea6472096dfece91edf8acc6947102 maheshshah196 <maheshshah196@gmail.com> 1554285262 +0530	commit: commit before createing new map
+60e01675b8ea6472096dfece91edf8acc6947102 6425da4b0f999ec02e3ad761b9aebf1e26009dbe maheshshah196 <maheshshah196@gmail.com> 1556617968 +0530	commit: commit before 2nd version of responsive client and global footprint map
+6425da4b0f999ec02e3ad761b9aebf1e26009dbe 7782dd777a93413738f76aa8ae88d7aa81a0aadf maheshshah196 <maheshshah196@gmail.com> 1556793160 +0530	commit: media release updated and countries added in dropdown and map
+7782dd777a93413738f76aa8ae88d7aa81a0aadf 821389f27f2fafb92bcbf9c41766276c2dcfde97 maheshshah196 <maheshshah196@gmail.com> 1556793385 +0530	merge local/master: Merge made by the 'recursive' strategy.
+821389f27f2fafb92bcbf9c41766276c2dcfde97 32fcf579d599249f14e8df58eecc69c1905e8018 maheshshah196 <maheshshah196@gmail.com> 1556879564 +0530	commit: responsive map details_wrapper scroll to center done
+32fcf579d599249f14e8df58eecc69c1905e8018 23c5d058cf2822aa20559eb8e6daaf613138d400 maheshshah196 <maheshshah196@gmail.com> 1557833622 +0530	commit: commit before merging of new-responsive-global-footprint
+23c5d058cf2822aa20559eb8e6daaf613138d400 cda7581eda4302101a3cff6d9b3fcc2bcd9366c3 maheshshah196 <maheshshah196@gmail.com> 1557835876 +0530	commit (merge): merging done from new-responsive-footprint
+cda7581eda4302101a3cff6d9b3fcc2bcd9366c3 7faa43f9b603fe935812b997d86bd68706b65335 maheshshah196 <maheshshah196@gmail.com> 1557836139 +0530	commit: changes done after merging new-responsive-footprint
+7faa43f9b603fe935812b997d86bd68706b65335 03f8f185727cb7ca7ceb989d41a398d708c9ae4c Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1558431227 +0530	commit: new country added
+03f8f185727cb7ca7ceb989d41a398d708c9ae4c 497061e3017cde738e5ebfb52f1fa78a368a4f65 maheshshah196 <maheshshah196@gmail.com> 1558438572 +0530	commit: seo optimization is done
+497061e3017cde738e5ebfb52f1fa78a368a4f65 818f9203be10d6143c5da3495302ea92935e13a1 maheshshah196 <maheshshah196@gmail.com> 1558439046 +0530	commit: comment added for consent script
+818f9203be10d6143c5da3495302ea92935e13a1 0d49c913f6671a92a1ee489ab0a8bf8bc7c7d7d1 maheshshah196 <maheshshah196@gmail.com> 1560322980 +0530	merge new-home: Fast-forward
+0d49c913f6671a92a1ee489ab0a8bf8bc7c7d7d1 6f45d35ea2e7741e7e3c067b1230b4ea9dbfc1e2 maheshshah196 <maheshshah196@gmail.com> 1560324129 +0530	commit: all Thumbs.db and .DS_Store files are deleted
+6f45d35ea2e7741e7e3c067b1230b4ea9dbfc1e2 d6dcdaa2c4fb5bced249ebf65f220abd61173609 maheshshah196 <maheshshah196@gmail.com> 1560328496 +0530	commit (merge): merging completely done
+d6dcdaa2c4fb5bced249ebf65f220abd61173609 89af8e249eec3b2342c8822ea692ae6d860be7da maheshshah196 <maheshshah196@gmail.com> 1560421936 +0530	commit: all changes are completed
+89af8e249eec3b2342c8822ea692ae6d860be7da 0591feb449d72664291db5b2e65ef0b0b25a3920 maheshshah196 <maheshshah196@gmail.com> 1560431217 +0530	commit: errors are solved and ip-api call removed
+0591feb449d72664291db5b2e65ef0b0b25a3920 184b78e0648e89cc07265c60d0c5ac59e7ea1347 maheshshah196 <maheshshah196@gmail.com> 1560431777 +0530	commit: footprint-map temporary changed for merging purpose; responsive_-container class added
+184b78e0648e89cc07265c60d0c5ac59e7ea1347 132630c5a8ab2c347a33dc78cc5bc29a331c09f5 maheshshah196 <maheshshah196@gmail.com> 1560433125 +0530	commit (merge): live-changes has been merged successfully
+132630c5a8ab2c347a33dc78cc5bc29a331c09f5 c71acfbc8b74472144b9d107ce38b13ae9339734 maheshshah196 <maheshshah196@gmail.com> 1560433208 +0530	commit: all new articles has been added
+c71acfbc8b74472144b9d107ce38b13ae9339734 58d8355a0e37a00cf8fd6896b238f8c365daaa97 maheshshah196 <maheshshah196@gmail.com> 1560434461 +0530	commit: footprint-map.html formatted
+58d8355a0e37a00cf8fd6896b238f8c365daaa97 9768fa70af01b1e0e4d1fdeed84d64fb29ca4c68 maheshshah196 <maheshshah196@gmail.com> 1561103063 +0530	commit: all content related changes are done
+9768fa70af01b1e0e4d1fdeed84d64fb29ca4c68 bef69f6238f031af01c3d1e2fc28e2f948add8d2 Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1561104616 +0530	commit: added new country
+bef69f6238f031af01c3d1e2fc28e2f948add8d2 c98c2e9a7c2222302090310a3633f4c9d6b9e93e maheshshah196 <maheshshah196@gmail.com> 1561105376 +0530	commit: added site verification in governments
+c98c2e9a7c2222302090310a3633f4c9d6b9e93e cc51035204c724cd87e94502b493e66fd0c8be3a maheshshah196 <maheshshah196@gmail.com> 1561980718 +0530	commit: all content related changes are done before merge
+cc51035204c724cd87e94502b493e66fd0c8be3a 5bed2b685acfc8fc21ea1c67b1ad777a75676467 maheshshah196 <maheshshah196@gmail.com> 1561980754 +0530	commit: all changes are done before merge
+5bed2b685acfc8fc21ea1c67b1ad777a75676467 5a6ee6dac7c809b6d621391bae6e1e58841530e7 maheshshah196 <maheshshah196@gmail.com> 1561984982 +0530	commit (merge): all merging done for 200 million logo
+5a6ee6dac7c809b6d621391bae6e1e58841530e7 4601465dc9fe9bb0208c91e6b04b0ca220f541a2 maheshshah196 <maheshshah196@gmail.com> 1561985009 +0530	commit: all changes done for 200 million logo
+4601465dc9fe9bb0208c91e6b04b0ca220f541a2 726b03aa2965f4a16cacbaffa301abf8a73fd52b maheshshah196 <maheshshah196@gmail.com> 1561985116 +0530	commit (merge): all merging done to remove footprint and ip tracker
+726b03aa2965f4a16cacbaffa301abf8a73fd52b a5bfbf9df6e92272462cc7c9e54e64835f9930fa Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1563198162 +0530	commit: added changes before edit in new footprint
+a5bfbf9df6e92272462cc7c9e54e64835f9930fa ee8b4e2b61226488e49d9bf4684b70f3c5ccf5a8 Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1564494022 +0530	commit: en changes done on 30 jul and befor mergeing data of en-demo-with-footprint
+ee8b4e2b61226488e49d9bf4684b70f3c5ccf5a8 242986851f458d870ba14d88f683afdf67e7fb10 Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1564494334 +0530	commit: zip file deleted
+242986851f458d870ba14d88f683afdf67e7fb10 e11bbb978c099d2289848b3b9c884c5bdd75f13b Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1564495410 +0530	commit (merge): mobile-footprint successfully merged
+e11bbb978c099d2289848b3b9c884c5bdd75f13b dd5a87d8941a23f7a7fcd89d25160d0d874cc120 Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1564495459 +0530	commit: style.min.css just saved from style.scss
+dd5a87d8941a23f7a7fcd89d25160d0d874cc120 4c04db6c2482f92eebbd3b194e634c354ab67a42 Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1567065357 +0530	commit: for creating new look of website
+4c04db6c2482f92eebbd3b194e634c354ab67a42 d17517e6185e3c993dc2a202eb2a2a86c50e4794 Ankita Singh <Temp_AnkitaS@Vfsglobal.com> 1568363158 +0530	commit: for new tab addition we need commit

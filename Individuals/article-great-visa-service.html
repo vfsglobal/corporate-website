@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#06345B">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="ROBOTS" content="INDEX, FOLLOW">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico">
+    <link href="../assets/css/owl.carousel.min.css" rel="stylesheet" type="text/css">
+    <link href="../assets/css/style.min.css" rel="stylesheet" type="text/css">
+    <meta property="og:url" content="https://www.vfsglobal.com/en/individuals/article-great-visa-service.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Great visa services with a brand new look and feel">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="https://www.vfsglobal.com/en/assets/images/blog/visa-application-guide/extra-large/great-visa-service.jpg">
+    <meta property="og:image:width" content="1500">
+    <meta property="og:image:height" content="640">
+  </head>
+  <body>
+    <master-page type="article-page">
+      <li>
+        <div class="max_content_width">
+          <ul class="bottom_seperator_list small">
+            <li>
+              <p>International travel is no longer a luxury restricted to families or businesses with deep pockets. A large percentage of travellers, irrespective of background, are increasingly keen to explore foreign destinations and embark on at least one overseas visit per year. With visa services offered for 58 countries worldwide, VFS Global prides itself on being a household name among avid travellers. </p>
+              <p>VFS Global operates in 137 countries across the globe, and provides the same professional and best-in-class service at all its Visa Application Centres and Premium Lounges. Along with managing the visa process at the backend, VFS Global is focused on providing a world-class experience for travellers at its visa application centres, during the application process itself. </p>
+              <p>The key to the success of any enterprise spread internationally is the system of standardisation. Walk into a Starbucks anywhere in the world, and the cafe, along with the coffee, will look the same. This is also especially true for VFS Global that is now embarking on a journey to further extend the scope of its services offered for travellers at all its centres worldwide. New or refurbished VFS Global Visa Application Centres and Premium Lounges across the world will have the same look and feel, ensuring applicants feel comfortable in a familiar environment, no matter which centre they visit.</p>
+              <p>The first Visa Application Centres to feature VFS Global’s new standardised design are the Joint Visa Application Centre located in Mahalaxmi in Mumbai, India and the Application Centre for France in Algiers, Algeria. The Mumbai centre was launched in February 2018 with visa services for 20 countries on offer. The centre in Algiers is the second largest in the world for a single country and was opened in April 2018. The design will now be replicated at centres across the world in a phased manner during refurbishments</p>
+              <p><strong>Key features of the new Application Centres: </strong></p>
+              <ul class="simple_list">
+                <li>Increased number of submission counters</li>
+                <li>Ergonomically designed counters</li>
+                <li>Special counters for disabled applicants</li>
+                <li>Spacious, bright and comfortable waiting areas</li>
+                <li>Clear large signages</li>
+                <li>Dedicated supervisor to assist applicants in waiting area</li>
+                <li>Modern design </li>
+                <li>Free COMPASS Visa Application Centre Magazine (in India and UAE)</li>
+              </ul>
+            </li>
+            <li>
+              <h3 class="normal_content_heading">The Premium Lounge</h3>
+              <p>For those wishing for more customised attention, the Premium Lounge service is the perfect solution. VFS Global’s exclusive Premium Lounges offer end-to-end personalised service, assuring individual assistance with all your visa related queries, quicker completion of the application submission process, and immediate biometric enrolment, all within a modern day plush lounge facility that feels like home. </p>
+              <p>Applicants who opt for the Premium Lounge service can also avail VFS Global’s complimentary photocopying and photo-booth services as per parameters specified by the Embassy, and use the in-house equipment to print out of any mandatory documents that may have been forgotten. </p>
+              <p>What’s more, once a decision is made on the visa application, the passport and documents will be delivered to their doorstep by courier. Automatic updates at each stage of the visa application will also be shared via voice calls and SMS. </p>
+              <p><strong>Key features of the Premium Lounge:</strong></p>
+              <ul class="simple_list">
+                <li>Spacious and plush facility</li>
+                <li>Professional and responsive staff that speak the local language </li>
+                <li>Dedicated helpline and email contact for convenient appointment booking</li>
+                <li>Personalised attention for every applicant</li>
+                <li>Quicker completion of the submission process</li>
+                <li>Refreshments</li>
+                <li>Includes SMS updates and courier return of passport</li>
+                <li>Offers convenient payment options either online or at the centre</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li v-for="(cur_content, index) in page_data.testimonials" :key="index">
+        <side-image-content-wrapper :content="cur_content"></side-image-content-wrapper>
+      </li>
+    </master-page>
+    <script type="text/javascript" src="../assets/js/vendor/common.min.js"></script>
+    <script type="text/javascript" src="../assets/js/vendor/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+    <script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+    <script type="text/javascript" src="../assets/js/script.min.js"></script>
+    <script>
+      var page_data = {
+        testimonials: [{
+          image: {
+            src: '../assets/images/blog/visa-application-guide/zubin-karkaria.jpg',
+            alt: 'Zubin Karkaria'
+          },
+          big_sub_heading: {
+            type: 'small',
+            big_heading: 'Zubin Karkaria',
+            medium_heading: 'Chief Executive Officer, VFS Global Group ',
+            class_name: 'text_center_from_tablet'
+          },
+          main_content: '<p>“A brand promises certain attributes and qualities and hence it is extremely important that it is used consistently and effectively to become a powerful asset. Corporate identity and imagery are core elements of branding. The standardisation of our Visa Application Centres and Premium Lounges all over the world is a major achievement to enhance brand visibility, customer experience and offering client governments as well as consumers modern, appealing and convenient application centres.”</p>'
+        }, {
+          image: {
+            src: '../assets/images/blog/visa-application-guide/peter-brun.jpg',
+            alt: 'Peter Brun'
+          },
+          big_sub_heading: {
+            type: 'small',
+            big_heading: 'Peter Brun',
+            medium_heading: 'Chief Communications Officer, VFS Global',
+            class_name: 'text_center_from_tablet'
+          },
+          main_content: '<p>“You can have the best brand in the world - but what if people aren\'t emotionally touched? You can build great customer experience - but what if customers don\'t remember you? Brands are here to last, to make an impression, to make a promise and to make people feel at home when they are with you. VFS Global has set itself the goal of harmonising and strengthening the VFS Global visual brand and experience in our application centres. We have created modern, contemporary and professional design for the general centres and Premium Lounges. Once again, VFS Global is setting the industry benchmark - with a new and even stronger brand perception.”</p>'
+        }]
+      };
+    </script>
+  </body>
+</html>

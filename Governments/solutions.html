@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06345B" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW"/>
+<meta name="description" content="We offer more efficient and customised services to help our clients to reduce process complexity, minimise cost, achieve desired output, enhance customer experience and formulate business strategies.">
+<meta name="keywords" content="solutions, visa processing, identity & citizen services, location independent document processing, self-service kiosk, visa at your doorstep, mobile visa application centre, verification and attestation services, Biometric, form filling assistance, tourism and trade support, end to end operations and centres">
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico" />
+<link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<master-page type="banner-inner-page">
+  <ul class="bottom_seperator_list extra_large2">
+    <li id="segments">
+      <big-sub-heading-wrapper :content="page_data.main_headings.segments" type="small" class="padb_big max_content_width"></big-sub-heading-wrapper>
+      <accordion button_link_html="Learn more">
+        <accordion-item>
+          <accordion-button content="Visa Processing Services"></accordion-button>
+          <accordion-content>
+            <p>Since commencing operations in 2001, we have grown to be the world leader in visa application processing services for diplomatic missions worldwide. Over the years, our technology-driven innovations have been the driving force behind revolutionising the way visa application services are managed and operated. Our company’s cutting-edge visa processing solutions have today evolved into a benchmark and seamless process to deliver unmatched levels of client satisfaction and an enhanced applicant experience.</p>
+          </accordion-content>
+        </accordion-item>
+        <accordion-item>
+          <accordion-button content="Identity & Citizen Services"></accordion-button>
+          <accordion-content>
+            <p>Our Identity &amp; Citizen Services (ICS) solutions are strongly rooted in the knowledge and expertise gained from over {{experience_in_years}} years of experience in managing applications and providing best-in-class public-facing services.</p>
+            <p>Our ICS services include:</p>
+            <ul class="simple_list">
+              <li>skilled front-end support</li>
+              <li>technology-enabled centres</li>
+              <li>logistical and lifecycle support</li>
+              <li>assisted applications</li>
+              <li>registration services </li>
+              <li>biometric solutions</li>
+            </ul>
+            <p>These services all work to assure and manage identity, document management and authentication, and reporting services. Uniquely, we offer ICS services as either self-standing components, or by bringing them together to deliver an integrated and managed service. </p>
+          </accordion-content>
+        </accordion-item>
+      </accordion>
+    </li>
+    <li id="solutions">
+      <big-sub-heading-wrapper :content="page_data.main_headings.solutions" type="small" class="padb_big max_content_width"></big-sub-heading-wrapper>
+      <grey-box-list type="icon-details" equal_children_height=".icon_details_wrapper > .details_wrapper" v-bind="solutions.all_services"></grey-box-list>
+    </li>
+  </ul>
+</master-page>
+<script type="text/javascript" src="../assets/js/vendor/common.min.js"></script> 
+<script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+<script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+<script type="text/javascript" src="../assets/js/script.min.js"></script> 
+<script>
+	var master_page_data = {
+		main_page_banner: {
+			image_style: {
+				'background-image': 'url(../assets/images/banners/solutions.jpg)',
+				'background-position': 'center'
+			},
+			heading: 'Solutions'
+		},
+		main_bookmarks: [{
+			html: 'Segments',
+			href: '#segments'
+		}, {
+			html: 'Solutions',
+			href: '#solutions'
+		}]
+	};
+	
+	var page_data = {
+		main_headings: {
+			segments: {
+				big_heading: 'Segments',
+			},
+			solutions: {
+				big_heading: 'Solutions',
+				medium_heading: [
+          'Delivering excellence', 
+          'We offer more efficient and customised services to help our clients to reduce process complexity, minimise cost, achieve desired output, enhance customer experience and formulate business strategies.'
+        ]
+			}
+		}
+	};
+</script> 
+</body>
+</html>

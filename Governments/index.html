@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06345B" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW"/>
+<meta name="description" content="VFS Global is the world's largest outsourcing & technology service specialist for governments & their diplomatic missions worldwide">
+<meta name="keywords" content="outsourcing, technology, governments, diplomatic mission, visa application, visa processing, citizen services, solutions, end to end operations and centres, global presence, clients, visa information ">
+<meta name="google-site-verification" content="A4MteJ2KKiiFm7k5ItwXHkb3TFClBMpmqnn-zThsmPY" />
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico" />
+<link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<master-page type="basic">
+  <div class="wrapper content_container">
+    <banner-heading-wrapper type="main_home" :content="page_data.main_heading_content" class="max_content_width"></banner-heading-wrapper>
+  </div>
+  <banner-container type="normal" :content="page_data.solutions_banner"></banner-container>
+  <div class="wrapper">
+    <div class="content_container bg_map">
+      <ul class="bottom_seperator_list extra_large2">
+        <li>
+          <multi-type-heading-wrapper class="padb_big" :content="page_data.footprint_headings"></multi-type-heading-wrapper>
+          <side-seperator-list :content="home_stats_details" type="stats-details" column_details="stats_col3_details"></side-seperator-list>
+        </li>
+        <li>
+          <multi-type-heading-wrapper class="padb_big" :content="page_data.news_headings"></multi-type-heading-wrapper>
+          <side-heading-details-list :content="news.home"></side-heading-details-list>
+          <big-button class="mart_half_big" type="read_more" :content="page_data.news_big_button"></big-button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</master-page>
+<script type="text/javascript" src="../assets/js/vendor/common.min.js"></script> 
+<script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+<script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+<script type="text/javascript" src="../assets/js/script.min.js"></script> 
+<script>
+(function() {
+	
+	'use strict';
+	
+	window.page_data = {
+		main_heading_content: {
+			headings: {
+				small_heading: 'VFS Global for Government',
+				big_heading: 'VFS Global is the world\'s largest outsourcing & technology service specialist for governments & their diplomatic missions worldwide'
+			},
+			read_more: {
+				href: 'about.html',
+				html: 'Learn more about VFS Global'
+			}
+		},
+		solutions_banner: {
+			image_style: {
+				'background-image': 'url(../assets/images/banners/vac-technology.jpg)'
+			},
+			heading: 'With almost two decades of experience, VFS Global has established itself as a world leader in offering solutions in visa application processing and identity based citizen services',
+			read_more: {
+				html: 'View our solutions',
+				href: 'solutions.html'
+			}
+		},
+		footprint_headings: {
+			small_heading: 'Footprint',
+			big_heading: {
+				heading: function(vue_app) {
+					return 'We’ve processed over <span class="orange">' + vue_app.applications_str + '</span> applications <br> since ' + vue_app.start_year;
+				},
+				class: 'hide_break_from_big_mobile'
+			},
+			read_more: {
+				html: 'View the complete list',
+				href: '../general/footprint.html'
+			}
+		},
+		news_headings: {
+			small_heading: 'News',
+			big_heading: 'Latest updates from VFS Global'
+		},
+		news_big_button: {
+			html: 'Visit news page for more',
+			href: 'latest-news.html'
+		}
+	};
+})();
+</script> 
+</body>
+</html>

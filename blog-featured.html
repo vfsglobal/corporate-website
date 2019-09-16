@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06345B" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW"/>
+<meta name="description" content="Latest posts from VFS Global, Guide to visa application">
+<meta name="keywords" content="Latest posts, Enhance your experience, Guide to visa application, information on visas, permits">
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico" />
+<link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<master-page type="blog-section" :content="blog.featured">
+  <li v-for="(cur_featured_section, index) in page_data.all_featured_sections" :key="index">
+    <heading-link-wrapper :content="cur_featured_section.heading_link" read_more_link_html="View all posts"></heading-link-wrapper>
+    <image-short-info-list class="padt_half_big" type="normal" :content="blog.featured.all_section_articles[cur_featured_section.data_key]" :read_more_link_html="blog.featured.read_more_link_html"></image-short-info-list>
+  </li>
+</master-page>
+<script type="text/javascript" src="../assets/js/vendor/common.min.js"></script> 
+<script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+<script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+<script type="text/javascript" src="../assets/js/script.min.js"></script> 
+<script>
+	var master_page_data = {
+		main_sub_heading: 'Latest posts from VFS Global'
+	};
+	
+	var page_data = {
+		all_featured_sections: [{
+			heading_link: {
+				heading: 'Guide to visa application',
+				read_more: {
+					href: 'blog-visa-application-guide.html'
+				}
+			},
+			data_key: 'visa_application_guide'
+		}, {
+			heading_link: {
+				heading: 'People & Places',
+				read_more: {
+					href: 'blog-people-places.html'
+				}
+			},
+			data_key: 'people_places'
+		}, {
+			heading_link: {
+				heading: 'About us',
+				read_more: {
+					href: 'blog-about.html'
+				}
+			},
+			data_key: 'about_us'
+		}]
+	}
+</script> 
+</body>
+</html>

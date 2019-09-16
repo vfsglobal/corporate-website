@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#06345B" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW" />
+  <meta name="description" content="Need information on visas or permits? We’re here to help" />
+  <meta name="keywords"
+    content="visas, permits, visa in 3 simple steps, information on visas, apply for visa, apply online, appointment, visa application form, application status" />
+  <meta name="google-site-verification" content="A4MteJ2KKiiFm7k5ItwXHkb3TFClBMpmqnn-zThsmPY" />
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico" />
+  <link href="../assets/css/owl.carousel.min.css" rel="stylesheet" type="text/css">
+  <link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <master-page type="basic">
+    <service-tabs-3-steps-container-with-content></service-tabs-3-steps-container-with-content>
+    <banner-container type="normal" :content="page_data.service_banner"></banner-container>
+    <div class="wrapper content_container">
+      <multi-type-heading-wrapper class="padb_big max_content_width" :content="page_data.blog_headings">
+      </multi-type-heading-wrapper>
+      <side-heading-details-list :content="blog.home"></side-heading-details-list>
+      <big-button class="mart_half_big" type="read_more" :content="page_data.blog_big_button"></big-button>
+    </div>
+  </master-page>
+  <script type="text/javascript" src="../assets/js/vendor/common.min.js"></script>
+  <script type="text/javascript" src="../assets/js/vendor/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+  <script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+  <script type="text/javascript" src="../assets/js/script.min.js"></script>
+  <script>
+    var page_data = {
+      service_banner: {
+        image_style: {
+          "background-image":
+            "url(../assets/images/banners/vac-technology.jpg)"
+        },
+        heading:
+          "We utilise technology and government partnerships to provide a better visa application experience",
+        read_more: {
+          html: "Learn more about VFS Global",
+          href: "about.html"
+        }
+      },
+      blog_headings: {
+        small_heading: "Blog",
+        big_heading: "Latest posts"
+      },
+      blog_big_button: {
+        html: "Visit our blog for more",
+        href: "blog-featured.html"
+      }
+    };
+  </script>
+</body>
+
+</html>

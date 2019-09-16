@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+
+@font-face {
+	font-family: 'InterUI';
+	src: url('InterUI-Regular.eot');
+	src: url('InterUI-Regular.eot?#iefix') format('embedded-opentype'),
+		url('InterUI-Regular.ttf') format('truetype'),
+		url('InterUI-Regular.woff') format('woff'),
+		url('InterUI-Regular.svg#InterUI-Regular') format('svg');
+  	font-weight: 400;
+	font-style:  normal;
+}
+@font-face {
+	font-family: 'InterUI-Bold';
+	src: url('InterUI-Bold.eot');
+	src: url('InterUI-Bold.eot?#iefix') format('embedded-opentype'),
+		url('InterUI-Bold.ttf') format('truetype'),
+		url('InterUI-Bold.woff') format('woff'),
+		url('InterUI-Bold.svg#InterUI-Bold') format('svg');
+  	font-weight: 700;
+	font-style:  normal;
+}

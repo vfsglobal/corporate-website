@@ -1,0 +1,4655 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: InterUI;
+}
+
+input[type="text"] {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 1em;
+  font-family: inherit;
+  color: inherit;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.map_container {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 6%;
+}
+
+.autocomplete-search-box > .list-wrapper > ul::-webkit-scrollbar {
+  width: 4px;
+}
+
+.autocomplete-search-box > .list-wrapper > ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.autocomplete-search-box > .list-wrapper > ul::-webkit-scrollbar-thumb {
+  background: #e0e5ea;
+  border-radius: 2px;
+}
+
+.autocomplete-search-box {
+  width: 100%;
+  display: block;
+  position: relative;
+  max-width: 320px;
+  margin: 0 auto;
+  z-index: 9;
+}
+
+.autocomplete-search-box.focused {
+  z-index: 12;
+}
+
+.autocomplete-search-box > .list-wrapper {
+  display: none;
+  position: absolute;
+  left: 0%;
+  width: 100%;
+}
+
+.autocomplete-search-box > .list-wrapper.show-list {
+  display: block;
+}
+
+.autocomplete-search-box > .list-wrapper > ul.section-list {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.autocomplete-search-box.slide-list-up > .list-wrapper {
+  bottom: 100%;
+}
+
+.autocomplete-search-box.slide-list-down > .list-wrapper {
+  top: 100%;
+}
+
+.autocomplete-search-box.search_dropdown {
+  height: 50px;
+  border: 1px solid #e0e5ea;
+  border-radius: 5px;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.autocomplete-search-box.search_dropdown.focused {
+  background: #f8f9fa;
+}
+
+.autocomplete-search-box.search_dropdown.focused > .selected-wrapper {
+  display: none;
+}
+
+.autocomplete-search-box.search_dropdown:not(.focused)[data-selected-index]:not([data-selected-index="-1"])
+  > .input-wrapper {
+  display: none;
+}
+
+.autocomplete-search-box.search_dropdown > .input-wrapper,
+.autocomplete-search-box.search_dropdown .selected-wrapper {
+  padding-left: 15px;
+}
+
+.autocomplete-search-box.search_dropdown > .input-wrapper {
+  height: inherit;
+}
+
+.autocomplete-search-box.search_dropdown > .input-wrapper > input {
+  width: 100%;
+  height: inherit;
+}
+
+.autocomplete-search-box.search_dropdown > .input-wrapper {
+  line-height: 50px;
+}
+
+.autocomplete-search-box.search_dropdown > .selected-wrapper {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+}
+
+.autocomplete-search-box.search_dropdown > .selected-wrapper > .selected {
+  height: inherit;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .selected-wrapper
+  > .selected
+  > .image_wrapper,
+.list-wrapper
+  > ul
+  > li
+  > .list-section-main-wrapper
+  > ul
+  > li
+  > .image_wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+.autocomplete-search-box.search_dropdown
+  > .selected-wrapper
+  > .selected
+  > .image_wrapper
+  > img,
+.list-wrapper
+  > ul
+  > li
+  > .list-section-main-wrapper
+  > ul
+  > li
+  > .image_wrapper
+  > img {
+  display: block;
+  padding-right: 7px;
+}
+.autocomplete-search-box.search_dropdown > .selected-wrapper > .selected > span,
+.list-wrapper > ul > li > .list-section-main-wrapper > ul > li > span {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .list-wrapper
+  > ul.section-list
+  > li:not(:last-child) {
+  border-bottom: 3px solid #e0e5ea;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .list-wrapper
+  > ul.section-list
+  > li
+  .list-section-content-wrapper
+  > ul
+  > li {
+  position: relative;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e5ea;
+  z-index: 1;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .list-wrapper
+  > ul.section-list
+  > li
+  .list-section-content-wrapper
+  > ul
+  > li:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background: #fcefe8;
+  visibility: hidden;
+  z-index: -1;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .list-wrapper
+  > ul.section-list
+  > li
+  .list-section-content-wrapper
+  > ul
+  > li.hover,
+.autocomplete-search-box.search_dropdown
+  > .list-wrapper
+  > ul.section-list
+  > li
+  .list-section-content-wrapper
+  > ul
+  > li.selected {
+  background: #fcefe8;
+  color: #e86020;
+}
+
+.autocomplete-search-box.search_dropdown.focused {
+  cursor: auto;
+}
+
+.autocomplete-search-box.search_dropdown.focused.slide-list-up {
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: 2px -2px 5px rgba(3, 27, 48, 0.1);
+  border-top-color: transparent;
+}
+
+.autocomplete-search-box.search_dropdown.focused.slide-list-up > .list-wrapper {
+  box-shadow: 2px -2px 5px rgba(3, 27, 48, 0.1);
+  border-bottom-color: #e0e5ea;
+}
+
+.autocomplete-search-box.search_dropdown.focused.slide-list-down {
+  border-radius: 5px 5px 0px 0px;
+  box-shadow: 2px 2px 5px rgba(3, 27, 48, 0.1);
+  border-bottom-color: transparent;
+}
+
+.autocomplete-search-box.search_dropdown.focused.slide-list-down
+  > .list-wrapper {
+  box-shadow: 2px 2px 5px rgba(3, 27, 48, 0.1);
+  border-top-color: #e0e5ea;
+}
+
+.autocomplete-search-box.search_dropdown.focused > .toggle-button-wrapper {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.autocomplete-search-box.search_dropdown.slide-list-up > .list-wrapper {
+  border-radius: 5px 5px 0px 0px;
+}
+
+.autocomplete-search-box.search_dropdown.slide-list-down > .list-wrapper {
+  border-radius: 0px 0px 5px 5px;
+}
+
+.autocomplete-search-box.search_dropdown.no-items.focused,
+.autocomplete-search-box.search_dropdown.no-items[data-selected-index="-1"],
+.autocomplete-search-box.search_dropdown.no-items:not([data-selected-index]) {
+  border: 1px solid #b10e1e !important;
+  border-radius: 5px !important;
+}
+
+.autocomplete-search-box.search_dropdown.no-items.focused > .list-wrapper,
+.autocomplete-search-box.search_dropdown.no-items[data-selected-index="-1"]
+  > .list-wrapper,
+.autocomplete-search-box.search_dropdown.no-items:not([data-selected-index])
+  > .list-wrapper {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.autocomplete-search-box.search_dropdown[data-selected-index="-1"]
+  > .selected-wrapper
+  > .remove-selection-button,
+.autocomplete-search-box.search_dropdown:not([data-selected-index])
+  > .selected-wrapper
+  > .remove-selection-button {
+  display: none;
+}
+
+.autocomplete-search-box.search_dropdown.disabled {
+  background: #f8f9fa;
+  opacity: 0.77;
+}
+
+.autocomplete-search-box.search_dropdown.disabled.no-items {
+  border: 1px solid #e0e5ea !important;
+}
+
+.autocomplete-search-box.search_dropdown > .selected-wrapper,
+.autocomplete-search-box.search_dropdown .input-wrapper {
+  padding-right: 30px;
+  box-sizing: border-box;
+}
+
+.autocomplete-search-box.search_dropdown > .selected-wrapper {
+  display: table;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.autocomplete-search-box.search_dropdown > .selected-wrapper > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.autocomplete-search-box.search_dropdown > .selected-wrapper > .selected {
+  width: 100%;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .selected-wrapper
+  > .remove-selection-button {
+  width: 1%;
+  padding: 0px 5px;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .selected-wrapper
+  > .remove-selection-button
+  > i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  font-size: 8px;
+  line-height: 8px;
+  padding: 3px;
+  border-radius: 50%;
+  border: 2px solid #031b30;
+}
+
+.autocomplete-search-box.search_dropdown > .toggle-button-wrapper {
+  position: absolute;
+  right: 0%;
+  top: 0%;
+  width: 30px;
+  height: 100%;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .toggle-button-wrapper
+  > .toggle-button {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 0px;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .toggle-button-wrapper
+  > .toggle-button
+  > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .toggle-button-wrapper
+  > .toggle-button:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 0%;
+  height: 100%;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .toggle-button-wrapper
+  > .toggle-button
+  > i {
+  position: relative;
+  top: 1px;
+  font-size: 10px;
+}
+
+.autocomplete-search-box.search_dropdown > .list-wrapper {
+  background: #fff;
+  border: 1px solid #e0e5ea;
+  border-radius: 5px;
+  margin-left: -1px;
+  overflow: hidden;
+  opacity: 1;
+  -webkit-transition: border-color 0.2s, opacity 0.2s, visibility 0.2s;
+  -moz-transition: border-color 0.2s, opacity 0.2s, visibility 0.2s;
+  -ms-transition: border-color 0.2s, opacity 0.2s, visibility 0.2s;
+  -o-transition: border-color 0.2s, opacity 0.2s, visibility 0.2s;
+  transition: border-color 0.2s, opacity 0.2s, visibility 0.2s;
+}
+
+.autocomplete-search-box.search_dropdown > .list-wrapper > ul > li:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-search-box.search_dropdown
+  > .list-wrapper
+  > ul.section-list
+  > li
+  .list-section-content-wrapper
+  > ul
+  > li {
+  cursor: pointer;
+}
+
+.autocomplete-search-box.search_dropdown > .list-wrapper > .not-found {
+  display: none;
+}
+
+.main_heading {
+  font-size: 16px;
+  color: #031b30;
+  font-family: InterUI, sans-serif;
+  font-weight: 400;
+}
+
+.medium_heading {
+  font-size: 1.25em;
+}
+
+@media screen and (max-width: 1080px) {
+  .medium_heading {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .medium_heading {
+    font-size: 16px;
+  }
+}
+
+.dim_color {
+  opacity: 0.77 !important;
+}
+
+.marv_0 {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+.mart_0 {
+  margin-top: 0px !important;
+}
+
+.marb_small {
+  margin-bottom: 15px;
+}
+
+@media screen and (max-width: 1080px) {
+  .marb_small {
+    margin-bottom: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .marb_small {
+    margin-bottom: 10px;
+  }
+}
+
+.padt_small {
+  padding-top: 15px;
+}
+
+@media screen and (max-width: 1080px) {
+  .padt_small {
+    padding-top: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .padt_small {
+    padding-top: 10px;
+  }
+}
+
+.map {
+  position: relative;
+  padding-top: 52.63%;
+  background: url(../images/footprint/img_map.gif) no-repeat center;
+  background-size: 100% auto;
+}
+
+.map > * {
+  position: absolute;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s;
+}
+
+.map > .hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.map a {
+  display: block;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.map a:hover {
+  z-index: 1;
+}
+
+.map a:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 7px;
+  height: 7px;
+  margin: 3px;
+  background: #e86020;
+  border-radius: 50%;
+  box-shadow: 0px 0px 3px 1px rgba(3, 27, 48, 0.3);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.map a:hover:before {
+  -webkit-transform: scale(2);
+  -moz-transform: rotate(2);
+  -ms-transform: rotate(2);
+  -o-transform: rotate(2);
+  transform: rotate(2);
+}
+
+.map a > span {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  padding: 7px 10px;
+  background: #e86020;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 2px rgba(3, 27, 48, 0.3);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform-origin: 0% 0%;
+  -moz-transform-origin: 0% 0%;
+  -ms-transform-origin: 0% 0%;
+  -o-transform-origin: 0% 0%;
+  transform-origin: 0% 0%;
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.map a > span.right {
+  left: auto;
+  right: 5px;
+  -webkit-transform-origin: 100% 0%;
+  -moz-transform-origin: 100% 0%;
+  -ms-transform-origin: 100% 0%;
+  -o-transform-origin: 100% 0%;
+  transform-origin: 100% 0%;
+}
+
+.map a:hover > span {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+}
+
+.map-clients {
+  width: 950px;
+  height: 500px;
+  position: relativea;
+  background: url(../images/footprint/img_map-clients.gif) no-repeat center;
+}
+
+img {
+  border: none;
+}
+
+:focus {
+  outline: none;
+}
+
+.show {
+  display: block !important;
+}
+
+.grayBox {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s;
+  z-index: 1001;
+}
+
+.grayBox.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.box_content {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 750px;
+  height: 480px;
+  margin: -270px 0 0 -400px;
+  background: #ffffff;
+  z-index: 1002;
+  overflow: auto;
+  padding: 40px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(3, 27, 48, 0.3);
+  opacity: 0;
+  -webkit-transform: scale(0.5);
+  -moz-transform: scale(0.5);
+  -o-transform: scale(0.5);
+  transform: scale(0.5);
+}
+
+.box_content.active {
+  display: block;
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+}
+
+.box_content.show_animation {
+  -webkit-animation: zoom_in 0.5s;
+  -moz-animation: zoom_in 0.5s;
+  -o-animation: zoom_in 0.5s;
+  animation: zoom_in 0.5s;
+}
+
+.box_content.hide_animation {
+  -webkit-animation: zoom_in 0.5s reverse;
+  -moz-animation: zoom_in 0.5s reverse;
+  -o-animation: zoom_in 0.5s reverse;
+  animation: zoom_in 0.5s reverse;
+}
+
+@-webkit-keyframes zoom_in {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@-moz-keyframes zoom_in {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -moz-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@-o-keyframes zoom_in {
+  0% {
+    opacity: 0;
+    -o-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes zoom_in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.btn_close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.btn_close:hover {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.btn_close > img {
+  display: block;
+}
+
+.tabs_wrapper {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.tabs_wrapper > h2 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 28px;
+}
+
+.tabs_wrapper > p {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.77;
+  margin-top: 5px;
+}
+
+.tabs_wrapper > ul.tabs {
+  width: 365px;
+  height: 365px;
+  margin: 0;
+  padding: 0;
+  padding-right: 7px;
+  margin-top: 20px;
+  overflow: auto;
+}
+
+.tabs_wrapper > ul.tabs::-webkit-scrollbar,
+.tabs_wrapper > ul.tabs::-webkit-scrollbar,
+.tabs_wrapper > ul.tabs::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tabs_wrapper > ul.tabs::-webkit-scrollbar-track,
+.tabs_wrapper > ul.tabs::-webkit-scrollbar-track,
+.tabs_wrapper > ul.tabs::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+.tabs_wrapper > ul.tabs::-webkit-scrollbar-thumb,
+.tabs_wrapper > ul.tabs::-webkit-scrollbar-thumb,
+.tabs_wrapper > ul.tabs::-webkit-scrollbar-thumb {
+  background: #e0e5ea;
+  border-radius: 3px;
+}
+
+.tabs_wrapper > ul.tabs > li {
+  display: block;
+  float: left;
+  width: 49%;
+  margin-right: 2%;
+  margin-bottom: 7px;
+  list-style: none;
+}
+
+.tabs_wrapper > ul.tabs > li:nth-child(even) {
+  margin-right: 0%;
+}
+
+.tabs_wrapper > ul.tabs > li:nth-child(odd) {
+  clear: both;
+}
+
+.tabs_wrapper > ul.tabs > li > a {
+  display: table;
+  position: relative;
+  width: 100%;
+  color: #031b30;
+  list-style: none;
+  padding: 0px 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 1px solid #e0e5ea;
+  box-sizing: border-box;
+  z-index: 1;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.tabs_wrapper > ul.tabs > li > a:hover,
+.tabs_wrapper > ul.tabs > li > a.active {
+  color: #fff;
+}
+
+.tabs_wrapper > ul.tabs > li > a:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
+  width: 100%;
+  height: 0%;
+  background: #e86020;
+  opacity: 0;
+  border-radius: 5px;
+  z-index: -1;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.tabs_wrapper > ul.tabs > li > a:hover:before,
+.tabs_wrapper > ul.tabs > li > a.active:before {
+  height: 100%;
+  opacity: 1;
+}
+
+.tabs_wrapper > ul.tabs > li > a > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.tabs_wrapper > ul.tabs > li > a > .image_wrapper {
+  width: 0%;
+  padding: 8px 0px;
+}
+
+.tabs_wrapper > ul.tabs > li > a > .image_wrapper > img {
+  display: block;
+  border-radius: 2px;
+  border: 1px solid #e0e5ea;
+}
+
+.tabs_wrapper > ul.tabs > li > a > span {
+  width: 100%;
+  font-size: 13px;
+  padding-left: 5px;
+  line-height: 16px;
+}
+
+ul.tab_content_list {
+  margin: 0;
+  padding: 0;
+}
+
+ul.tab_content_list > li {
+  display: none;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  opacity: 0;
+}
+
+ul.tab_content_list > li.active {
+  display: block;
+  opacity: 1;
+}
+
+ul.tab_content_list > li.show_animation {
+  -webkit-animation: fade_in 0.3s;
+  -moz-animation: fade_in 0.3s;
+  -o-animation: fade_in 0.3s;
+  animation: fade_in 0.3s;
+}
+
+ul.tab_content_list > li.hide_animation {
+  -webkit-animation: fade_in 0.3s reverse;
+  -moz-animation: fade_in 0.3s reverse;
+  -o-animation: fade_in 0.3s reverse;
+  animation: fade_in 0.3s reverse;
+}
+
+@-webkit-keyframes fade_in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fade_in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fade_in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade_in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+ul.tab_content_list > li > .info {
+  display: block;
+  margin: 0;
+  position: absolute;
+  left: 0%;
+  bottom: 0%;
+  width: 100%;
+  font-size: 14px;
+  padding: 0px 10px;
+  -webkit-transform: translateY(100%);
+  -moz-transform: translateY(100%);
+  -ms-transform: translateY(100%);
+  -o-transform: translateY(100%);
+  transform: translateY(100%);
+}
+
+.tab-content-inner {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.tab-content-inner > .country_map_container {
+  display: table;
+  position: relative;
+  margin: 0 auto;
+}
+
+ul.city_list > li {
+  position: absolute;
+  cursor: pointer;
+  margin-left: 3px;
+  margin-top: 3px;
+}
+
+ul.city_list > li:hover {
+  z-index: 2;
+}
+
+ul.city_list > li.active {
+  z-index: 1;
+  cursor: auto;
+}
+
+ul.city_list > li:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 7px;
+  height: 7px;
+  background: #06345b;
+  border-radius: 50%;
+  box-shadow: 0px 0px 3px 1px rgba(3, 27, 48, 0.3);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+ul.city_list > li.orange:before {
+  background: #e86020;
+}
+
+ul.city_list > li:hover:before,
+ul.city_list > li.active:before {
+  -webkit-transform: scale(2);
+  -moz-transform: scale(2);
+  -ms-transform: scale(2);
+  -o-transform: scale(2);
+  transform: scale(2);
+}
+
+ul.city_list > li > .heading_details_wrapper {
+  position: absolute;
+  min-width: 200px;
+  border-radius: 5px;
+  text-align: center;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0px 0px 3px 1px rgba(3, 27, 48, 0.3);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+ul.city_list > li.left > .heading_details_wrapper {
+  right: 7px;
+}
+
+ul.city_list > li.center > .heading_details_wrapper {
+  left: 0%;
+}
+
+ul.city_list > li.right > .heading_details_wrapper {
+  left: 7px;
+}
+
+ul.city_list > li.top > .heading_details_wrapper {
+  bottom: 7px;
+}
+
+ul.city_list > li.bottom > .heading_details_wrapper {
+  top: 15px;
+}
+
+ul.city_list > li.left.top > .heading_details_wrapper,
+ul.city_list > li.right.top > .heading_details_wrapper,
+ul.city_list > li.left.bottom > .heading_details_wrapper,
+ul.city_list > li.right.bottom > .heading_details_wrapper {
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+}
+
+ul.city_list > li.left.top:hover > .heading_details_wrapper,
+ul.city_list > li.left.top.active > .heading_details_wrapper,
+ul.city_list > li.right.top:hover > .heading_details_wrapper,
+ul.city_list > li.right.top.active > .heading_details_wrapper,
+ul.city_list > li.left.bottom:hover > .heading_details_wrapper,
+ul.city_list > li.left.bottom.active > .heading_details_wrapper,
+ul.city_list > li.right.bottom:hover > .heading_details_wrapper,
+ul.city_list > li.right.bottom.active > .heading_details_wrapper {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
+}
+
+ul.city_list > li.center.top > .heading_details_wrapper,
+ul.city_list > li.center.bottom > .heading_details_wrapper {
+  -webkit-transform: translateX(-50%) scale(0);
+  -moz-transform: translateX(-50%) scale(0);
+  -ms-transform: translateX(-50%) scale(0);
+  -o-transform: translateX(-50%) scale(0);
+  transform: translateX(-50%) scale(0);
+}
+
+ul.city_list > li.center.top:hover > .heading_details_wrapper,
+ul.city_list > li.center.top.active > .heading_details_wrapper,
+ul.city_list > li.center.bottom:hover > .heading_details_wrapper,
+ul.city_list > li.center.bottom.active > .heading_details_wrapper {
+  -webkit-transform: translateX(-50%) scale(1);
+  -moz-transform: translateX(-50%) scale(1);
+  -ms-transform: translateX(-50%) scale(1);
+  -o-transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) scale(1);
+}
+
+ul.city_list > li.left.top > .heading_details_wrapper {
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+}
+
+ul.city_list > li.center.top > .heading_details_wrapper {
+  -webkit-transform-origin: 50% 100%;
+  -moz-transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -o-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+}
+
+ul.city_list > li.right.top > .heading_details_wrapper {
+  -webkit-transform-origin: 0% 100%;
+  -moz-transform-origin: 0% 100%;
+  -ms-transform-origin: 0% 100%;
+  -o-transform-origin: 0% 100%;
+  transform-origin: 0% 100%;
+}
+
+ul.city_list > li.left.bottom > .heading_details_wrapper {
+  -webkit-transform-origin: 100% 0%;
+  -moz-transform-origin: 100% 0%;
+  -ms-transform-origin: 100% 0%;
+  -o-transform-origin: 100% 0%;
+  transform-origin: 100% 0%;
+}
+
+ul.city_list > li.center.bottom > .heading_details_wrapper {
+  -webkit-transform-origin: 50% 0%;
+  -moz-transform-origin: 50% 0%;
+  -ms-transform-origin: 50% 0%;
+  -o-transform-origin: 50% 0%;
+  transform-origin: 50% 0%;
+}
+
+ul.city_list > li.right.bottom > .heading_details_wrapper {
+  -webkit-transform-origin: 0% 0%;
+  -moz-transform-origin: 0% 0%;
+  -ms-transform-origin: 0% 0%;
+  -o-transform-origin: 0% 0%;
+  transform-origin: 0% 0%;
+}
+
+ul.city_list > li:hover > .heading_details_wrapper,
+ul.city_list > li.active > .heading_details_wrapper {
+  opacity: 1;
+  visibility: visible;
+}
+
+ul.city_list > li > .heading_details_wrapper > h5 {
+  display: block;
+  font-weight: normal;
+  margin: 0;
+  padding: 5px;
+  background: #06345b;
+  color: #fff;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+ul.city_list > li.orange > .heading_details_wrapper > h5 {
+  background: #e86020;
+}
+
+.details_wrapper {
+  display: none;
+  text-align: center;
+}
+
+.details_wrapper.show {
+  display: block;
+}
+
+.details_wrapper > .main_details {
+  padding: 7px;
+  background: #f8f9fa;
+  font-size: 12px;
+}
+.details_wrapper > .main_details > ul.simple_list {
+  display: table;
+  list-style: disc;
+  margin: 0 auto;
+  padding-left: 15px;
+  text-align: left;
+}
+.details_wrapper > .main_details > ul.simple_list > li:not(:last-child) {
+  padding-bottom: 3px;
+}
+
+.details_wrapper > .main_details b,
+.details_wrapper > .main_details strong {
+  font-family: InterUI-Bold;
+  font-weight: normal;
+}
+
+.details_wrapper > .main_details hr {
+  margin: 7px 0px;
+  border: none;
+  border-top: 1px solid #e0e5ea;
+}
+
+.details_wrapper > .main_details h6 {
+  margin: 0;
+  font-size: 12px;
+  font-family: InterUI-Bold;
+  padding-bottom: 3px;
+}
+
+.details_wrapper > a.more_info {
+  display: block;
+  padding: 3px;
+  background: #fff;
+  color: #06345b;
+  font-size: 14px;
+  font-family: InterUI-Bold;
+  box-shadow: 0px 0px 3px rgba(3, 27, 48, 0.3);
+  text-decoration: none;
+}
+
+.details_wrapper > a.more_info {
+  color: #e86020;
+}
+
+.details_wrapper > a.more_info > span {
+  display: inline-block;
+  position: relative;
+}
+
+.details_wrapper > a.more_info > span:before {
+  content: "More Information";
+}
+
+.details_wrapper > a.more_info > span:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 0%;
+  width: 0%;
+  height: 1px;
+  background: #06345b;
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.details_wrapper > a.more_info > span:after {
+  background: #e86020;
+}
+
+.details_wrapper > a.more_info:hover > span:after {
+  left: 0%;
+  width: 100%;
+  opacity: 1;
+}
+.all_visiting_countries_heading_container {
+  padding: 0 6%;
+}
+
+.all_visiting_countries_container > ul.alphabet_list {
+  padding-bottom: 10px;
+}
+
+.all_visiting_countries_container > ul.alphabet_list > li {
+  float: left;
+  padding-bottom: 10px;
+}
+
+.all_visiting_countries_container > ul.alphabet_list > li:not(:last-child) {
+  padding-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .all_visiting_countries_container > ul.alphabet_list > li {
+    padding-bottom: 5px;
+  }
+  .all_visiting_countries_container > ul.alphabet_list > li:not(:last-child) {
+    padding-right: 5px;
+  }
+}
+
+.all_visiting_countries_container > ul.alphabet_list:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.all_visiting_countries_container > ul.alphabet_list > li > a {
+  display: block;
+  min-width: 35px;
+  background: #f8f9fa;
+  border-radius: 3px;
+  padding: 3px 10px;
+  color: #e86020;
+  text-decoration: none;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+@media screen and (max-width: 768px) {
+  .all_visiting_countries_container > ul.alphabet_list > li > a {
+    min-width: 25px;
+    padding: 1px 5px;
+    font-size: 12px;
+  }
+}
+
+.all_visiting_countries_container > ul.alphabet_list > li > a.active {
+  background: #e86020;
+  color: #fff;
+}
+
+.all_visiting_countries_container > ul.country_list > li {
+  float: left;
+  width: 180px;
+  padding-bottom: 5px;
+}
+
+.all_visiting_countries_container > ul.country_list:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.all_visiting_countries_container > ul.country_list > li > a,
+.responsive_container ul.country_list > li,
+.responsive_container ul.city_and_non_city_list > li {
+  display: table;
+  height: 40px;
+  color: #666;
+  border-radius: 3px;
+  padding: 0px 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.all_visiting_countries_container > ul.country_list > li > a {
+  width: 100%;
+  text-decoration: none;
+}
+
+.all_visiting_countries_container > ul.country_list > li > a.active,
+.responsive_container ul.country_list > li.active,
+.responsive_container ul.city_and_non_city_list > li.active {
+  background: #e86020;
+  color: #fff;
+}
+
+.all_visiting_countries_container > ul.country_list > li > a > *,
+.responsive_container ul.country_list > li > * {
+  display: table-cell;
+  vertical-align: top;
+  text-align: left;
+}
+
+.responsive_container ul.city_and_non_city_list > li > span {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.all_visiting_countries_container > ul.country_list > li > a > .image_wrapper,
+.responsive_container ul.country_list > li > .image_wrapper {
+  padding-top: 2px;
+  font-size: 0px;
+}
+
+.all_visiting_countries_container
+  > ul.country_list
+  > li
+  > a
+  > .image_wrapper
+  > img,
+.responsive_container ul.country_list > li > .image_wrapper > img,
+.responsive_container ul.city_and_non_city_list > li {
+  border: 1px solid #e0e5ea;
+}
+
+.all_visiting_countries_container > ul.country_list > li > a > span,
+.responsive_container ul.country_list > li > span,
+.responsive_container ul.city_and_non_city_list > li{
+  font-size: 12px;
+}
+
+.all_visiting_countries_container > ul.country_list > li > a > span,
+.responsive_container ul.country_list > li > span {
+  width: 100%;
+  padding-left: 5px;
+}
+
+.responsive_container ul.city_and_non_city_list > li.non_city{
+  border-color: #e86020;
+}
+
+[data-column-details] {
+  width: 100%;
+  font-size: 0px;
+}
+
+[data-column-details] > * {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 16px;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+[data-column-details].non_inline > * {
+  float: left;
+}
+[data-column-details].non_inline:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+[data-column-details].non_inline > *.first_in_row {
+  clear: both;
+}
+
+[data-column-details] > *.last_in_row {
+  margin-right: 0% !important;
+}
+
+[data-column-details] > *.last_row {
+  margin-bottom: 0px !important;
+}
+
+[data-column-details].center_box {
+  text-align: center;
+}
+
+[data-column-details][data-column="1"] > * {
+  width: 100%;
+}
+
+[data-column-details].col_type_normal > * {
+  margin-right: 2%;
+  margin-bottom: 5px;
+}
+
+[data-column-details].col_type_normal[data-column="2"] > * {
+  width: 49%;
+}
+
+[data-column-details].col_type_normal[data-column="3"] > * {
+  width: 32%;
+}
+
+[data-column-details].col_type_normal[data-column="4"] > * {
+  width: 23.5%;
+}
+
+[data-column-details].col_type_normal[data-column="5"] > * {
+  width: 18.4%;
+}
+
+.responsive_container {
+  display: none;
+  padding-top: 30px;
+}
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
+/*tab css*/
+/* Style the tab */
+.clear {
+  clear: both;
+}
+.responsive_container > h2{
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+.tab_container .tab_buttons {
+  position: relative;
+  display: table;
+  background: #fff;
+  top: 1px;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+
+/* Style the buttons that are used to open the tab content */
+
+.tab_container > .tab_buttons > button {
+  position: relative;
+  background-color: inherit;
+  margin: 0px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 7px 15px;
+  font-size: 15px;
+  border: 1px solid #e0e5ea;
+  border-bottom: none;
+  font-family: InterUI-Bold, sans-serif;
+  color: rgba(3, 27, 48, 0.77);
+  transition: all 0.3s;
+}
+.tab_container > .tab_buttons > button:first-child {
+  border-right: none;
+}
+.tab_container > .tab_buttons > button:before,
+.tab_container > .tab_buttons > button:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0%;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+.tab_container > .tab_buttons > button:hover:before,
+.tab_container > .tab_buttons > button.active:before,
+.tab_container > .tab_buttons > button.active:after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tab_container > .tab_buttons > button.active {
+  background: #f8f9fa;
+  color: #031b30;
+}
+.tab_container > .tab_buttons > button.active:before {
+  background: #e86020;
+}
+.tab_container > .tab_buttons > button:before {
+  top: 0%;
+  height: 2px;
+  background: #e0e5ea;
+}
+.tab_container > .tab_buttons > button:after {
+  bottom: 0px;
+  height: 1px;
+  background: #f8f9fa;
+  z-index: 2;
+}
+
+.tab_container .tab_content_wrapper {
+  position: relative;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e5ea;
+  border-bottom: 1px solid #e0e5ea;
+  box-sizing: border-box;
+}
+.tab_container .tab_content_wrapper > .tab_content {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  padding: 20px 6%;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.7s;
+}
+.tab_container .tab_content_wrapper > .tab_content.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+}
+/* Style the tab content */
+
+@media screen and (max-width: 400px) {
+  .tab_container > .tab_buttons > button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+/*end tab css*/
+
+.responsive_container .dropdown_wrapper {
+  background: #fff;
+  box-shadow: 0px 3px 8px rgba(3, 27, 48, 0.1);
+  border-bottom: 3px solid #e86020;
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+.responsive_container .details_wrapper {
+  margin: 30px 0px;
+}
+
+.responsive_container .extra_info {
+  font-size: 14px;
+}
+
+.responsive_container .country_list_container,
+.responsive_container .city_and_non_city_list_container,
+.city_and_non_city_list_container {
+  display: none;
+}
+.dropdown_data_container_wrapper {
+  position: relative;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+.dropdown_data_container_wrapper > .dropdown_data_content_container {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  padding-left: 6%;
+  padding-right: 6%;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.7s;
+}
+.dropdown_data_container_wrapper > .dropdown_data_content_container.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+}
+@media screen and (max-width: 520px) {
+  .responsive_container{
+    padding-top: 20px;
+  }
+  .tab_container .tab_buttons {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+  .tab_container .tab_content_wrapper > .tab_content {
+    padding: 10px 4%;
+  }
+  .dropdown_data_container_wrapper > .dropdown_data_content_container {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+  .responsive_container > h2{
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+}
+
+.Benin {
+  left: 47.86%;
+  top: 56.2%;
+}
+.Burundi {
+  left: 54.3%;
+  top: 63.6%;
+}
+.CapeVerdeIslands {
+  left: 39.16%;
+  top: 51.4%;
+}
+.CentralAfricanRepublic {
+  left: 51.63%;
+  top: 58.8%;
+}
+.Chad {
+  left: 51.63%;
+  top: 55.8%;
+}
+.Comoros {
+  left: 57.99%;
+  top: 66.8%;
+}
+.Croatia {
+  left: 50.4%;
+  top: 37.3%;
+}
+.Cuba {
+  left: 24.58%;
+  top: 50.4%;
+}
+.Djibouti {
+  left: 57.63%;
+  top: 55.8%;
+}
+.Dominica {
+  left: 30.95%;
+  top: 53%;
+}
+.EquatorialGuinea {
+  left: 49.3%;
+  top: 62%;
+}
+.Eritrea {
+  left: 57.23%;
+  top: 54.8%;
+}
+.FaroeIslands {
+  left: 44.76%;
+  top: 27.2%;
+}
+.Finland {
+  left: 52.96%;
+  top: 26%;
+}
+.Gabon {
+  left: 49.3%;
+  top: 62.9%;
+}
+.Gambia {
+  left: 42.42%;
+  top: 55%;
+}
+.Gibraltar {
+  left: 45.26%;
+  top: 43%;
+}
+.Hungary {
+  left: 51%;
+  top: 35.4%;
+}
+.Iceland {
+  left: 41.76%;
+  top: 23.9%;
+}
+.IsleofMan {
+  left: 45.2%;
+  top: 32.2%;
+}
+.Jersey {
+  left: 46%;
+  top: 34.9%;
+}
+.northKorea {
+  left: 79.47%;
+  top: 41%;
+}
+.Liberia {
+  left: 44.16%;
+  top: 58.4%;
+}
+.Liechtenstein {
+  left: 49%;
+  top: 35.8%;
+}
+.Macau {
+  left: 75%;
+  top: 51%;
+}
+.Mauritania {
+  left: 43.16%;
+  top: 51%;
+}
+.Monaco {
+  left: 48.5%;
+  top: 38.5%;
+}
+.Namibia {
+  left: 50.74%;
+  top: 73.6%;
+}
+.Norway {
+  left: 48.5%;
+  top: 27%;
+}
+.SaoTomePrincipe {
+  left: 47.3%;
+  top: 62.9%;
+}
+.Seychelles {
+  left: 60.99%;
+  top: 63.8%;
+}
+.SierraLeone {
+  left: 43.5%;
+  top: 58.5%;
+}
+.Slovakia {
+  left: 51%;
+  top: 34%;
+}
+.Slovenia {
+  left: 50.5%;
+  top: 35.4%;
+}
+.Somalia {
+  left: 58.63%;
+  top: 59.5%;
+}
+.Sudan {
+  left: 54.1%;
+  top: 56.8%;
+}
+.Syria {
+  left: 56.7%;
+  top: 43.6%;
+}
+.Togo {
+  left: 47.6%;
+  top: 57%;
+}
+.Turkmenistan {
+  left: 61.9%;
+  top: 45.7%;
+}
+.VaticanCity {
+  left: 50.39%;
+  top: 41.5%;
+}
+.Yemen {
+  left: 58.99%;
+  top: 53%;
+}
+.Congo {
+  left: 50.3%;
+  top: 62.9%;
+}
+.AlandIslands {
+  left: 51.6%;
+  top: 26.6%;
+}
+.Guernsey {
+  left: 46%;
+  top: 33.9%;
+}
+.Swaziland {
+  left: 54.69%;
+  top: 75.98%;
+}
+.TimorLeste {
+  left: 78.8%;
+  top: 67%;
+}
+.Afghanistan {
+  left: 62.6%;
+  top: 46.7%;
+}
+
+.kabul {
+  left: 57%;
+  top: 39%;
+}
+
+.India {
+  left: 66.95%;
+  top: 50.6%;
+}
+
+.Chandigarh {
+  left: 29.43%;
+  top: 20%;
+}
+
+.Pune {
+  left: 20.89%;
+  top: 64.86%;
+}
+
+.Gurgaon {
+  left: 25%;
+  top: 22.86%;
+}
+
+.Jaipur {
+  left: 24.37%;
+  top: 34.29%;
+}
+
+.Delhi {
+  left: 31.01%;
+  top: 25.71%;
+}
+
+.Goa {
+  left: 18.35%;
+  top: 72.57%;
+}
+
+.Bengaluru {
+  left: 28.8%;
+  top: 82.86%;
+}
+
+.Jalandhar {
+  left: 24.68%;
+  top: 14.29%;
+}
+
+.Ahmedabad {
+  left: 10.44%;
+  top: 51.43%;
+}
+
+.Chennai {
+  left: 38.92%;
+  top: 80%;
+}
+
+.triv {
+  left: 28.48%;
+  top: 96%;
+}
+
+.Kochi {
+  left: 27.22%;
+  top: 92%;
+}
+
+.Puducherry {
+  left: 37.34%;
+  top: 88.57%;
+}
+
+.Hyderabad {
+  left: 31.01%;
+  top: 71.43%;
+}
+
+.Mumbai {
+  left: 16.77%;
+  top: 60%;
+}
+
+.Kolkata {
+  left: 67.41%;
+  top: 48.57%;
+}
+
+.Thiruvananthapuram {
+  left: 27.85%;
+  top: 96%;
+}
+
+.Trivandrum {
+  left: 27.85%;
+  top: 96%;
+}
+
+.Lucknow {
+  left: 56.96%;
+  top: 34.29%;
+}
+
+.SriLanka {
+  left: 68%;
+  top: 59%;
+}
+
+.colombo {
+  left: 26.27%;
+  top: 77.14%;
+}
+
+.jaffna1 {
+  left: 32.59%;
+  top: 5.71%;
+}
+
+.Nepal {
+  left: 68.53%;
+  top: 47.8%;
+}
+
+.kathmandu {
+  left: 57.59%;
+  top: 59.43%;
+}
+
+.Bhutan {
+  left: 69.68%;
+  top: 48.6%;
+}
+
+.Thimpu {
+  left: 25.63%;
+  top: 42.57%;
+}
+
+.Bangaladesh {
+  left: 70.21%;
+  top: 51%;
+}
+
+.dhaka {
+  left: 53.16%;
+  top: 48.57%;
+}
+
+.sylhet {
+  left: 70.57%;
+  top: 32.86%;
+}
+
+.chittagong {
+  left: 77.53%;
+  top: 72%;
+}
+
+.China {
+  left: 72.74%;
+  top: 43.8%;
+}
+
+.shanghai {
+  left: 73.19%;
+  top: 62.03%;
+}
+
+.Beijing {
+  left: 66.59%;
+  top: 40%;
+}
+
+.guangzhou {
+  left: 60%;
+  top: 82.37%;
+}
+
+.chengdu {
+  left: 46.81%;
+  top: 48.47%;
+}
+
+.Shenyang {
+  left: 76.48%;
+  top: 32.2%;
+}
+
+.jinan {
+  left: 68.79%;
+  top: 50.17%;
+}
+
+.wuhan {
+  left: 60%;
+  top: 67.12%;
+}
+
+.xian {
+  left: 59.34%;
+  top: 54.92%;
+}
+
+.Changsha {
+  left: 65.71%;
+  top: 77.97%;
+}
+
+.shenzhen {
+  left: 61.1%;
+  top: 86%;
+}
+
+.fuzhou {
+  left: 65.49%;
+  top: 73.9%;
+}
+
+.hangzhou {
+  left: 72.09%;
+  top: 68.81%;
+}
+
+.nanjing {
+  left: 69.89%;
+  top: 56.95%;
+}
+
+.Kunming {
+  left: 46.59%;
+  top: 82.37%;
+}
+
+.chongqing {
+  left: 49.01%;
+  top: 56.95%;
+}
+
+.Thailand {
+  left: 72.74%;
+  top: 54.4%;
+}
+
+.bangkok {
+  left: 40.51%;
+  top: 42.29%;
+}
+
+.chiangmai {
+  left: 25.95%;
+  top: 12%;
+}
+
+.Malaysia {
+  left: 72.11%;
+  top: 57.8%;
+}
+
+.SanMarino {
+  left: 50%;
+  top: 39%;
+}
+
+.Malta {
+  left: 50.39%;
+  top: 42.9%;
+}
+
+.KualaLumpur {
+  left: 8.23%;
+  top: 51.43%;
+}
+
+.Singapore {
+  left: 73.05%;
+  top: 60.8%;
+}
+
+.Singapore1 {
+  left: 55.68%;
+  top: 65.14%;
+}
+
+.Indonesia {
+  left: 77.58%;
+  top: 63%;
+}
+
+.jakarta {
+  left: 24.05%;
+  top: 58.29%;
+}
+
+.Bali {
+  left: 43.67%;
+  top: 60.86%;
+}
+
+.surabaya {
+  left: 40.51%;
+  top: 62.86%;
+}
+
+.Philippine {
+  left: 78.32%;
+  top: 55.2%;
+}
+
+.Manila {
+  left: 37.34%;
+  top: 26%;
+}
+
+.Cebu {
+  left: 62.66%;
+  top: 59.43%;
+}
+
+.Davao {
+  left: 77.85%;
+  top: 82%;
+}
+
+.Australia {
+  left: 81.26%;
+  top: 75%;
+}
+
+.sydney {
+  left: 87.97%;
+  top: 60.57%;
+}
+
+.adelaide {
+  left: 61.08%;
+  top: 60.57%;
+}
+
+.brisbane {
+  left: 92.72%;
+  top: 48.57%;
+}
+
+.melbourne {
+  left: 75.32%;
+  top: 70%;
+}
+
+.perth {
+  left: 8.86%;
+  top: 57.14%;
+}
+
+.Canberra {
+  left: 86.39%;
+  top: 65.71%;
+}
+
+.Japan {
+  left: 82.42%;
+  top: 43.2%;
+}
+
+.Osaka {
+  left: 50%;
+  top: 54.29%;
+}
+
+.Nagoya {
+  left: 54.11%;
+  top: 52.86%;
+}
+
+.Tokyo {
+  left: 60.13%;
+  top: 50%;
+}
+
+.Osaka1 {
+  left: 38.61%;
+  top: 56.86%;
+}
+
+.SouthKorea {
+  left: 79.47%;
+  top: 42.8%;
+}
+
+.Seoul {
+  left: 31.01%;
+  top: 20%;
+}
+.Busan {
+  left: 54.01%;
+    top: 63%;
+}
+
+.Mongolia {
+  left: 73.47%;
+  top: 37.2%;
+}
+
+.ulaanbaatar {
+  left: 51.58%;
+  top: 44.29%;
+}
+
+.Kazakistan {
+  left: 64.53%;
+  top: 35.6%;
+}
+
+.astana {
+  left: 57.91%;
+  top: 32%;
+}
+
+.almaty {
+  left: 75.32%;
+  top: 68.57%;
+}
+
+.Iran {
+  left: 60.84%;
+  top: 45.4%;
+}
+
+.tehran {
+  left: 40.79%;
+  top: 27.44%;
+}
+
+.UAE {
+  left: 60.8%;
+  top: 50.3%;
+}
+
+.Dubai {
+  left: 69.62%;
+  top: 38.57%;
+}
+
+.AbuDhabi {
+  left: 62.03%;
+  top: 48.57%;
+}
+
+.Sharjah {
+  left: 74.68%;
+  top: 34.86%;
+}
+
+.Oman {
+  left: 61.54%;
+  top: 52%;
+}
+.BanjaLuka {
+  left: 31.29%;
+  top: 16%;
+}
+.Muscat {
+  left: 78.48%;
+  top: 30%;
+}
+
+.Ethiopia {
+  left: 56.63%;
+  top: 57.8%;
+}
+
+.Addisababa {
+  left: 37.34%;
+  top: 50%;
+}
+
+.Kenya {
+  left: 56.32%;
+  top: 62%;
+}
+
+.Nairobi {
+  left: 27.85%;
+  top: 57.14%;
+}
+
+.Uganda {
+  left: 54.53%;
+  top: 61.6%;
+}
+
+.Rwanda {
+  left: 54.3%;
+  top: 62.6%;
+}
+
+.kigali {
+  left: 59.3%;
+  top: 45.6%;
+}
+
+.Kampala {
+  left: 53.16%;
+  top: 61.43%;
+}
+
+.Zimbabwe {
+  left: 54%;
+  top: 71.6%;
+}
+.Zambia {
+  left: 53.5%;
+  top: 68.6%;
+}
+.Lusaka {
+  left: 58.5%;
+  top: 64.6%;
+}
+.Harare {
+  left: 67.41%;
+  top: 28.57%;
+}
+
+.Bulawayo {
+  left: 37.34%;
+  top: 56.29%;
+}
+
+.Mauritius {
+  left: 60.21%;
+  top: 73.2%;
+}
+
+.Madagascar {
+  left: 58.5%;
+  top: 72.2%;
+}
+
+.Andraharo {
+  left: 51.56%;
+  top: 52.57%;
+}
+
+.PortLouis {
+  left: 39.56%;
+  top: 32.57%;
+}
+
+.SouthAfrica {
+  left: 52.53%;
+  top: 77.6%;
+}
+
+.Lesotho {
+  left: 53.49%;
+  top: 77.1%;
+}
+
+.Maseru {
+  left: 17.99%;
+  top: 32.91%;
+}
+
+.Johannesburg {
+  left: 65.82%;
+  top: 34.29%;
+}
+
+.Durban {
+  left: 83.23%;
+  top: 55.71%;
+}
+
+.CapeTown {
+  left: 8.86%;
+  top: 77.14%;
+}
+
+.Pretoria {
+  left: 65.82%;
+  top: 28.57%;
+}
+
+.Rustenburg {
+  left: 64.24%;
+  top: 25.71%;
+}
+
+.Kimberley {
+  left: 46.84%;
+  top: 45.71%;
+}
+
+.Polokwane {
+  left: 72.15%;
+  top: 22.86%;
+}
+
+.Nelspruit {
+  left: 84.81%;
+  top: 27.14%;
+}
+
+.George {
+  left: 31.01%;
+  top: 82.86%;
+}
+
+.Bloemfontein {
+  left: 53.16%;
+  top: 51.43%;
+}
+
+.PortElizath {
+  left: 46.84%;
+  top: 81.43%;
+}
+
+.Qatar {
+  left: 59.74%;
+  top: 48.8%;
+}
+
+.Doha {
+  left: 72.15%;
+  top: 54.29%;
+}
+
+.Bahrain {
+  left: 59.47%;
+  top: 48.4%;
+}
+
+.manama {
+  left: 50%;
+  top: 10%;
+}
+
+.Kuwait {
+  left: 58.53%;
+  top: 46.2%;
+}
+
+.kuwait {
+  left: 72.15%;
+  top: 48.57%;
+}
+
+.SaudiArabia {
+  left: 57.58%;
+  top: 50.8%;
+}
+
+.AlKhobar {
+  left: 69.04%;
+  top: 45.43%;
+}
+
+.Riyadh {
+  left: 56.33%;
+  top: 51.43%;
+}
+
+.Buraidah {
+  left: 50.33%;
+  top: 47.43%;
+}
+
+.Hail {
+  left: 41.33%;
+  top: 43.43%;
+}
+
+.Jeddah {
+  left: 22.15%;
+  top: 62.86%;
+}
+
+.dammam {
+  left: 67.82%;
+  top: 40.86%;
+}
+
+.jubail {
+  left: 63.82%;
+  top: 35.86%;
+}
+
+.Tabuk {
+  left: 11.39%;
+  top: 33.14%;
+}
+
+.Khamis {
+  left: 36.39%;
+  top: 74.57%;
+}
+
+.Jordon {
+  left: 56.21%;
+  top: 47%;
+}
+
+.amman {
+  left: 28.48%;
+  top: 36.03%;
+}
+
+.Irbid {
+  left: 26.86%;
+  top: 20.59%;
+}
+
+.Karak {
+  left: 25.89%;
+  top: 48.9%;
+}
+
+.Lebanon {
+  left: 55.95%;
+  top: 44.6%;
+}
+
+.beirut {
+  left: 22.97%;
+  top: 48.15%;
+}
+
+.Turkey {
+  left: 55.05%;
+  top: 41.4%;
+}
+
+.Cyprus {
+  left: 53.05%;
+  top: 43.4%;
+}
+
+.istanbul {
+  left: 14.56%;
+  top: 31.62%;
+}
+
+.ankara {
+  left: 41.75%;
+  top: 48.16%;
+}
+
+.gaziantep {
+  left: 57.61%;
+  top: 59.93%;
+}
+
+.Edirne {
+  left: 4.85%;
+  top: 26.1%;
+}
+
+.Izmir {
+  left: 6.47%;
+  top: 51.84%;
+}
+
+.bursa {
+  left: 18.45%;
+  top: 38.97%;
+}
+
+.Antalya {
+  left: 24.27%;
+  top: 61.03%;
+}
+
+.Bodrum {
+  left: 6.47%;
+  top: 59.19%;
+}
+
+.Trabzon {
+  left: 71.52%;
+  top: 34.56%;
+}
+
+.Ayvalik {
+  left: 4.85%;
+  top: 45.96%;
+}
+
+.Cesme {
+  left: 2.27%;
+  top: 51.84%;
+}
+
+.Kusadasi {
+  left: 7.44%;
+  top: 56.99%;
+}
+
+.Marmaris {
+  left: 13.92%;
+  top: 63.6%;
+}
+
+.Ukraine {
+  left: 54.63%;
+  top: 35%;
+}
+
+.lyiv {
+  left: 11.25%;
+  top: 37.14%;
+}
+
+.Rivne {
+  left: 20%;
+  top: 34.86%;
+}
+
+.Ivanofrankivsk {
+  left: 15%;
+  top: 48.29%;
+}
+
+.kharkiv {
+  left: 74.5%;
+  top: 35.14%;
+}
+
+.odessa {
+  left: 44%;
+  top: 64.57%;
+}
+
+.donetsk {
+  left: 72.5%;
+  top: 58.86%;
+}
+
+.kyiv {
+  left: 44.5%;
+  top: 32%;
+}
+.kropyvnytskyi {
+  left: 44.5%;
+  top: 35%;
+}
+
+.Ternopil {
+  left: 20%;
+  top: 42.86%;
+}
+
+.Uzhgorod {
+  left: 5%;
+  top: 44.86%;
+}
+
+.Dnipro {
+  left: 70%;
+  top: 54.29%;
+}
+
+.Vinnytsia {
+  left: 32.5%;
+  top: 44.29%;
+}
+
+.Odessa {
+  left: 44%;
+  top: 64.57%;
+}
+
+.Lutsk {
+  left: 15%;
+  top: 31.43%;
+}
+
+.Chernivtsi {
+  left: 17.5%;
+  top: 50.86%;
+}
+.Zaporizhzhya {
+  left: 62.5%;
+  top: 40.14%;
+}
+.Kherson {
+  left: 55%;
+  top: 59.29%;
+}
+.Zhytomyr {
+  left: 32.5%;
+  top: 34.29%;
+}
+.Vinnytsya {
+  left: 34.5%;
+  top: 39.29%;
+}
+
+.Khmelnitskyi {
+  left: 26.25%;
+  top: 38.57%;
+}
+
+.Lugansk {
+  left: 90%;
+  top: 50%;
+}
+
+.UK {
+  left: 45.86%;
+  top: 32.2%;
+}
+
+.Ireland {
+  left: 44.6%;
+  top: 32.25%;
+}
+
+.Dublin {
+  left: 81.6%;
+  top: 51.25%;
+}
+
+.Edinburgh {
+  left: 46.84%;
+  top: 47.14%;
+}
+
+.Manchester {
+  left: 57.91%;
+  top: 67.14%;
+}
+
+.London {
+  left: 67.41%;
+  top: 85.71%;
+}
+
+.Glasgow {
+  left: 40.51%;
+  top: 50.86%;
+}
+
+.Birmingham {
+  left: 65.82%;
+  top: 78.57%;
+}
+
+.West_London {
+  left: 67.41%;
+  top: 88.29%;
+}
+
+.Cardiff {
+  left: 48.42%;
+  top: 83.43%;
+}
+
+.Belfast {
+  left: 29.43%;
+  top: 57.14%;
+}
+
+.Bristol {
+  left: 53.16%;
+  top: 85.71%;
+}
+
+.Bradford {
+  left: 61.08%;
+  top: 64.29%;
+}
+
+.Newcastle {
+  left: 59.49%;
+  top: 54.29%;
+}
+
+.Liverpool {
+  left: 50.63%;
+  top: 69.14%;
+}
+
+.Leicester {
+  left: 68.99%;
+  top: 75.71%;
+}
+
+.Belgium {
+  left: 47.05%;
+  top: 34.6%;
+}
+.Denmark {
+  left: 49.1%;
+  top: 30.6%;
+}
+
+.Brussels {
+  left: 46.84%;
+  top: 40%;
+}
+.Copenhagen {
+  left: 61.84%;
+  top: 56%;
+}
+
+.Antwerp {
+  left: 50%;
+  top: 25.71%;
+}
+
+.France {
+  left: 47%;
+  top: 36.5%;
+}
+
+.Andorra {
+  left: 46.6%;
+  top: 39%;
+}
+
+.paris {
+  left: 52.77%;
+  top: 34.92%;
+}
+
+.lyon1 {
+  left: 71.66%;
+  top: 57.14%;
+}
+
+.strasbourg {
+  left: 78.18%;
+  top: 30.79%;
+}
+
+.bordeaux {
+  left: 32.57%;
+  top: 64.13%;
+}
+
+.marseille {
+  left: 74.59%;
+  top: 74.92%;
+}
+
+.Switzerland {
+  left: 48.95%;
+  top: 37.4%;
+}
+
+.rn {
+  left: 36.75%;
+  top: 40.64%;
+}
+
+.Geneva {
+  left: 3.64%;
+  top: 77.01%;
+}
+
+.Morroco {
+  left: 44.42%;
+  top: 46.6%;
+}
+
+.Agadir {
+  left: 45.71%;
+  top: 37.14%;
+}
+
+.rabat {
+  left: 57.71%;
+  top: 15.71%;
+}
+
+.Oujda {
+  left: 87.14%;
+  top: 11.43%;
+}
+
+.Tangier {
+  left: 67.14%;
+  top: 1.43%;
+}
+
+.Marrakesh {
+  left: 52.86%;
+  top: 31.43%;
+}
+
+.casabablanca {
+  left: 52.86%;
+  top: 18.57%;
+}
+
+.Algeria {
+  left: 47.26%;
+  top: 47.8%;
+}
+
+.algiers {
+  left: 59.93%;
+  top: 9.52%;
+}
+
+.oran {
+  left: 37.79%;
+  top: 15.24%;
+}
+
+.Constantine {
+  left: 75.9%;
+  top: 9.52%;
+}
+
+.Nigeria {
+  left: 48.63%;
+  top: 57%;
+}
+
+.Abuja {
+  left: 34.18%;
+  top: 42.86%;
+}
+
+.LagosI {
+  left: 7.28%;
+  top: 61.43%;
+}
+
+.Lagos {
+  left: 4.11%;
+  top: 67.14%;
+}
+
+.PortHarcourt {
+  left: 33.86%;
+  top: 79.43%;
+}
+
+.Ghana {
+  left: 47.16%;
+  top: 58.2%;
+}
+
+.Accra {
+  left: 64.24%;
+  top: 81.43%;
+}
+
+.Colombia {
+  left: 27.16%;
+  top: 60.6%;
+}
+
+.Medellin {
+  left: 35.23%;
+  top: 37.14%;
+}
+
+.Bogota {
+  left: 54.55%;
+  top: 55.71%;
+}
+
+.Cali {
+  left: 31.82%;
+  top: 55.71%;
+}
+
+.Canada {
+  left: 16.63%;
+  top: 30%;
+}
+
+.Ontario {
+  left: 59.49%;
+  top: 68.29%;
+}
+
+.Ottawa {
+  left: 72.15%;
+  top: 75.71%;
+}
+
+.Vancouver {
+  left: 14.87%;
+  top: 69.14%;
+}
+
+.quebec {
+  left: 75.32%;
+  top: 61.71%;
+}
+
+.halifax {
+  left: 84.81%;
+  top: 60%;
+}
+
+.st-john {
+  left: 91.14%;
+  top: 66.57%;
+}
+
+.Edmonton {
+  left: 30.06%;
+  top: 58.57%;
+}
+
+.Pakistan {
+  left: 64.53%;
+  top: 46.8%;
+}
+
+.islamabad {
+  left: 68.99%;
+  top: 25.71%;
+}
+
+.karachi {
+  left: 38.92%;
+  top: 84.29%;
+}
+
+.lahore {
+  left: 76.9%;
+  top: 40%;
+}
+
+.mirpur {
+  left: 76.9%;
+  top: 32.86%;
+}
+
+.Russia {
+  left: 73.05%;
+  top: 24.2%;
+}
+
+.Kaliningrad {
+  left: 1.14%;
+  top: 44.18%;
+}
+
+.Ufa {
+  left: 26.14%;
+  top: 72.29%;
+}
+
+.Vladivostok {
+  left: 84.09%;
+  top: 88.35%;
+}
+
+.Irkutsk {
+  left: 60.23%;
+  top: 88.35%;
+}
+
+.NizhnyNovgorod {
+  left: 14.64%;
+  top: 60.24%;
+}
+
+.Krasnodar {
+  left: 3.41%;
+  top: 76.31%;
+}
+.Ryazan {
+  left: 12.23%;
+  top: 56.22%;
+}
+.Belgorod {
+  left: 7.18%;
+  top: 62.28%;
+}
+.Bryansk {
+  left: 10.29%;
+  top: 63.26%;
+}
+.Ivanovo {
+  left: 12.45%;
+  top: 50.82%;
+}
+.Kazan {
+  left: 14.77%;
+  top: 64.26%;
+}
+
+.Samara {
+  left: 18.64%;
+  top: 68.27%;
+}
+
+.Novosibirsk {
+  left: 43.18%;
+  top: 76.31%;
+}
+
+.Rostovondon {
+  left: 5.68%;
+  top: 71.89%;
+}
+
+.Krasnoyarsk {
+  left: 50%;
+  top: 82.33%;
+}
+.kurgan {
+  left: 32.56%;
+  top: 71.71%;
+}
+.Moscow {
+  left: 10.23%;
+  top: 54.22%;
+}
+
+.Murmansk {
+  left: 22.05%;
+  top: 30.92%;
+}
+
+.Khabarovsk {
+  left: 84.09%;
+  top: 80.32%;
+}
+
+.Omsk {
+  left: 36.36%;
+  top: 78.31%;
+}
+
+.Saratov {
+  left: 14.77%;
+  top: 72.29%;
+}
+
+.Perm {
+  left: 22.73%;
+  top: 64.26%;
+}
+
+.StPetersburg {
+  left: 11.36%;
+  top: 41.37%;
+}
+
+.Pskov {
+  left: 9.09%;
+  top: 48.19%;
+}
+
+.Yekaterinburg {
+  left: 31.59%;
+  top: 68.27%;
+}
+
+.Smolensk {
+  left: 7.09%;
+  top: 61.45%;
+}
+.Kaluga {
+  left: 9.09%;
+  top: 61.45%;
+}
+.Kursk {
+  left: 8.18%;
+  top: 57.28%;
+}
+.Sochi {
+  left: 3.88%;
+  top: 79.72%;
+}
+.Tula {
+  left: 11.23%;
+  top: 58.22%;
+}
+.Vladimir {
+  left: 13.83%;
+  top: 53.52%;
+}
+.Syktyvkar {
+  left: 18.73%;
+  top: 46.26%;
+}
+.KhantyMansiysk {
+  left: 36.14%;
+  top: 60.64%;
+}
+.Yaroslavl {
+left: 10.64%;
+top: 48.24%;
+}
+.Arkhangelsk {
+  left: 21.14%;
+  top: 45.78%;
+}
+
+.Vyborg2 {
+  left: 14.09%;
+  top: 40.56%;
+}
+
+.Petrozavodsk {
+  left: 17.95%;
+  top: 40.96%;
+}
+
+.Velikiy_novgorod {
+  left: 10.45%;
+  top: 53.82%;
+}
+
+.Vologda {
+  left: 12.5%;
+  top: 50.2%;
+}
+
+.Moscow2 {
+  left: 10.23%;
+  top: 56.63%;
+}
+
+.StPetersburg3 {
+  left: 11.82%;
+  top: 46.59%;
+}
+
+.Pskov3 {
+  left: 9.09%;
+  top: 47.39%;
+}
+
+.Kaliningrad2 {
+  left: 1.82%;
+  top: 43.78%;
+}
+
+.Ivangorod {
+  left: 7.05%;
+  top: 57.43%;
+}
+
+.Vyborg {
+  left: 14.09%;
+  top: 41.77%;
+}
+
+.Vologda1 {
+  left: 22.95%;
+  top: 53.82%;
+}
+
+.Novorossiysk {
+  left: 3.86%;
+  top: 84.34%;
+}
+
+.Voronezh {
+  left: 5.68%;
+  top: 67.07%;
+}
+
+.Pskov2 {
+  left: 15.68%;
+  top: 49.8%;
+}
+
+.Kazan1 {
+  left: 13.18%;
+  top: 64.26%;
+}
+
+.Surgut {
+  left: 41.14%;
+  top: 60.64%;
+}
+
+.Tomsk {
+  left: 48.86%;
+  top: 71.49%;
+}
+
+.Chelyabinsk {
+  left: 32.27%;
+  top: 76.71%;
+}
+
+.Tyumen1 {
+  left: 34.77%;
+  top: 72.29%;
+}
+
+.Penza1 {
+  left: 19.77%;
+  top: 64.66%;
+}
+
+.Lipetsk {
+  left: 11.59%;
+  top: 63.86%;
+}
+
+.Volgograd1 {
+  left: 13.18%;
+  top: 70.28%;
+}
+
+.Saratov_1 {
+  left: 15.91%;
+  top: 75.1%;
+}
+
+.StPetersburg2 {
+  left: 11.82%;
+  top: 36.14%;
+}
+
+.Pyatigorsk {
+  left: 5.68%;
+  top: 80.72%;
+}
+
+.Petrozavodsk2 {
+  left: 18.18%;
+  top: 43.78%;
+}
+
+.Vologda2 {
+  left: 14.32%;
+  top: 53.82%;
+}
+
+.Krasnodar2 {
+  left: 2.5%;
+  top: 77.51%;
+}
+
+.Rostovondon2 {
+  left: 5.68%;
+  top: 71.89%;
+}
+
+.Saratov2 {
+  left: 16.36%;
+  top: 75.1%;
+}
+
+.Senegal {
+  left: 43.16%;
+  top: 54%;
+}
+
+.Dakar {
+  left: 0.66%;
+  top: 36.84%;
+}
+
+.Tunisia {
+  left: 48.42%;
+  top: 44%;
+}
+
+.tunis {
+  left: 60.76%;
+  top: 11.43%;
+}
+
+.Egypt {
+  left: 54%;
+  top: 48.6%;
+}
+
+.GizaCairo {
+  left: 54.75%;
+  top: 20%;
+}
+
+.Alexandria {
+  left: 43.67%;
+  top: 12.86%;
+}
+
+.Sohag {
+  left: 50%;
+  top: 48.57%;
+}
+
+.Tanta {
+  left: 46.84%;
+  top: 17.14%;
+}
+
+.MarsaMatrouh {
+  left: 21.52%;
+  top: 11.43%;
+}
+
+.Suez {
+  left: 67.41%;
+  top: 20%;
+}
+
+.PortSaid {
+  left: 65.82%;
+  top: 11.43%;
+}
+
+.Bolivia {
+  left: 29.47%;
+  top: 70%;
+}
+
+.LaPaz {
+  left: 12.03%;
+  top: 48.57%;
+}
+
+.Cameroon {
+  left: 49.47%;
+  top: 60%;
+}
+
+.Yaounde {
+  left: 43.67%;
+  top: 77.14%;
+}
+
+.Douala {
+  left: 23.1%;
+  top: 75.71%;
+}
+
+.Dominicanrepublic {
+  left: 27.16%;
+  top: 52%;
+}
+
+.Santodomingo {
+  left: 54.51%;
+  top: 56.95%;
+}
+
+.Bahamas {
+  left: 25.58%;
+  top: 50.4%;
+}
+
+.Nassau {
+  left: 65.19%;
+  top: 39.43%;
+}
+
+.Bermuda {
+  left: 27.58%;
+  top: 47.2%;
+}
+
+.Hamilton {
+  left: 39.67%;
+  top: 56.33%;
+}
+
+.Jamaica {
+  left: 25.89%;
+  top: 53.4%;
+}
+
+.Kingston {
+  left: 73.1%;
+  top: 52.86%;
+}
+
+.Barbados {
+  left: 29.37%;
+  top: 54.2%;
+}
+
+.Bridgetown {
+  left: 24.1%;
+  top: 78.73%;
+}
+
+.StLucia {
+  left: 31.58%;
+  top: 56%;
+}
+
+.Castries {
+  left: 40.51%;
+  top: 29.14%;
+}
+
+.Ecuador {
+  left: 25.26%;
+  top: 63%;
+}
+
+.Quito {
+  left: 56.82%;
+  top: 28.57%;
+}
+
+.Guayaquil {
+  left: 47.73%;
+  top: 51.43%;
+}
+
+.Peru {
+  left: 26.84%;
+  top: 67%;
+}
+
+.lima {
+  left: 34.18%;
+  top: 65.71%;
+}
+
+.Taiwan {
+  left: 77.89%;
+  top: 51%;
+}
+
+.taipei1 {
+  left: 66.27%;
+  top: 4.02%;
+}
+
+.kaohsiung {
+  left: 21.27%;
+  top: 76.02%;
+}
+
+.USA {
+  left: 18.95%;
+  top: 40%;
+}
+
+.Atlanta {
+  left: 71.41%;
+  top: 78.29%;
+}
+
+.WashingtonDC {
+  left: 78.41%;
+  top: 72.29%;
+}
+
+.SanFrancisco {
+  left: 32.6%;
+  top: 73.29%;
+}
+
+.Chicago {
+  left: 67.05%;
+  top: 67.14%;
+}
+
+.Houston {
+  left: 60.23%;
+  top: 88.57%;
+}
+
+.newyork {
+  left: 81.82%;
+  top: 65.71%;
+}
+
+.california {
+  left: 31.82%;
+  top: 75.14%;
+}
+
+.Miami {
+  left: 76.14%;
+  top: 94.29%;
+}
+
+.Boston {
+  left: 83.62%;
+  top: 61.44%;
+}
+
+.la {
+  left: 37.91%;
+  top: 78.14%;
+}
+
+.tanzania {
+  left: 55.79%;
+  top: 65%;
+}
+
+.Msasani {
+  left: 86.39%;
+  top: 77.14%;
+}
+.DarEsSalaam {
+  left: 86.39%;
+  top: 48.14%;
+}
+.Chile {
+  left: 28.11%;
+  top: 76%;
+}
+
+.Santiago {
+  left: 49.32%;
+  top: 40.57%;
+}
+
+.mexico {
+  left: 19.47%;
+  top: 50%;
+}
+
+.MexicoCity {
+  left: 53.86%;
+  top: 53.62%;
+}
+
+.Venezuela {
+  left: 29.47%;
+  top: 58%;
+}
+
+.caracas {
+  left: 46.59%;
+  top: 21.91%;
+}
+
+.Libya {
+  left: 51.58%;
+  top: 48.6%;
+}
+
+.usaweb2 {
+  left: 16.77%;
+  top: 11.43%;
+}
+
+.Tobruk {
+  left: 86.39%;
+  top: 16.29%;
+}
+
+.Newzealand {
+  left: 91.58%;
+  top: 86%;
+}
+
+.auckland {
+  left: 59.49%;
+  top: 20%;
+}
+
+.wellington {
+  left: 59.49%;
+  top: 45.71%;
+}
+
+.fiji {
+  left: 92.63%;
+  top: 70%;
+}
+
+.suva {
+  left: 30.38%;
+  top: 44.29%;
+}
+
+.papua_new_guinea {
+  left: 84%;
+  top: 65.6%;
+}
+
+.port_moresby {
+  left: 59.18%;
+  top: 68.86%;
+}
+
+.Honduras {
+  left: 22.63%;
+  top: 54%;
+}
+.MontegoBay {
+  left: 21.1%;
+  top: 29.86%;
+}
+.tegucigalpa {
+  left: 30.38%;
+  top: 44.29%;
+}
+
+.Nicaragua {
+  left: 24.21%;
+  top: 54%;
+}
+
+.managua {
+  left: 27.85%;
+  top: 60%;
+}
+
+.ElSalvador {
+  left: 22.63%;
+  top: 56%;
+}
+.ElSalvadorCity {
+  left: 39.5%;
+  top: 41.6%;
+}
+.sansalvador {
+  left: 40.51%;
+  top: 42.86%;
+}
+.sanjose {
+  left: 46.84%;
+  top: 34.29%;
+}
+
+.Panama {
+  left: 25.79%;
+  top: 58%;
+}
+
+.panamacity {
+  left: 59.49%;
+  top: 37.14%;
+}
+
+.Clayton {
+  left: 62.66%;
+  top: 34.29%;
+}
+
+.Angola {
+  left: 50.74%;
+  top: 68.6%;
+}
+
+.Luanda {
+  left: 12.03%;
+  top: 31.43%;
+}
+
+.Romania {
+  left: 52.63%;
+  top: 37%;
+}
+
+.bucharest {
+  left: 58.89%;
+  top: 63.64%;
+}
+
+.constanţa {
+  left: 78%;
+  top: 72.73%;
+}
+
+.Bulgaria {
+  left: 52.63%;
+  top: 39.6%;
+}
+
+.sofia {
+  left: 21.11%;
+  top: 48.56%;
+}
+
+.Vietnam {
+  left: 74.74%;
+  top: 55.2%;
+}
+
+.HoChiMinhCity {
+  left: 70.91%;
+  top: 75.11%;
+}
+
+.Hanoi {
+  left: 65.91%;
+  top: 23.4%;
+}
+
+.Danang {
+  left: 79.55%;
+  top: 53.19%;
+}
+
+.CoteDivoire {
+  left: 46.11%;
+  top: 56.6%;
+}
+
+.Abidjan {
+  left: 59.87%;
+  top: 74.44%;
+}
+
+.DRC {
+  left: 52.63%;
+  top: 64%;
+}
+
+.Kinshasa {
+  left: 14.56%;
+  top: 50.86%;
+}
+
+.Lubumbashi {
+  left: 73.73%;
+  top: 80%;
+}
+
+.Germany {
+  left: 49.16%;
+  top: 34%;
+}
+
+.Dusseldorf {
+  left: 13.82%;
+  top: 48.12%;
+}
+
+.Deutschland {
+  left: 22.04%;
+  top: 42.48%;
+}
+
+.Bonn {
+  left: 20.39%;
+  top: 57.89%;
+}
+
+.Berlin {
+  left: 71.05%;
+  top: 32.71%;
+}
+
+.Frankfurt {
+  left: 32.24%;
+  top: 63.53%;
+}
+
+.Hamburg {
+  left: 43.09%;
+  top: 18.05%;
+}
+
+.Leipzig {
+  left: 59.54%;
+  top: 46.62%;
+}
+
+.Munich {
+  left: 55.26%;
+  top: 85.34%;
+}
+
+.Poland {
+  left: 51.05%;
+  top: 32.4%;
+}
+
+.Warszawa {
+  left: 70.25%;
+  top: 38.57%;
+}
+
+.Belarus {
+  left: 54.21%;
+  top: 32.6%;
+}
+
+.Minsk {
+  left: 46.84%;
+  top: 44.29%;
+}
+
+.Mogilev {
+  left: 65.51%;
+  top: 37.14%;
+}
+
+.Brest {
+  left: 5.06%;
+  top: 72.86%;
+}
+
+.Gradno {
+  left: 8.23%;
+  top: 47.71%;
+}
+
+.Gomel {
+  left: 76.9%;
+  top: 65.71%;
+}
+
+.Baranovichi {
+  left: 32.28%;
+  top: 64%;
+}
+
+.Lida {
+  left: 22.15%;
+  top: 42.86%;
+}
+
+.Pinsk {
+  left: 34.18%;
+  top: 73.71%;
+}
+
+.Albania {
+  left: 52.11%;
+  top: 41%;
+}
+
+.Tirana {
+  left: 42.5%;
+  top: 44.29%;
+}
+
+.Brazil {
+  left: 33.16%;
+  top: 67.6%;
+}
+
+.SaoPaulo {
+  left: 64.24%;
+  top: 70%;
+}
+
+.RiodeJaneiro {
+  left: 70.57%;
+  top: 67.14%;
+}
+
+.Brasilia {
+  left: 61.08%;
+  top: 50%;
+}
+
+.BeloHorizonte {
+  left: 75%;
+  top: 58%;
+}
+
+.Salvador {
+  left: 88%;
+  top: 44%;
+}
+
+.Cambodia {
+  left: 73.58%;
+  top: 56.4%;
+}
+
+.phnompenh {
+  left: 47.54%;
+  top: 69.32%;
+}
+
+.Serbia {
+  left: 51.37%;
+  top: 37.2%;
+}
+
+.belgrade {
+  left: 40.51%;
+  top: 34.29%;
+}
+
+.Hongkong {
+  left: 76%;
+  top: 50%;
+}
+
+.quarry_bay {
+  left: 62.5%;
+  top: 64.29%;
+}
+
+.wanchai {
+  left: 56.58%;
+  top: 66.92%;
+}
+
+.Causeway_Bay {
+  left: 59.87%;
+  top: 65.04%;
+}
+
+.Czechrepublic {
+  left: 49.68%;
+  top: 36%;
+}
+
+.praha {
+  left: 34.73%;
+  top: 44.25%;
+}
+
+.brno {
+  left: 64.29%;
+  top: 66.08%;
+}
+
+.Kyrgyzstan {
+  left: 66.32%;
+  top: 40%;
+}
+
+.bishkek {
+  left: 46.84%;
+  top: 20%;
+}
+
+.Armenia {
+  left: 58.21%;
+  top: 42.8%;
+}
+
+.yerevan {
+  left: 29.97%;
+  top: 45.4%;
+}
+
+.Georgia {
+  left: 57.89%;
+  top: 39%;
+}
+
+.Tbilisi {
+  left: 66%;
+  top: 62.29%;
+}
+
+.Tajikistan {
+  left: 64.21%;
+  top: 42%;
+}
+
+.dushanbe {
+  left: 15.19%;
+  top: 37.14%;
+}
+
+.Uruguay {
+  left: 31.58%;
+  top: 79%;
+}
+
+.montevideo {
+  left: 42.02%;
+  top: 93.97%;
+}
+
+.Moldova {
+  left: 54.21%;
+  top: 37%;
+}
+
+.Chisnau {
+  left: 52.22%;
+  top: 54.55%;
+}
+
+.BosniaandHerzegovina {
+  left: 50.76%;
+  top: 38.3%;
+}
+
+.Sarajevo {
+  left: 63.29%;
+  top: 50%;
+}
+
+.Italy {
+  left: 50.21%;
+  top: 40%;
+}
+
+.Rome {
+  left: 44%;
+  top: 43.67%;
+}
+
+.Milan {
+  left: 22.86%;
+  top: 19.94%;
+}
+/* Costa Rica */
+.SanJose {
+  left: 45.5%;
+  top: 44.6%;
+}
+/* end */
+.Kosovo {
+  left: 53.26%;
+  top: 41%;
+}
+.CostaRica {
+  left: 24.5%;
+  top: 57%;
+}
+.Pristina {
+  left: 62%;
+  top: 41.46%;
+}
+.Recife {
+  left: 95.08%;
+  top: 34%;
+}
+.PortoAlegre {
+  left: 55.24%;
+  top: 83%;
+}
+.Guatemala {
+  left: 21.68%;
+  top: 54.2%;
+}
+.Mendoza {
+  left: 39.58%;
+  top: 27.97%;
+}
+.GuatemalaCity {
+  left: 42.41%;
+  top: 74.86%;
+}
+
+.Niger {
+  left: 48.84%;
+  top: 54.4%;
+}
+
+.Niamey {
+  left: 13.68%;
+  top: 69.84%;
+}
+
+.Argentina {
+  left: 29.32%;
+  top: 80.6%;
+}
+
+.Cordoba {
+  left: 56.58%;
+  top: 37.97%;
+}
+
+.Azerbaijan {
+  left: 58.95%;
+  top: 41.4%;
+}
+
+.Baku {
+  left: 87.5%;
+  top: 40.6%;
+}
+
+.Montenegro {
+  left: 51.44%;
+  top: 39.3%;
+}
+
+.Podgorica {
+  left: 42.76%;
+  top: 62.78%;
+}
+
+.Paraguay {
+  left: 30.32%;
+  top: 75.2%;
+}
+
+.Asuncion {
+  left: 54.19%;
+  top: 68.73%;
+}
+
+.RepublicofMacedonia {
+  left: 53.68%;
+  top: 39%;
+}
+
+.Skopje {
+  left: 37.19%;
+  top: 28.02%;
+}
+
+.Spain {
+  left: 45.26%;
+  top: 40.6%;
+}
+
+.PortofSpain {
+  left: 30.18%;
+  top: 51.29%;
+}
+
+.Madrid {
+  left: 61.18%;
+  top: 39.43%;
+}
+
+.Barcelona {
+  left: 85.41%;
+  top: 29.43%;
+}
+
+.Las-Palmas {
+  left: 13.41%;
+  top: 84.57%;
+}
+
+.Guinea {
+  left: 44.42%;
+  top: 56%;
+}
+
+.Conakry {
+  left: 14.33%;
+  top: 46.98%;
+}
+
+.Mali {
+  left: 44.95%;
+  top: 53.4%;
+}
+
+.Bamako {
+  left: 27.83%;
+  top: 81.12%;
+}
+
+.Burkina_Faso {
+  left: 47.05%;
+  top: 54.4%;
+}
+
+.Ouagadougou {
+  left: 47.56%;
+  top: 45.71%;
+}
+
+.Iraq {
+  left: 57.89%;
+  top: 44.8%;
+}
+
+.Erbil {
+  left: 53.75%;
+  top: 8.33%;
+}
+.Baghdad {
+  left: 55.75%;
+  top: 44.33%;
+}
+.Basra {
+  left: 77.75%;
+  top: 79.33%;
+}
+
+.Palestinian {
+  left: 55.79%;
+  top: 45.6%;
+}
+
+.Ramallah {
+  left: 51.58%;
+  top: 40.29%;
+}
+
+.Gazastrip {
+  left: 38.92%;
+  top: 45.14%;
+}
+
+.Guyana {
+  left: 30.63%;
+  top: 60.4%;
+}
+
+.Georgetown {
+  left: 59.49%;
+  top: 21.43%;
+}
+
+.Trinidadandtobago {
+  left: 29.89%;
+  top: 56%;
+}
+
+.Caymanislands {
+  left: 26.84%;
+  top: 55%;
+}
+
+.Georgetowns {
+  left: 12.03%;
+  top: 54.29%;
+}
+
+.Sweden {
+  left: 50.32%;
+  top: 25.6%;
+}
+
+.Stockholm {
+  left: 51.9%;
+  top: 68.57%;
+}
+
+.Brunei {
+  left: 76.53%;
+  top: 60.6%;
+}
+
+.Bandar_Seri_Begawan {
+  left: 64.24%;
+  top: 23.43%;
+}
+
+.Netherlands {
+  left: 48.32%;
+  top: 31.8%;
+}
+
+.Den_Haag {
+  left: 12.34%;
+  top: 54.29%;
+}
+
+.Rotterdam {
+  left: 20.89%;
+  top: 60%;
+}
+
+.Amsterdam {
+  left: 35.76%;
+  top: 42.86%;
+}
+
+.Laos {
+  left: 73.58%;
+  top: 54.4%;
+}
+
+.Lao_thai {
+  left: 38%;
+  top: 51.47%;
+}
+
+.Lao_PDR {
+  left: 33.75%;
+  top: 49.76%;
+}
+
+.Vientiane {
+  left: 48.75%;
+  top: 29.76%;
+}
+
+.Luxembourg {
+  left: 47.86%;
+  top: 35.8%;
+}
+
+.Luxem_bourg {
+  left: 46.91%;
+  top: 77.14%;
+}
+
+.Maldives {
+  left: 64.63%;
+  top: 62%;
+}
+
+.male1 {
+  left: 51.23%;
+  top: 35.69%;
+}
+
+.Haiti {
+  left: 26.42%;
+  top: 51.4%;
+}
+
+.port_au_prince {
+  left: 73.68%;
+  top: 69.17%;
+}
+
+.petio_ville {
+  left: 74.01%;
+  top: 73.31%;
+}
+
+.Myanmar {
+  left: 71.68%;
+  top: 52.6%;
+}
+
+.yangon {
+  left: 40.67%;
+  top: 62.67%;
+}
+
+.naypyitaw {
+  left: 40.67%;
+  top: 42.67%;
+}
+
+.Uzbekistan {
+  left: 61.58%;
+  top: 40%;
+}
+
+.tashkent {
+  left: 72.67%;
+  top: 49.33%;
+}
+
+.Malawi {
+  left: 55.79%;
+  top: 68.8%;
+}
+
+.lilongwe {
+  left: 37.35%;
+  top: 57.47%;
+}
+
+.Greece {
+  left: 53.68%;
+  top: 40.6%;
+}
+
+.Thessaloniki {
+  left: 38.67%;
+  top: 18%;
+}
+
+.Athens {
+  left: 48.33%;
+  top: 51.67%;
+}
+
+.Austria {
+  left: 50.11%;
+  top: 34%;
+}
+
+.Vienna {
+  left: 90.67%;
+  top: 36.33%;
+}
+
+.Botswana {
+  left: 52.42%;
+  top: 74.4%;
+}
+
+.Gaborone {
+  left: 59.74%;
+  top: 69.55%;
+}
+
+.Lithuania {
+  left: 52.63%;
+  top: 32%;
+}
+
+.Vilnius {
+  left: 63.64%;
+  top: 53.19%;
+}
+
+.Klaipeda {
+  left: 20.68%;
+  top: 28.51%;
+}
+
+.Portugal {
+  left: 44.42%;
+  top: 41.2%;
+}
+
+.Lisbon {
+  left: 44.58%;
+  top: 41.09%;
+}
+
+.Estonia {
+  left: 53.16%;
+  top: 29.6%;
+}
+
+.Tallinn {
+  left: 44.25%;
+  top: 20%;
+}
+
+.Tartu {
+  left: 78.75%;
+  top: 54.12%;
+}
+
+.Narva {
+  left: 92.5%;
+  top: 12.06%;
+}
+
+.Latvia {
+  left: 54.21%;
+  top: 31%;
+}
+
+.Riga {
+  left: 40.39%;
+  top: 46.98%;
+}
+
+.Liepaja {
+  left: 4.56%;
+  top: 50.16%;
+}
+
+.Daugavpils {
+  left: 75.24%;
+  top: 72.38%;
+}
+
+.Suriname {
+  left: 32.11%;
+  top: 61.6%;
+}
+
+.Paramaribo {
+  left: 64%;
+  top: 4.33%;
+}
+
+.Guinea-bissau {
+  left: 43.16%;
+  top: 56.4%;
+}
+
+.Bissau {
+  left: 32.67%;
+  top: 46%;
+}
+
+.Mozambique {
+  left: 55.47%;
+  top: 74.6%;
+}
+
+.Maputo {
+  left: 26.27%;
+  top: 91.43%;
+}
+
+.Israel {
+  left: 55.26%;
+  top: 47%;
+}
+
+.Tel-aviv {
+  left: 43%;
+  top: 33.82%;
+}
+
+.Bijilo {
+  left: 3.85px;
+  top: 35.82%;
+}
+
+@media screen and (max-width: 1080px) {
+  .responsive_container {
+    display: block;
+  }
+  .map_container,
+  .all_visiting_countries_heading_container {
+    display: none;
+  }
+}

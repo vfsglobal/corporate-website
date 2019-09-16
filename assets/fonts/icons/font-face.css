@@ -1,0 +1,227 @@
+@font-face {
+  font-family: 'vfs-icons';
+  src:  url('vfs-icons.eot');
+  src:  url('vfs-icons.eot') format('embedded-opentype'),
+    url('vfs-icons.ttf') format('truetype'),
+    url('vfs-icons.woff') format('woff'),
+    url('vfs-icons.svg#vfs-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'vfs-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-double-quote-icon:before {
+  content: "\e900";
+}
+.icon-info:before {
+  content: "\e901";
+}
+.icon-left-thin-arrow:before {
+  content: "\e902";
+}
+.icon-close:before {
+  content: "\e903";
+}
+.icon-instagram:before {
+  content: "\e904";
+}
+.icon-service-front-end-operations-centres:before {
+  content: "\e905";
+}
+.icon-service-integrated-citizen-services:before {
+  content: "\e906";
+}
+.icon-service-lidpro:before {
+  content: "\e907";
+}
+.icon-service-mobile-visa-application-centre:before {
+  content: "\e908";
+}
+.icon-service-resident-permit-enrolment:before {
+  content: "\e909";
+}
+.icon-service-self-service-kiosk:before {
+  content: "\e90a";
+}
+.icon-service-tourism-trade-support-services:before {
+  content: "\e90b";
+}
+.icon-service-verification-attestation-services:before {
+  content: "\e90c";
+}
+.icon-service-visa-at-doorstep:before {
+  content: "\e90d";
+}
+.icon-service-biometric-enrolment:before {
+  content: "\e90e";
+}
+.icon-service-application-and-document-checks:before {
+  content: "\e90f";
+}
+.icon-service-bronze:before {
+  content: "\e910";
+}
+.icon-service-certification:before {
+  content: "\e911";
+}
+.icon-service-check-and-verify:before {
+  content: "\e912";
+}
+.icon-service-courier-service:before {
+  content: "\e913";
+}
+.icon-service-document-scanning-assistance:before {
+  content: "\e914";
+}
+.icon-service-electronic-visa-waiver-service:before {
+  content: "\e915";
+}
+.icon-service-fast-pass:before {
+  content: "\e916";
+}
+.icon-service-flexible-hours-for-passport-collection:before {
+  content: "\e917";
+}
+.icon-service-form-filling-assistance:before {
+  content: "\e918";
+}
+.icon-service-gold:before {
+  content: "\e919";
+}
+.icon-service-group-appointment-booking:before {
+  content: "\e91a";
+}
+.icon-service-home-to-home-service:before {
+  content: "\e91b";
+}
+.icon-service-internet-kiosk:before {
+  content: "\e91c";
+}
+.icon-service-keep-my-passport-when-applying:before {
+  content: "\e91d";
+}
+.icon-service-on-demand-mobile-visa:before {
+  content: "\e91e";
+}
+.icon-service-online-payment-assistance:before {
+  content: "\e91f";
+}
+.icon-service-personal-chauffeur-service:before {
+  content: "\e920";
+}
+.icon-service-personal-vfs-global-staff-support:before {
+  content: "\e921";
+}
+.icon-service-photobooth:before {
+  content: "\e922";
+}
+.icon-service-photocopying:before {
+  content: "\e923";
+}
+.icon-service-platinum-lounge:before {
+  content: "\e924";
+}
+.icon-service-premium-courier-service:before {
+  content: "\e925";
+}
+.icon-service-premium-lounge:before {
+  content: "\e926";
+}
+.icon-service-prime-time-appointment:before {
+  content: "\e927";
+}
+.icon-service-printing:before {
+  content: "\e928";
+}
+.icon-service-priority-visa:before {
+  content: "\e929";
+}
+.icon-service-private-enrolment-service:before {
+  content: "\e92a";
+}
+.icon-service-registered-traveller-assistance:before {
+  content: "\e92b";
+}
+.icon-service-settlement-visa-courier-service:before {
+  content: "\e92c";
+}
+.icon-service-settlement-visa-scanning-service:before {
+  content: "\e92d";
+}
+.icon-service-silver:before {
+  content: "\e92e";
+}
+.icon-service-sms-update-service:before {
+  content: "\e92f";
+}
+.icon-service-translation:before {
+  content: "\e930";
+}
+.icon-service-vac-to-vac-courier-service:before {
+  content: "\e931";
+}
+.icon-service-vfs-premium-courier-500:before {
+  content: "\e932";
+}
+.icon-service-vfs-premium-courier-700:before {
+  content: "\e933";
+}
+.icon-service-walk-in-lounge:before {
+  content: "\e934";
+}
+.icon-service-walk-in-without-appointment:before {
+  content: "\e935";
+}
+.icon-countries-of-operation:before {
+  content: "\e936";
+}
+.icon-application-centre:before {
+  content: "\e937";
+}
+.icon-applications:before {
+  content: "\e938";
+}
+.icon-client-govt:before {
+  content: "\e939";
+}
+.icon-continents:before {
+  content: "\e93a";
+}
+.icon-arrow-point-down:before {
+  content: "\e93b";
+}
+.icon-twitter:before {
+  content: "\e93c";
+}
+.icon-email:before {
+  content: "\e93d";
+}
+.icon-location:before {
+  content: "\e947";
+}
+.icon-arrow-right:before {
+  content: "\ea3c";
+}
+.icon-arrow-down:before {
+  content: "\ea3e";
+}
+.icon-facebook:before {
+  content: "\ea91";
+}
+.icon-linkedin:before {
+  content: "\eac9";
+}

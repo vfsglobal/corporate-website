@@ -1,0 +1,4445 @@
+@charset "utf-8";
+/* Scss Document */
+
+@import url(../fonts/inter-ui/font-face.min.css);
+@import url(../fonts/icons/font-face.min.css);
+@import url(dlmenu.min.css);
+
+@function em_by_font_size($font_size, $parent_font_size: $body_default_font_size) {
+	@if(not unitless($font_size)) {
+		$font_size: $font_size / 1px;
+	}
+	
+	@if(not unitless($parent_font_size)) {
+		$parent_font_size: $parent_font_size / 1px;
+	}
+	
+	@return $font_size / $parent_font_size + em;
+}
+
+@mixin em_by_font_size($font_size, $parent_font_size: $body_default_font_size) {
+	font-size: em_by_font_size($font_size, $parent_font_size);
+}
+
+@mixin css3($css_name, $css_value) {
+	$all_browser_prefix: -webkit-, -moz-, -ms-, -o-, "";
+	
+	@each $prefix in $all_browser_prefix {
+		#{$prefix + $css_name}: $css_value;
+	}
+}
+
+@mixin keyframes($keyframe_name) {
+	@-webkit-keyframes #{$keyframe_name} {
+		@content;
+	}
+
+	@-moz-keyframes #{$keyframe_name} {
+		@content;
+	}
+
+	@keyframes #{$keyframe_name} {
+		@content;
+	}
+}
+
+@function is_direction($value) {
+	$is_keyword: index($all_directions, $value);
+	$is_angle: type-of($value) == number and index('deg' 'grad' 'turn' 'rad', unit($value));
+	
+	@return $is_keyword or $is_angle;
+}
+
+@function legacy_direction($value) {
+	@if is_direction($value) == false {
+		@error "Cannot convert `#{$value}` to legacy syntax because it doesn't seem to be a direction.";
+	}
+	
+	@if map-has-key($gradient_direction_details, $value) {
+		@return map-get($gradient_direction_details, $value);
+	}
+	
+	@return 90deg - $value;
+}
+
+@mixin linear_gradient($fallback_color, $direction, $color_stops...) {
+	@if is_direction($direction) == false {
+		$color_stops: $direction, $color_stops;
+		$direction: 180deg;
+	}
+	
+	$legacy_direction: legacy_direction($direction);
+
+	background: $fallback_color;
+	background: -moz-linear-gradient($legacy_direction, $color_stops);
+	background: -webkit-linear-gradient($legacy_direction, $color_stops);
+	background: linear-gradient($direction, $color_stops);
+}
+
+@mixin table_with_cell($valign: middle) {
+	display: table;
+
+	> * {
+		@include table_cell($valign);
+		@content;
+	}
+}
+
+@mixin table_cell($valign: middle) {
+	display: table-cell;
+	vertical-align: $valign;
+}
+
+@mixin inline_valign($valign: middle) {
+	display: inline-block;
+	vertical-align: $valign;
+}
+
+@mixin pseudo_valign($valign: middle, $set_0_font_size: true, $pseudo: before, $include_inner: true) {
+	@if $set_0_font_size == true {
+		font-size: 0px;
+	}
+	
+	@if $include_inner {
+		> * {
+			@include inline_valign($valign);
+		}
+	}
+	
+	&:#{$pseudo} {
+		content: '';
+		@include inline_valign($valign);
+		width: 0%;
+		height: 100%;
+	}
+}
+
+@mixin default_before_or_after_css($include_position: true) {
+	content: '';
+	display: block;
+	
+	@if $include_position {
+		position: absolute;
+	}
+}
+
+@mixin absolute_full_cover() {
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+}
+
+@mixin partial_border_radius($border_radius, $type) {
+	border-radius: if($type == top, $border_radius $border_radius 0px 0px, 
+					if($type == bottom, 0px 0px $border_radius $border_radius, ""));
+}
+
+@function convert_to_percent($val) {
+	@return #{$val * 100 + "%"};
+}
+
+@function generate_value($value, $value_options) {
+	@if($value_options == false) {
+		@return $value;
+	}
+
+	@each $option_key, $option_value in $value_options {
+		@if $option_key == multiplier {
+			$value: $value * $option_value;
+		}
+		@if $option_key == divide_numerator {
+			$value: $option_value / $value;
+		}
+		@if $option_key == divide_denominator {
+			$value: $value / $option_value;
+		}
+		@else if $option_key == adder {
+			$value: $value + $option_value;
+		}
+		@else if $option_key == round {
+			$value: round($value);
+		}
+		@else if $option_key == prefix {
+			$value: $option_value + $value;
+		}
+		@else if $option_key == suffix {
+			$value: $value + $option_value;
+		}
+	}
+	
+	@return unquote($value);
+}
+
+@function modify_map_value_options($modify_options, $key) {
+	@each $option_key, $option_val in $modify_options {
+		$modify_options: map-merge($modify_options, (
+			$option_key: if(type-of($option_val) == map, map-get($option_val, $key), $option_val)
+		));
+	}
+
+	@return $modify_options;
+}
+
+@function modify_map_value($map, $modify_options) {
+	@each $key, $value in $map {
+		$new_modify_options: modify_map_value_options($modify_options, $key);
+
+		@if type-of($value) == map {
+			$value: modify_map_value($value, $new_modify_options);
+		}
+		@else {
+			$value: generate_value($value, $new_modify_options);
+		}
+
+		$map: map-merge($map, ($key: $value));
+	}
+
+	@return $map;
+}
+
+@mixin set_css($prop, $value, $value_options) {
+	$css3_str: css3-;
+	$css3_str_len: str_length($css3_str);
+	$css3_start_index: str_index($prop, $css3_str);
+
+	$main_value: generate_value($value, $value_options);
+
+	@if($css3_start_index == 1) {
+		@include css3(str_slice($prop, $css3_str_len + 1), $main_value);
+	} @else {
+		#{$prop}: $main_value;
+	}
+}
+
+@mixin set_content($content, $value_options) {
+	@if $content == false {
+		@content;
+	}
+	@else {
+		$prop: map-get($content, prop);
+		$value: map-get($content, value);
+		
+		@if $prop and $value {
+			@each $cur_prop in $prop {
+				@include set_css($cur_prop, $value, $value_options);
+			}
+		}
+		@else {
+			@each $prop, $value in $content {
+				@include set_css($prop, $value, $value_options);
+			}
+		}
+	}
+}
+
+@mixin media($type, $content: false, $value_options: false) {
+	@if $type == default {
+		@include set_content($content, $value_options) {
+			@content;
+		}
+	}
+	@else {
+		$media-str: '';
+
+		@if type-of($type) == map {
+			@function generate_media_str($type, $inner_type, $media_str: '') {
+				$inner_type_val: map-get($type, $inner_type);
+
+				@if $inner_type_val == null {
+					@return $media_str;
+				}
+
+				@if $media_str != '' {
+					$media_str: $media_str + ' and ';
+				}
+				
+				$resolution_value: map-get($media_resolutions, $inner_type_val);
+
+				$new_media_str: '';
+
+				@if $inner_type == max {
+					@if $resolution_value > 0 {
+						$new_media_str: '(max-width: ' + $resolution_value + 'px)';
+					} @else {
+						$new_media_str: '(max-width: ' + abs($resolution_value) - 1 + 'px)';
+					}
+				}
+				@else if $inner_type == min {		
+					@if $resolution_value > 0 {
+						$new_media_str: '(min-width: ' + ($resolution_value + 1) + 'px)';
+					} @else {
+						$new_media_str: '(min-width: ' + abs($resolution_value) + 'px)';
+					}
+				}
+
+				@return $media_str + $new_media_str;
+			}
+
+			$media_str: generate_media_str($type, max);
+			$media_str: generate_media_str($type, min, $media_str);
+		}
+		@else {
+			$resolution_value: null;
+
+			@if(type-of($type) == number) {
+				$resolution_value: $type;
+			} @else {
+				$resolution_value: map-get($media_resolutions, $type);
+			}
+
+			@if $resolution_value > 0 {
+				$media_str: '(max-width: ' + $resolution_value + 'px)';
+			} @else {
+				$media_str: '(min-width: ' + abs($resolution_value) + 'px)';
+			}
+		}
+
+		@media screen and #{$media_str} {
+			@include set_content($content, $value_options) {
+				@content;
+			}
+		}
+	}
+}
+
+//multi_media(padding, 30, (suffix: "px"));
+
+//multi_media(padding, (
+//	default: 80,
+//	ipad: 70
+//), (suffix: "px")); //also allows prefix in third parameter
+
+// multi_media(("padding" "margin"), (
+// 	default: 80px,
+// 	laptop: 70px
+// ));
+
+// $ipad_height: 50px;
+// multi_media((
+// 	default: (
+// 		width: 80px,
+// 		height: auto
+// 	),
+// 	laptop: (
+// 		display: table
+// 		width: auto,
+// 		min-width: $ipad_height,
+// 		height: $ipad_height,
+// 		line-height: $ipad_height
+// 	),
+// 	ipad: (
+// 		display: none
+// 	)
+// ));
+
+@mixin multi_media($default_css_prop, $all_type_values: false, $value_options: false) {
+	@if($all_type_values == false) {
+		$all_type_values: $default_css_prop;
+		$default_css_prop: false;
+	}
+	
+	@if type-of($all_type_values) != map and $default_css_prop != false {
+		@include set_content(($default_css_prop: $all_type_values), $value_options);
+	}
+	@else {
+		@each $type, $value in $all_type_values {
+			@if type-of($value) == map {
+				@include media($type, $value, $value_options);
+			}
+			@else {
+				@include media($type, (
+					prop: $default_css_prop,
+					value: $value
+				), $value_options);
+			}
+		}
+	}
+}
+
+// add_css_from_map((
+// 	height: (
+// 		default: 50px,
+// 		laptop: 40px
+// 	),
+//	width: (
+//		default: 80px,
+//		ipad: 60px
+//	)
+// ));
+
+// add_css_from_map((
+// 	height: 40px,
+//	width: 60px
+// ));
+
+@mixin add_css_from_map($css_obj) {
+	@each $name, $value in $css_obj {
+		@include multi_media($name, $value);
+	}
+}
+
+@mixin set_all_media_content($selector_options, $media_css: false) {
+	@each $key in $all_media_keys {
+		$prefix: map-get($selector_options, prefix);
+		$suffix: map-get($selector_options, suffix);
+
+		$cur_css_selector: $key;
+		
+		@if($prefix) {
+			$cur_css_selector: $prefix + $cur_css_selector;
+		}
+
+		@if($suffix) {
+			$cur_css_selector: $cur_css_selector + $suffix;
+		}
+
+		#{$cur_css_selector} {
+			@content;
+
+			@include media($key) {
+				@if $media_css != false {
+					@include add_css_from_map($media_css);
+				}
+			}
+		}
+	}
+}
+
+@mixin create_shake_animation($animation_name, $config) {
+	@include keyframes($animation_name) {
+		$shake_values: map-get($config, values);
+		$peak_count: map-get($config, peak_count);
+		$type: map-get($config, type);
+		$is_in: str-index($type, 'in');
+		$is_out: str-index($type, 'out');
+		$non_peak_value_count: length($shake_values) - 1;
+		$peak_value: nth($shake_values, $non_peak_value_count + 1);
+		$max_iteration: $non_peak_value_count * if($type == 'in-out', 2, 1) + $peak_count + 1;
+		$step_percent: 100% / $max_iteration;
+		
+		0%, 100% {
+			transform: translateX(0%);
+		}
+
+		@for $i from 1 through $max_iteration - 1 {
+			$sign: if($i % 2 == 0, 1, -1);
+			$translate_value: null;
+
+			#{$step_percent * $i} {
+				@if($i <= $non_peak_value_count and $is_in) {
+					$translate_value: nth($shake_values, $i);
+				} @else if($i >= $max_iteration - $non_peak_value_count and $is_out) {
+					$translate_value: nth($shake_values, $max_iteration - $i);
+				} @else {
+					$translate_value: $peak_value;
+				}
+
+				transform: translateX($translate_value * $sign);
+			}
+		}
+
+		@content;
+	}
+}
+
+@function get_percent($percentage) {
+	@return $percentage / 100;
+}
+
+@function create_sequence($start, $end, $multiplier_step) {
+	$values: ();
+
+	$cur_value: $start;
+
+	@while($cur_value <= $end) {
+		$values: join($values, round($cur_value));
+
+		$cur_value: $cur_value * $multiplier_step;
+	}
+
+	@return $values;
+}
+
+//all variables
+
+$content_color: #031B30;
+$dim_color_opacity: 0.77;
+$light_content_color: rgba($content_color, $dim_color_opacity);
+
+$blue: #06345B;
+$orange: #E86020;
+$green: #A6CE39;
+$vdash_color: #14C7CE;
+
+$light_orange: #FCEFE8;
+
+$off_white: #F8F9FA;
+$dark_off_white: #E0E5EA;
+
+$shadow_color: rgba($content_color, 0.1);
+$dark_shadow_color: rgba($content_color, 0.3);
+$invalid_color: #B10E1E;
+
+$red_highlight_color: #EB263B;
+
+$body_font_size: (
+	default: 16px,
+	ipad: 15px,
+	tablet: 14px
+);
+
+$body_default_font_size: map-get($body_font_size, default);
+
+$seperator_color: $dark_off_white;
+
+$wrapper_width: (
+	default: 88%,
+	mobile: 92%
+);
+$wrapper_max_width: 1500;
+$wrapper_max_width_px: $wrapper_max_width * 1px;
+
+$wrapper_base_outer_space: modify_map_value($wrapper_width, (
+	adder: -100,
+	multiplier: -0.5
+));
+
+$wrapper_main_outer_space: modify_map_value($wrapper_base_outer_space, (
+	multiplier: 100%,
+	divide_denominator: $wrapper_width
+));
+
+$default_dropdown_border_radius: 5px;
+$plain_dropdown_padding: (
+	default: 9px,
+	ipad: 7px,
+	tablet: 5px
+);
+$default_dropdown_arrow_font_size: 10px;
+
+$content_container_padding: (
+	default: 80px,
+	ipad: 70px,
+	tablet: 50px
+);
+
+$half_content_container_padding: modify_map_value($content_container_padding, (multiplier: 0.5));
+
+$country_dropdown_height: (
+	default: 50px,
+	ipad: 40px,
+	tablet: 35px
+);
+$country_dropdown_border_radius: $default_dropdown_border_radius;
+$country_dropdown_arrow_font_size: $default_dropdown_arrow_font_size;
+
+$seperator_medium_space: (
+	default: 30px,
+	ipad: 25px,
+	tablet: 20px
+);
+
+$gradient_direction_details: (
+	to top          : bottom,
+	to top right    : bottom left,
+	to right top    : left bottom,
+	to right        : left,
+	to bottom right : top left,
+	to right bottom : left top,
+	to bottom       : top,
+	to bottom left  : top right,
+	to left bottom  : right top,
+	to left         : right,
+	to left top     : right bottom,
+	to top left     : bottom right
+);
+
+$all_directions: map-keys($gradient_direction_details);
+
+//note: Any of the width given in below map is not related to its key
+
+$media_resolutions: (
+	extra_big: -2500,
+	big: -1400,
+	big_laptop: 1260,
+	laptop: 1200,
+	small_desktop: 1140,
+	ipad: 1080,
+	small_ipad: 960,
+	big_tablet: 900,
+	tablet: 768,
+	small_tablet: 680,
+	big_mobile: 600,
+	mobile: 520,
+	small_mobile: 480,
+	extra_small_mobile: 380
+);
+
+$all_media_keys: map-keys($media_resolutions);
+
+%body_font_size {
+	@include multi_media(font-size, $body_font_size);
+}
+
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: InterUI, sans-serif;
+	font-weight: 400;
+	color: $content_color;
+	background: #FFF;
+	@extend %body_font_size;
+}
+
+master-page {
+	display: none;
+}
+
+@mixin selection($darken) {
+	::-moz-selection {
+		color: #FFF;
+		background: darken($orange, $darken);
+	}
+	::selection {
+		color: #FFF;
+		background: darken($orange, $darken);
+	}
+}
+
+@include selection(10);
+
+a {
+	position: relative;
+	text-decoration: none;
+	outline: none;
+}
+a img {
+	border: none;
+}
+ul, ol {
+	margin: 0;
+	padding: 0;
+}
+ul {
+	list-style: none;
+}
+h1, h2, h3, h4, h5, h6, p {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	font-weight: 400;
+}
+section, article, aside, header, hgroup, footer, nav, blockquote, address, time, figure, canvas, video, hr {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, nav, menu, section, summary, hr {
+	display: block;
+}
+.clearfix:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+input[type="text"] {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+	outline: none;
+	font-size: 1em;
+	font-family: inherit;
+	color: inherit;
+}
+
+.bold {
+	font-family: InterUI-Bold, sans-serif;
+	font-weight: 700;
+}
+
+$custom_scroll_width: 4px;
+%custom_scroll_theme {
+	$half_width: $custom_scroll_width / 2;
+
+	&::-webkit-scrollbar {
+		width: $custom_scroll_width;
+	}
+	&::-webkit-scrollbar-track {
+		background: $off_white;
+		border-radius: $half_width;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: $dark_off_white;
+		border-radius: $half_width;
+	}
+}
+
+.custom_scroll_theme {
+	@extend %custom_scroll_theme;
+}
+
+.dim_color {
+	opacity: $dim_color_opacity !important;
+}
+
+img.main_logo {
+	width: 180px;
+}
+.flag {
+	$flag_count_in_row: 15;
+	$dimension_ratio: 1.4;
+	$height: 20px;
+
+	width: $height * $dimension_ratio;
+	height: $height;
+	overflow: hidden;
+	border-radius: 3px;
+	border: 1px solid $dark_off_white;
+
+	> img {
+		display: block;
+		position: relative;
+		width: convert_to_percent($flag_count_in_row);
+	}
+}
+
+.wrapper {
+	@include multi_media(width, $wrapper_width);
+	max-width: $wrapper_max_width_px;
+	margin: 0 auto;
+}
+
+%hide_all_show_from {
+	display: none !important;
+}
+
+@include set_all_media_content((prefix: '.show_from_'), (
+	display: block !important
+)) {
+	@extend %hide_all_show_from;
+}
+
+@include set_all_media_content((prefix: '.hide_from_'), (
+	display: none !important
+));
+
+@include set_all_media_content((prefix: '.text_center_from_'), (
+	text-align: center
+));
+
+@include set_all_media_content((prefix: '.hide_break_from_', suffix: ' br'), (
+	display: none !important
+));
+
+%plain_dropdown_nav_button {
+	@include add_css_from_map((
+		padding: modify_map_value($plain_dropdown_padding, (prefix: "0px ")),
+		line-height: (
+			default: 40px,
+			ipad: 36px,
+			tablet: 32px
+		)
+	));
+}
+
+%component_fade_transition {
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	box-sizing: border-box;
+
+	&.active {
+		position: relative;
+	}
+
+	&.fade-enter-active, &.fade-leave-active {
+		@include css3(transition, all 0.7s);
+	}
+
+	&.fade-enter, &.fade-leave-to {
+		opacity: 0;
+	}
+
+	&.fade-enter-to, &.fade-leave {
+		opacity: 1;
+	}
+}
+
+.autocomplete-search-box {
+	display: inline-block;
+	position: relative;
+	z-index: 1;
+
+	&.focused {
+		z-index: 12;
+	}
+	
+	> .list-wrapper {
+		display: none;
+		position: absolute;
+		left: 0%;
+		width: 100%;
+		
+		&.show-list {
+			display: block;
+		}
+		
+		> ul.section-list {
+			@extend %custom_scroll_theme;
+			max-height: 200px;
+			overflow: auto;
+		}
+	}
+	
+	&.slide-list-up > .list-wrapper {
+		bottom: 100%;
+	}
+	
+	&.slide-list-down > .list-wrapper {
+		top: 100%;
+	}
+
+	@function get_unselected_selector() {
+		@return "&[data-selected-index=\"-1\"], &:not([data-selected-index])";
+	}
+	
+	@mixin shadow($pos) {
+		box-shadow: 2px if($pos == up, -2px, 2px) 5px $shadow_color;
+	}
+	
+	@mixin slide_list_direction($direction, $border_color, $border_radius) {
+		$top_bottom_dir: if($direction == up, top, bottom);
+		$rev_top_bottom_dir: if($top_bottom_dir == top, bottom, top);
+
+		&.slide-list-#{$direction} {
+			@include partial_border_radius($border_radius, $rev_top_bottom_dir);
+			@include shadow($direction);
+
+			border-#{$top_bottom_dir}-color: transparent;
+
+			> .list-wrapper {
+				@include shadow($direction);
+				border-#{$rev_top_bottom_dir}-color: $border_color;
+			}
+		}
+	}
+	
+	@mixin default_dropdown($border_color, $border_radius, $arrow_font_size, $toggle_button_width, $transition_duration) {
+		border: 1px solid $border_color;
+		border-radius: $border_radius;
+		cursor: pointer;
+		@include css3(transition, all $transition_duration);
+		
+		&.focused {
+			@include slide_list_direction(up, $border_color, $border_radius);
+			@include slide_list_direction(down, $border_color, $border_radius);
+
+			cursor: auto;
+	
+			> .toggle-button-wrapper {
+				@include css3(transform, rotate(180deg));
+			}
+		}
+
+		&.disabled {
+			cursor: not-allowed;
+		}
+
+		&.slide-list-up > .list-wrapper {
+			@include partial_border_radius($border_radius, top);
+		}
+		
+		&.slide-list-down > .list-wrapper {
+			@include partial_border_radius($border_radius, bottom);
+		}
+		
+		&.no-items {
+			&.focused, #{get_unselected_selector()} {
+				border: 1px solid $invalid_color !important;
+				border-radius: $border_radius !important;
+
+				> .list-wrapper {
+					opacity: 0;
+					visibility: hidden;
+				}
+			}
+		}
+
+		#{get_unselected_selector()} {
+			> .selected-wrapper > .remove-selection-button {
+				display: none;
+			}
+		}
+		
+		&.disabled {
+			background: $off_white;
+			opacity: $dim_color_opacity;
+			
+			&.no-items {
+				border: 1px solid $dark_off_white !important;
+			}
+		}
+
+		> .selected-wrapper, .input-wrapper {
+			@include multi_media(padding-right, $toggle_button_width);
+			box-sizing: border-box;
+		}
+
+		> .selected-wrapper {
+			@include table_with_cell(middle);
+			width: 100%;
+			box-sizing: border-box;
+
+			> .selected {
+				width: 100%;
+			}
+
+			> .remove-selection-button {
+				width: 1%;
+				padding: 0px 5px;
+
+				> i {
+					$size: 8px;
+					$color: $content_color;
+
+					display: block;
+					width: $size;
+					height: $size;
+					font-size: $size;
+					line-height: $size;
+					padding: 3px;
+					border-radius: 50%;
+					border: 2px solid $content_color;
+				}
+			}
+		}
+
+		> .toggle-button-wrapper {
+			position: absolute;
+			right: 0%;
+			top: 0%;
+			@include multi_media(width, $toggle_button_width);
+			height: 100%;
+			
+			> .toggle-button {
+				@include absolute_full_cover();
+				text-align: center;
+				
+				@include pseudo_valign();
+				
+				> i {
+					position: relative;
+					top: 1px;
+					font-size: 10px;
+				}
+			}
+		}
+		
+		> .list-wrapper {
+			background: #FFF;
+			border: 1px solid $border_color;
+			border-radius: $border_radius;
+			margin-left: -1px;
+			overflow: hidden;
+			opacity: 1;
+			@include css3(transition, #{border-color $transition_duration, opacity $transition_duration, visibility $transition_duration});
+			
+			> ul.section-list > li .list-section-content-wrapper > ul > li {
+				cursor: pointer;
+
+				&:last-child {
+					border-bottom: none;
+				}
+			}
+			
+			> .not-found {
+				display: none;
+			}
+		}
+	}
+	
+	&.plain_dropdown {
+		$arrow_font_size: $default_dropdown_arrow_font_size;
+		$toggle_button_width: modify_map_value($plain_dropdown_padding, (multiplier: 2, adder: $arrow_font_size));
+		
+		color: $blue;
+		text-align: left;
+		@include em_by_font_size(14);
+		
+		@mixin hover_focused() {
+			border: 1px solid $blue;
+		}
+		
+		&:not(.disabled):hover {
+			@include hover_focused();
+		}
+		
+		&.focused {
+			@include hover_focused();
+			background: #FFF;
+		}
+
+		> .input-wrapper {
+			display: none;
+		}
+		
+		> .selected-wrapper {
+			@extend %plain_dropdown_nav_button;
+			
+			> .selected {
+				color: $blue;
+			}
+
+			> .remove-selection-button {
+				display: none;
+			}
+		}
+		
+		> .list-wrapper {
+			&.show-list {
+				border-color: $blue;
+			}
+			
+			> ul.section-list > li .list-section-content-wrapper > ul > li {
+				&.hover {
+					background: $light_orange;
+					color: $orange;
+				}
+
+				&.selected {
+					background: $orange;
+					color: #FFF;
+				}
+			}
+		}
+
+		&:not(.link_dropdown) > .list-wrapper > ul.section-list > li .list-section-content-wrapper > ul > li {
+			@extend %plain_dropdown_nav_button;
+		}
+
+		&.link_dropdown > .list-wrapper > ul.section-list > li .list-section-content-wrapper > ul > li > a {
+			display: block;
+			@extend %plain_dropdown_nav_button;
+			color: inherit;
+		}
+		
+		@include default_dropdown(
+			$border_color: $dark_off_white,
+			$border_radius: $default_dropdown_border_radius,
+			$arrow_font_size: $arrow_font_size,
+			$toggle_button_width: $toggle_button_width,
+			$transition_duration: 0.2s
+		);
+	}
+
+	&.search_dropdown {
+		$height: $country_dropdown_height;
+		$arrow_font_size: $country_dropdown_arrow_font_size;
+		$left_space: (
+			default: 15px,
+			ipad: 10px,
+			tablet: 8px
+		);
+		$list_vertical_space: (
+			default: 7px,
+			ipad: 5px,
+			tablet: 5px
+		);
+		
+		@include multi_media(height, $height);
+		
+		&.focused {
+			background: $off_white;
+			
+			> .selected-wrapper {
+				display: none;
+			}
+		}
+		
+		&:not(.focused)[data-selected-index]:not([data-selected-index="-1"]) {
+			> .input-wrapper {
+				display: none;
+			}
+		}
+
+		%list_element {
+			> * {
+				@include table_cell();
+			}
+
+			> .text {
+				width: 100%;
+				@include multi_media(padding-left, (
+					default: 10px,
+					ipad: 8px,
+					tablet: 7px
+				));
+				@include media(ipad) {
+					font-size: 0.9em;
+				}
+			}
+		}
+		
+		> .input-wrapper, .selected-wrapper {
+			@include multi_media(padding-left, $left_space);
+		}
+		
+		> .input-wrapper {
+			height: inherit;
+			
+			> input {
+				width: 100%;
+				@include multi_media(line-height, $height);
+				height: inherit;
+			}
+		}
+		
+		> .selected-wrapper {
+			@include absolute_full_cover();
+			
+			> .selected {
+				@extend %list_element;
+				height: inherit;
+			}
+		}
+		
+		> .list-wrapper > ul.section-list > li {
+			$bottom_border_color: $dark_off_white;
+
+			&:not(:last-child) {
+				border-bottom: 3px solid $bottom_border_color;
+			}
+
+			.list-section-content-wrapper > ul > li {
+				@extend %list_element;
+				position: relative;
+
+				@include multi_media(padding, modify_map_value(modify_map_value($list_vertical_space, (suffix: " ")), (suffix: $left_space)));
+				border-bottom: 1px solid $bottom_border_color;
+				z-index: 1;
+				
+				&:before {
+					@include default_before_or_after_css(false);
+					@include absolute_full_cover();
+					background: $light_orange;
+					visibility: hidden;
+					z-index: -1;
+				}
+
+				&.hover, &.selected {
+					background: $light_orange;
+					color: $orange;
+				}
+			}
+		}
+		
+		@include default_dropdown(
+			$border_color: $dark_off_white,
+			$border_radius: $country_dropdown_border_radius,
+			$arrow_font_size: $arrow_font_size,
+			$toggle_button_width: modify_map_value((
+				default: 15px,
+				ipad: 10px
+			), (adder: $arrow_font_size)),
+			$transition_duration: 0.2s
+		);
+	}
+}
+
+@function width_by_margin($margin, $column_count) {
+	@return (100 - $margin * ($column_count - 1)) / $column_count;
+}
+
+[data-column-details] {
+	width: 100%;
+	font-size: 0px;
+	
+	> * {
+		@include inline_valign(top);
+		@extend %body_font_size;
+		text-align: left;
+		box-sizing: border-box;
+		
+		&.last_in_row, &.last {
+			margin-right: 0% !important;
+		}
+		&.last_row {
+			margin-bottom: 0px !important;
+		}
+	}
+	
+	&.center_box {
+		text-align: center;
+	}
+	
+	@mixin set_margin($margin_right) {
+		> * {
+			margin-right: $margin_right;
+			@content;
+		}
+		
+		@for $i from 2 through 5 {
+			&[data-column="#{$i}"] > * {
+				width: width_by_margin($margin_right, $i);
+			}
+		}
+	}
+
+	&[data-column="1"] > * {
+		width: 100%;
+	}
+	
+	$normal_margin: 2%;
+	
+	&.col_type_full {
+		@include set_margin(0%) {
+			margin-bottom: 25px;
+		};
+	}
+	
+	&.col_type_normal {
+		@include set_margin($normal_margin) {
+			margin-bottom: 25px;
+		};
+	}
+	
+	&.col_type_normal2 {		
+		@include set_margin($normal_margin * 2) {
+			margin-bottom: 25px;
+		};
+	}
+
+	@include set_all_media_content((prefix: '&.no_bottom_space_from_', suffix: ' > *'), (
+		margin-bottom: 0px
+	));
+}
+
+@mixin wrapper_negative_outer_margin() {
+	@include multi_media(margin-left margin-right, $wrapper_main_outer_space, (
+		multiplier: -1
+	));
+}
+
+@mixin wrapper_outer_box_inner_padding() {
+	@include multi_media(padding-left padding-right, $wrapper_base_outer_space);
+}
+
+%first_second_column {
+	@include table_with_cell();
+	
+	> :last-child {		
+		> * {
+			display: block;
+			float: right;
+		}
+
+		&:after {
+			@extend .clearfix:after;
+		}
+	}
+}
+
+@mixin link_margin_right() {
+	@include multi_media(margin-right, (
+		default: 20px,
+		ipad: 15px,
+		tablet: 12px
+	));
+	
+	&:last-child {
+		margin-right: 0px;
+	}
+}
+
+%menu_link {
+	&:after {
+		@extend .clearfix:after;
+	}
+	
+	> li {
+		float: left;
+		@include link_margin_right();
+
+		> a {
+			display: block;
+
+			&:before {
+				@include default_before_or_after_css();
+
+				left: 0%;
+				bottom: 0%;
+				width: 100%;
+				background: $dark_off_white;
+				opacity: 0;
+				visibility: hidden;
+			}
+		}
+
+		&.highlight_green > a:before {
+			background: $green;
+		}
+
+		&:hover > a:before {
+			@extend %menu_link_hover;
+		}
+
+		> ul {			
+			position: absolute;
+			left: 0%;
+			top: 100%;
+			width: 100%;
+			min-width: 280px;
+			border-radius: 5px;
+			background: #FFF;
+			box-shadow: 0 3px 8px 0 $shadow_color;
+			overflow: hidden;
+			z-index: 99;
+			opacity: 0;
+			visibility: hidden;
+			@include css3(transform-origin, 50% 0%);
+			@include css3(transform, scale(1, 0));
+			@include css3(transition, 0.3s);
+			
+			> li > a {
+				display: block;
+				padding: 7px 15px;
+				color: $content_color;
+				
+				&:hover {
+					background: $off_white;
+				}
+			}
+		}
+		
+		&:hover > ul {
+			opacity: 1;
+			visibility: visible;
+			@include css3(transform, scale(1, 1));
+		}
+	}
+}
+
+%menu_link_hover {
+	opacity: 1;
+	visibility: visible;
+}
+
+@mixin menu_link($color, $vertical_padding, $hover_background, $before_height) {
+	@extend %menu_link;
+	
+	> li {
+		position: relative;
+
+		> a {
+			color: $color;
+			@include multi_media(padding, $vertical_padding, (suffix: " 0px"));
+
+			&:before {
+				height: $before_height;
+			}
+
+			> i {
+				font-size: 0.8em;
+			}
+		}
+
+		&.active > a:before {
+			@extend %menu_link_hover;
+			background: $hover_background;
+		}
+	}
+}
+
+.main_nav_container {
+	background: $off_white;
+	
+	ul.main_nav {
+		@include menu_link($blue, (default: 15px, ipad: 12px, tablet: 10px), $blue, 2px);
+	}
+}
+
+header {
+	$center_res: mobile;
+
+	font-size: 0px;
+	position: relative;
+	@include multi_media(margin, (
+		default: 20px 0px,
+		ipad: 15px 0px,
+		tablet: 12px 0px
+	));
+
+	@include media($center_res) {
+		@include table_with_cell();
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.million_200_logo_wrapper {
+		$width: (
+			default: 100px,
+			ipad: 90px,
+			tablet: 80px
+		);
+		$default_height: 90px;
+
+		position: absolute;
+		right: 0%;
+		top: 50%;
+		@include add_css_from_map((
+			width: $width,
+			height: modify_map_value($width, (
+				multiplier: 90px / map-get($width, default)
+			))
+		));
+		@include css3(transform, translateY(-50%));
+		z-index: 1;
+
+		@include media($center_res) {
+			position: relative;
+			right: auto;
+			top: auto;
+			@include css3(transform, none);
+			padding-left: 20px;
+		}
+
+		> svg {
+			display: block;
+			width: 100%;
+			height: 100%;
+			overflow: visible;
+		}
+	}
+}
+
+nav, .nav_wrapper {
+	border-bottom: 1px solid $seperator_color;
+}
+
+nav {
+	position: relative;
+	border-top: 1px solid $seperator_color;
+
+	> .wrapper {
+		position: relative;
+	}
+
+	a.button {
+		@extend %plain_dropdown_nav_button;
+
+		display: inline-block;
+		color: $orange;
+		background: #FFF;
+		min-width: 90px;
+		border: 1px solid $orange;
+		box-sizing: border-box;
+		text-align: center;
+		border-radius: $default_dropdown_border_radius;
+
+		@include css3(transition, all 0.2s);
+
+		&:hover {
+			background: $orange;
+			color: #FFF;
+			border-color: #FFF;
+		}
+	}
+	
+	ul.sub_nav {
+		@include menu_link($content_color, (default: 20px, ipad: 18px, tablet: 15px), $orange, 3px);
+	}
+	
+	ul.extra_nav {
+		position: absolute;
+		right: 0%;
+		top: 50%;
+		@include css3(transform, translateY(-50%));
+		z-index: 10;
+
+		> li {
+			@include inline_valign();
+			@include link_margin_right();
+		}
+	}
+
+	.dl-menuwrapper {
+		width: auto;
+		@include wrapper_negative_outer_margin();
+
+		&.sub_nav > button:after {
+			@include multi_media(left, $wrapper_base_outer_space);
+		}
+
+		li a {
+			@include multi_media(padding-left padding-right, $wrapper_base_outer_space);
+		}
+	}
+}
+
+.nav_wrapper ul.inner_sub_nav {
+	@include menu_link($content_color, (default: 15px, ipad: 12px, tablet: 10px), $orange, 2px);
+}
+
+.hidden {
+	display: none !important;
+}
+
+%main_image_wrapper {
+	background-size: cover;
+	background-position: center;
+}
+
+.bg_wrapper {
+	@extend %main_image_wrapper;
+	@include absolute_full_cover();
+	z-index: -1;
+}
+
+.image_wrapper.center_align {
+	text-align: center;
+	box-sizing: border-box;
+	@include pseudo_valign();
+
+	> img {
+		max-width: 100%;
+		max-height: 100%;
+	}
+}
+
+.read_more {
+	color: $orange;
+	text-decoration: underline;
+	
+	> i {
+		@include inline_valign();
+		@include multi_media(margin-left, (
+			default: 7px,
+			ipad: 5px,
+			tablet: 3px
+		));
+		font-size: 0.7em;
+	}
+}
+
+.max_content_width {
+	max-width: 720px;
+}
+
+@mixin set_all_heading() {
+	%orange_heading {
+		color: $orange;
+	}
+	
+	@each $class_name, $css in $all_heading_details {
+		.#{$class_name} {
+			@include add_css_from_map($css);
+			
+			&.orange, .orange {
+				@extend %orange_heading;
+			}
+		}
+	}
+}
+
+//all heading classes and their styles
+
+$all_heading_details: (
+	main_big_heading: (
+		font-size: (
+			default: em_by_font_size(46),
+			ipad: 36px,
+			tablet: 26px
+		)
+	),
+	big_heading: (
+		font-size: (
+			default: em_by_font_size(36),
+			ipad: 32px,
+			tablet: 22px
+		)
+	),
+	medium_heading: (
+		font-size: (
+			default: em_by_font_size(20),
+			ipad: 18px,
+			tablet: 16px
+		)
+	),
+	medium_heading2: (
+		font-size: em_by_font_size(19)
+	),
+	small_heading: (
+		font-size: 1em
+	),
+	normal_content_heading: (
+		font-size: (
+			default: em_by_font_size(24),
+			ipad: 22px,
+			tablet: 20px
+		),
+		padding-bottom: (
+			default: 15px,
+			ipad: 12px,
+			tablet: 10px
+		)
+	),
+	extra_small_heading: (
+		font-size: 0.9em
+	),
+	extra_small_heading2: (
+		font-size: 0.9em,
+		font-family: #{"InterUI-Bold, sans-serif"}
+	)
+);
+
+@include set_all_heading();
+
+.icon_heading_wrapper {
+	@include table_with_cell(top);
+	width: 100%;
+	
+	&.align_middle > * {
+		vertical-align: middle;
+	}
+	
+	> .icon_wrapper {
+		@include multi_media(padding-right, (
+			default: 20px,
+			ipad: 15px,
+			tablet: 12px
+		));
+		
+		> i.big_circle {
+			$size: (
+				default: 50px,
+				ipad: 40px,
+				tablet: 35px
+			);
+			
+			display: block;
+			position: relative;
+			@include add_css_from_map((
+				top: (
+					default: -5px,
+					ipad: -4px,
+					tablet: -3px
+				),
+				font-size: $size,
+				line-height: $size,
+				padding: (
+					default: 15px,
+					ipad: 12px,
+					tablet: 10px
+				),
+				box-shadow: (
+					default: 3px 3px 10px $dark_off_white,
+					ipad: 2px 2px 8px $dark_off_white,
+					tablet: 1px 1px 5px $dark_off_white
+				)
+			));
+			background: $off_white;
+			border-radius: 50%;
+		}
+	}
+	
+	> .main_heading {
+		width: 100%;
+		
+		&.normal_content_heading {
+			padding-bottom: 0px;
+		}
+	}
+}
+
+@mixin pad_and_mar_classes() {
+	$css_space_types: (
+		pad: padding,
+		mar: margin
+	);
+	
+	$css_space_details: (
+		t: top,
+		b: bottom,
+		v: top bottom
+	);
+	
+	@each $name, $value in $space_details {
+		@each $class_prefix, $css_name in $css_space_types {
+			@each $class_type, $css_suffixes in $css_space_details {
+				.#{$class_prefix + $class_type + _ + $name} {
+					@each $css_suffix in $css_suffixes {
+						@include multi_media($css_name + "-" + $css_suffix, $value);
+					}
+				}
+			}
+		}
+	}
+}
+
+//all space keys
+
+$space_details: (
+	big: $content_container_padding,
+	half_big: $half_content_container_padding,
+	normal: (
+		default: 25px,
+		ipad: 20px,
+		tablet: 15px
+	),
+	normal2: (
+		default: 30px,
+		ipad: 25px,
+		tablet: 20px
+	),
+	small: (
+		default: 15px,
+		ipad: 12px,
+		tablet: 10px
+	),
+	small2: (
+		default: 10px,
+		ipad: 8px,
+		tablet: 5px
+	),
+	extra_small: (
+		default: 7px,
+		ipad: 5px,
+		tablet: 3px
+	),
+	extra_small2: (
+		default: 5px,
+		ipad: 4px,
+		tablet: 3px
+	),
+	0: 0px !important
+);
+
+@include pad_and_mar_classes();
+
+.browser_unsupport {
+	text-align: center;
+
+	@include multi_media(padding-left padding-right, (
+		default: 10px,
+		ipad: 8px,
+		tablet: 6px
+	));
+
+	> h1 {
+		color: $blue;
+	}
+
+	> ul.browser_list {
+		display: table;
+		margin: 0 auto;
+
+		 > li {
+			float: left;
+			min-width: 80px;
+
+			&:not(:last-child) {
+				@include multi_media(padding-bottom, map-get($space_details, small2));
+			}
+
+			> .browser_wrapper > * {
+				$size: 50px;
+
+				width: $size;
+				height: $size;
+				margin: 0 auto;
+				background: url(../images/all-browser-logos.png) no-repeat center;
+
+				$all_logos_order: chrome, edge, firefox, ie, safari;
+				$all_logos_count: length($all_logos_order);
+
+				@for $i from 1 through $all_logos_count {
+					&.#{nth($all_logos_order, $i)} {
+						background-position: (($i - 1) / ($all_logos_count - 1)) * 100% 0%;
+					}
+				}
+			}
+
+			> span {
+				display: block;
+				@include em_by_font_size(12);
+				@include multi_media(padding-top, (
+					default: 10px,
+					ipad: 8px,
+					tablet: 6px
+				));
+			}
+		}
+	}
+}
+
+.banner_heading_wrapper, .multi_type_heading_wrapper {
+	.read_more {
+		display: inline-block;
+		@include multi_media(font-size, (
+			default: em_by_font_size(18),
+			ipad: 16px
+		));
+	}
+}
+
+.tab_container {
+	$tab_wrapper_background: $off_white;
+	$border: 1px solid $dark_off_white;
+	$full_width_res_key: tablet;
+
+	@include media($full_width_res_key) {
+		@include wrapper_negative_outer_margin();
+	}
+
+	@mixin wrapper_outer_box_inner_padding_with_media() {
+		@include media($full_width_res_key) {
+			@include wrapper_outer_box_inner_padding();
+		}
+	}
+
+	> .button_list_wrapper {
+		@include wrapper_outer_box_inner_padding_with_media();
+
+		> .button_list {
+			position: relative;
+			top: 1px;
+			border-left: $border;
+			z-index: 2;
+
+			.button {
+				&%transition {
+					@include css3(transition, all 0.3s);
+				}
+
+				position: relative;
+				border-top: $border;
+				border-right: $border !important;
+				font-family: InterUI-Bold, sans-serif;
+				color: $light_content_color;
+				@include multi_media(padding, (
+					default: 10px 20px,
+					ipad: 7px 15px,
+					tablet: 5px 10px
+				));
+				cursor: pointer;
+				@extend %transition;
+
+				&:before, &:after {
+					@include default_before_or_after_css();
+					left: 0%;
+					width: 100%;
+					opacity: 0;
+					visibility: hidden;
+					@extend %transition;
+				}
+
+				&%visible {
+					opacity: 1;
+					visibility: visible;
+				}
+
+				&:hover, &.active {
+					&:before {
+						@extend %visible;
+					}
+				}
+
+				&:before {
+					top: 0%;
+					height: 2px;
+					background: $dark_off_white;
+				}
+
+				&:after {
+					bottom: 0px;
+					height: 1px;
+					background: $tab_wrapper_background;
+				}
+
+				&.active {
+					background: $tab_wrapper_background;
+					color: $content_color;
+
+					&:before {
+						background: $orange;
+					}
+
+					&:after {
+						@extend %visible;
+					}
+				}
+
+				&.vdash:before {
+					background: $vdash_color !important;
+				}
+			}
+
+			&.owl-carousel > .owl-nav > * {
+				$arrow_fallback_background: #FFF;
+				$gradient: rgba(255, 255, 255, 0) 0%, $arrow_fallback_background 50%;
+				$hor_pos: 10%;
+
+				position: absolute;
+				top: -1px;
+				width: 40px;
+				height: 100%;
+				outline: none;
+				opacity: 1;
+				visibility: visible;
+				@include css3(transition, all 0.3s);
+
+				&.disabled {
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				&:before {
+					display: block;
+					position: absolute;
+					top: 50%;
+					color: $blue;
+				}
+
+				&.owl-prev {
+					left: -1px;
+					@include linear_gradient(#FFF, to left, $gradient);
+
+					&:before {
+						left: $hor_pos;
+						transform: translateY(-50%) rotate(180deg);
+					}
+				}
+
+				&.owl-next {
+					right: -1px;
+					@include linear_gradient(#FFF, to right, $gradient);
+
+					&:before {
+						right: $hor_pos;
+						transform: translateY(-50%);
+					}
+				}
+			}
+		}
+	}
+
+	> .tab_wrapper {
+		position: relative;
+		background: $tab_wrapper_background;
+		border: $border;
+		box-sizing: border-box;
+
+		@include media($full_width_res_key) {
+			border-left: none;
+			border-right: none;
+		}
+		
+		> .tab {
+			@extend %component_fade_transition;
+			@include multi_media(padding, map-get($space_details, normal));
+			@include wrapper_outer_box_inner_padding_with_media();
+
+			&.vdash {
+				@include multi_media(padding-bottom, map-get($space_details, small));
+				overflow: hidden;
+			}
+		}
+	}
+}
+
+%dropdown_form_box {
+	background: #FFF;
+	box-shadow: 0px 3px 8px $shadow_color;
+	border-bottom: 3px solid $orange;
+	box-sizing: border-box;
+	
+	@include multi_media(padding, map-get($space_details, normal));
+
+	@include media(ipad) {
+		border-bottom-width: 2px;
+	}
+}
+
+.drp_form_container {
+	$font_size: em_by_font_size(18);
+	$two_line_align_res: big_laptop;
+	$button_bottom_position_res: small_tablet;
+	$dropdowns_align_vertically_res: big_mobile;
+
+	&.box {
+		@extend %dropdown_form_box;
+
+		> .drp_form_wrapper {
+			margin: 0 auto;
+
+			@include multi_media(padding, (
+				default: 10px 0px,
+				$two_line_align_res: 0px
+			));
+		}
+	}
+
+	&.hide_headings > .drp_form_wrapper > .drp_container > .drp_wrapper > h5 {
+		display: none !important;
+	}
+
+	> .drp_form_wrapper {
+		@include table_with_cell() {
+			@include media($two_line_align_res) {
+				vertical-align: bottom;
+			}
+
+			@include media($button_bottom_position_res) {
+				display: block;
+			}
+		}
+
+		$mobile_dropdown_top_space: 15px;
+		$right_padding: map-get($space_details, normal);
+
+		@include media($dropdowns_align_vertically_res) {
+			width: 100%;
+			max-width: 320px;
+			box-sizing: border-box;
+		}
+		
+		> .drp_container > .drp_wrapper {
+			@include table_cell();
+			color: $content_color;
+
+			@include media($dropdowns_align_vertically_res) {
+				display: block;
+			}
+
+			@include multi_media(padding-right, $right_padding);
+
+			@include media($button_bottom_position_res) {
+				&:last-child {
+					padding-right: 0px;
+				}
+			}
+
+			@include media($dropdowns_align_vertically_res) {
+				padding-right: 0px;
+
+				&:not(:first-child) {
+					padding-top: $mobile_dropdown_top_space;
+				}
+			}
+			
+			> * {
+				@include inline_valign();
+
+				@include media($two_line_align_res) {
+					display: block;
+				}
+			}
+
+			> h5 {
+				$bottom_space: map-get($space_details, extra_small);
+				
+				@include add_css_from_map((
+					font-size: (
+						default: $font_size,
+						ipad: 1em
+					),
+					padding-bottom: map-merge((
+						$two_line_align_res: map-get($bottom_space, default)
+					), map-merge($bottom_space, (
+						default: 0px
+					))),
+					padding-right: $right_padding
+				));
+			}
+			
+			> .autocomplete-search-box {
+				@include multi_media(width, (
+					default: 270px,
+					ipad: 240px,
+					tablet: 220px
+				));
+
+				@include media($dropdowns_align_vertically_res) {
+					width: 100%;
+				}
+
+				box-sizing: border-box;
+
+				&.invalid {
+					animation: shake 1s;
+				}
+
+				@include create_shake_animation(shake, (
+					type: 'out',
+					values: create_sequence(1px, 30px, 1.5),
+					peak_count: 3
+				)) {
+					0%, 100% {
+						background: transparent;
+					}
+					50% {
+						background: $dark_off_white;
+					}
+				};
+			}
+		}
+		
+		> .button_wrapper {
+			@include multi_media(padding-top, (
+				$button_bottom_position_res: 20px,
+				$dropdowns_align_vertically_res: $mobile_dropdown_top_space
+			));
+
+			> a {
+				display: block;
+				
+				@include add_css_from_map((
+					width: (
+						default: 80px,
+						ipad: 70px,
+						tablet: 50px
+					),
+					height: $country_dropdown_height
+				));
+				background: $orange;
+				color: #FFF;
+				text-align: center;
+				font-size: $font_size;
+				margin: 0 auto;
+				border-radius: $country_dropdown_border_radius;
+				cursor: pointer;
+				
+				@include pseudo_valign($set_0_font_size: false);
+			}
+		}
+	}
+}
+
+ul.other_service_boxes > li > a {
+	display: block;
+	box-shadow: 1px 1px 5px $shadow_color;
+	@include multi_media(padding, map-get($space_details, small));
+	color: inherit;
+	box-sizing: border-box;
+
+	&[href] {
+		@include css3(transition, all 0.3s);
+
+		&:hover {
+			background: $off_white;
+		}
+	}
+
+	> .image_wrapper {
+		width: 70px;
+		height: 50px;
+		background: #FFF;
+		border: 1px solid $dark_off_white;
+		border-radius: 7px;
+		@include multi_media(padding, map-get($space_details, extra_small2));
+	}
+
+	> .icon_heading_wrapper > .icon_wrapper {
+		padding-right: 5px;
+	}
+}
+
+ul.other_government_services {
+	@extend %dropdown_form_box;
+}
+
+ul.tourism_services {
+	@extend %dropdown_form_box;
+}
+
+.vdash_widget {
+	> .main_heading_wrapper {
+		@extend %body_font_size;
+		position: relative;
+		background: #FFF;
+		@include multi_media(padding, map-get($space_details, normal));
+		padding-bottom: 0px !important;
+
+		> .icon_heading_wrapper {
+			@include multi_media(padding-bottom, map-get($space_details, small2));
+			border-bottom: 2px solid $dark_off_white;
+
+			> .icon_wrapper {
+				@include multi_media(padding-right, map-get($space_details, small2));
+
+				> i {
+					$size: 12px;
+
+					display: block;
+					width: $size;
+					height: $size;
+					font-size: $size;
+					border-radius: 50%;
+					border: 1px solid $content_color;
+					text-align: center;
+					@include multi_media(padding, map-get($space_details, extra_small2));
+				}
+			}
+		}
+	}
+
+	> iframe {
+		$margin: 20px;
+
+		display: block;
+		@extend %custom_scroll_theme;
+
+		width: calc(100% + #{$margin * 2});
+		@include multi_media(height, (
+			default: 296px,
+			875: 510px,
+			484: 531px,
+			474: 548px,
+			367: 570px,
+			311: 592px,
+			300: 614px,
+			267: 631px
+		));
+		border: none;
+		margin: -$margin;
+		
+	}
+}
+
+ul.step_heading_container_list {
+	position: relative;
+
+	> li {
+		background: #FFF;
+		@extend %component_fade_transition;
+	}
+}
+
+img.ad_banner {
+	display: block;
+	max-width: 100%;
+}
+
+.breadcrumb {
+	background: $off_white;
+	padding: 7px 0px;
+	
+	%inline_valign {
+		@include inline_valign();
+	}
+	
+	ul > li {
+		@extend %inline_valign;
+		@include em_by_font_size(14);
+		color: $light_content_color;
+		
+		> a {
+			@extend %inline_valign;
+			color: inherit;
+			text-decoration: underline;
+		}
+		
+		> i {
+			@extend %inline_valign;
+			position: relative;
+			top: 1px;
+			font-size: 0.7em;
+			margin: 0px 7px;
+		}
+		
+		&:last-child {
+			color: $content_color;
+			
+			&:after {
+				display: none;
+			}
+		}
+	}
+	
+	.banner_container & {
+		position: absolute;
+		left: 0%;
+		top: 0%;
+		width: 100%;
+		background: rgba($blue, 0.5);
+		
+		ul > li {
+			color: rgba(#FFF, 0.7);
+			
+			&:last-child {
+				color: #FFF;
+			}
+		}
+	}
+}
+
+%link_li {
+	display: inline-block;
+	padding-bottom: 5px;
+
+	&.show_from_small_ipad {
+		@include media(small_ipad) {
+			display: inline-block !important;
+		}
+	}
+
+	&:last-child {
+		margin-right: 0px;
+	}
+}
+
+@mixin link_li($margin, $link_color, $font_size: false, $include_text_decoration: true) {
+	@extend %link_li;
+	@include multi_media(margin-right, $margin);
+	
+	a {
+		color: $link_color;
+
+		@if $include_text_decoration {
+			text-decoration: underline;
+		}
+
+		@if $font_size != false {
+			font-size: $font-size;
+		}
+	}
+}
+		
+ul.icons { 
+	$height: 20px;
+	line-height: $height;
+	height: $height;
+
+	> li {
+		@include link_li(15px, $light_content_color, $height, false);
+		padding-bottom: 0px;
+
+		&:last-child {
+			margin-right: 0px;
+		}
+	}
+}
+
+.share_wrapper {
+	@include multi_media(padding-bottom, (
+		default: 20px,
+		ipad: 15px,
+		tablet: 12px
+	));
+
+	> ul.icons {
+		text-align: right;
+	}
+}
+
+.banner_container {
+	position: relative;
+	z-index: 1;
+	
+	@include multi_media(height, (
+		default: 385px,
+		extra_big: 620px,
+		ipad: 320px,
+		tablet: 280px
+	));
+	
+	> .wrapper {
+		position: relative;
+		height: inherit;
+	}
+	
+	.main_content_wrapper {
+		position: absolute;
+		left: 0%;
+		bottom: 0%;
+		width: 100%;
+		box-sizing: border-box;
+		
+		.banner_heading_wrapper {
+			color: #FFF;
+			
+			a {
+				color: inherit;
+				text-decoration: underline;
+			}
+		}
+	}
+	
+	&.normal {
+		@include multi_media(height, (
+			default: 600px,
+			extra_big: 900px,
+			ipad: 420px,
+			tablet: 380px
+		));
+	}
+}
+	
+.heading_link_wrapper {
+	@extend %first_second_column;
+	width: 100%;
+	
+	> .heading_wrapper > .normal_content_heading {
+		padding: 0px;
+	}
+
+	> .link_wrapper {
+		@include multi_media(padding-left, (
+			default: 20px,
+			ipad: 15px,
+			tablet: 12px
+		));
+		white-space: nowrap;
+	}
+}
+	
+ul.accordion > li {
+	> .button_wrapper {
+		cursor: pointer;
+
+		> .heading_wrapper {
+			width: 100%;
+		}
+		
+		.read_more > i {
+			@include css3(transition, all 0.3s);
+		}
+	}
+	
+	> .content_wrapper {
+		display: none;
+		
+		> .main_content_wrapper {
+			position: relative;
+			@include multi_media(padding-top, $seperator_medium_space, (multiplier: 2))
+			
+			&:before {
+				@include default_before_or_after_css();
+				left: 0%;
+				@include multi_media(top, $seperator_medium_space);
+				width: 100%;
+				height: 1px;
+				background: $seperator_color;
+			}
+		}
+	}
+	
+	&.active > .button_wrapper .read_more > i {
+		@include css3(transform, rotate(180deg));
+	}
+}
+	
+ul.bottom_seperator_list {
+	> li {
+		border-bottom: 1px solid $seperator_color;
+		
+		&:last-child {
+			padding-bottom: 0px !important;
+			border-bottom: none !important;
+			margin-bottom: 0px !important;
+		}
+	}
+	
+	@mixin set_space_class($class_name) {
+		&.#{$class_name} > li, > li.#{$class_name} {
+			@content;
+		}
+	}
+	
+	@include set_space_class(small) {
+		@include multi_media(("padding-bottom" "margin-bottom"), (
+			default: 20px,
+			ipad: 15px,
+			tablet: 12px
+		));
+	}
+	
+	@include set_space_class(medium) {
+		@include multi_media(("padding-bottom" "margin-bottom"), $seperator_medium_space);
+	}
+	
+	@include set_space_class(large) {
+		@include multi_media(("padding-bottom" "margin-bottom"), $half_content_container_padding);
+	}
+	
+	@include set_space_class(extra_large) {
+		@include add_css_from_map((
+			padding-bottom: $content_container_padding,
+			margin-bottom: $half_content_container_padding
+		));
+	}
+	
+	@include set_space_class(extra_large2) {
+		@include multi_media(("padding-bottom" "margin-bottom"), $content_container_padding);
+	}
+}
+
+.content_container {	
+	@include multi_media(padding, $content_container_padding, (suffix: " 0px"));
+	
+	%big_content_font {
+		@include multi_media(font-size, (
+			default: em_by_font_size(18),
+			ipad: 16px,
+			tablet: 15px
+		));
+		line-height: 1.75;
+	}
+	
+	%orange_link {
+		color: $orange;
+		text-decoration: underline;
+	}
+	
+	p {
+		@extend %big_content_font;
+		
+		a {
+			@extend %orange_link;
+		}
+
+		&.dim_highlight {
+			font-size: 0.9em;
+			color: $light_content_color;
+		}
+	}
+	
+	%content_el_bottom_space {
+		@include multi_media(padding-bottom, (
+			default: 20px,
+			ipad: 15px,
+			tablet: 12px
+		));
+	}
+	
+	&.normal p {
+		@extend %content_el_bottom_space;
+	}
+	
+	%simple_list {
+		@extend %big_content_font;
+		@extend %content_el_bottom_space;
+		@include multi_media(margin-left, (
+			default: 30px,
+			ipad: 25px,
+			tablet: 20px
+		));
+		
+		> li {
+			@include add_css_from_map((
+				padding-bottom: (
+					default: 10px,
+					ipad: 8px,
+					tablet: 6px
+				),
+				padding-left: (
+					default: 7px,
+					ipad: 5px,
+					tablet: 3px
+				)
+			));
+			
+			&:last-child {
+				padding-bottom: 0px;
+			}
+			
+			a {
+				@extend %orange_link;
+			}
+		}
+	}
+	
+	ul.simple_list {
+		@extend %simple_list;
+		list-style-type: disc;
+	}
+	
+	ol.simple_list {
+		@extend %simple_list;
+	}
+	
+	.main_image_wrapper {
+		@extend %main_image_wrapper;
+		background-color: $dark_off_white;
+		@include multi_media(height, (
+			default: 500px,
+			ipad: 400px,
+			tablet: 320px
+		));
+	}
+	
+	ul.side_seperator_list {
+		> li {
+			border-left: 1px solid $seperator_color;
+			
+			@include multi_media(padding-left, (
+				default: 30px,
+				ipad: 25px,
+				tablet: 20px
+			));
+		}
+		
+		&.small > li {
+			@include multi_media(padding-left, (
+				default: 25px,
+				ipad: 20px,
+				tablet: 15px
+			));
+			padding-right: 7%;
+		}
+
+		&.responsive_center > li {
+			@include media(small_tablet) {
+				padding-left: 10px;
+			}
+
+			@include media(big_mobile) {
+				&:first-child {
+					padding-left: 0px;
+					border-left: none;
+				}
+
+				> * {
+					max-width: 100px;
+					margin: 0 auto;
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	.step_details > .step_heading_wrapper {
+		@include media(small_ipad) {
+			@include table_with_cell() {
+				padding-bottom: 0px !important;
+			};
+		}
+
+		> *:not(:first-child) {
+			@include multi_media(padding-left, (
+				small_ipad: 12px,
+				tablet: 10px
+			));
+		}
+	}
+
+	.side_heading_details_wrapper {
+		$details_width: 66.66%;
+
+		position: relative;
+		
+		> * {
+			float: left;
+			box-sizing: border-box;
+
+			@include media(small_tablet) {
+				float: none;
+			}
+		}
+
+		> .multi_small_heading_wrapper {
+			@extend %responsive_auto_width;
+			width: 100 - $details_width;
+
+			@include multi_media(padding-right, (
+				default: 25px,
+				ipad: 20px,
+				tablet: 15px,
+				small_tablet: 0px
+			));
+
+			@include media(small_tablet) {
+				background: $off_white;
+				padding: 5px 10px;
+			}
+		}
+
+		> .details {
+			@extend %responsive_auto_width;
+			width: $details_width;
+
+			> .main_image_wrapper {
+				@include multi_media(height, (
+					default: 250px,
+					ipad: 220px,
+					tablet: 200px
+				));
+			}
+
+			> .read_more {
+				display: inline-block;
+				@include multi_media(margin-top, (
+					default: 15px,
+					ipad: 12px,
+					tablet: 10px
+				));
+			}
+		}
+
+		%responsive_auto_width {
+			@include media(small_tablet) {
+				width: auto;
+			}
+		}
+	}
+
+	.big_button > a {
+		display: block;
+
+		@include add_css_from_map((
+			border-radius: (
+				default: 7px,
+				ipad: 5px,
+				tablet: 3px
+			),
+			padding: (
+				default: 15px,
+				ipad: 12px,
+				tablet: 10px
+			),
+			font-size: (
+				default: em_by_font_size(18),
+				ipad: 16px,
+				tablet: 15px
+			)
+		));
+		border: 1px solid $dark_off_white;
+		color: $content_color;
+		text-align: center;
+		text-decoration: none;
+		@include css3(transition, all 0.3s);
+
+		&:hover {
+			background: $dark_off_white;
+		}
+	}
+	
+	.main_image_wrapper.main_banner_image {
+		@include multi_media(height, (
+			default: 400px,
+			big: 450px,
+			extra_big: 520px,
+			ipad: 320px,
+			tablet: 250px
+		));
+
+		&.big {
+			@include multi_media(height, (
+				default: 500px,
+				big: 580px,
+				extra_big: 670px,
+				ipad: 400px,
+				tablet: 320px
+			));
+		}
+	}
+	
+	.section_info {
+		@include add_css_from_map((
+			border-radius: (
+				default: 8px,
+				ipad: 5px,
+				tablet: 4px
+			),
+			padding: (
+				default: 25px,
+				ipad: 20px,
+				tablet: 15px
+			)
+		));
+		border: 1px solid $orange;
+	}
+	
+	ul.inline_images > li {
+		@include inline_valign();
+		margin-right: 10px;
+		
+		&:last-child {
+			margin-right: 0px;
+		}
+	}
+	
+	.image_caption_wrapper > .caption_wrapper {
+		@include multi_media(padding, (
+			default: 10px,
+			ipad: 8px,
+			tablet: 6px
+		));
+		background: $off_white;
+		line-height: 1.7;
+		
+		> h6 {
+			@include em_by_font_size(21);
+			padding-bottom: 10px;
+		}
+	}
+	
+	.side_line_content {
+		border: 0px solid $orange;
+
+		@include add_css_from_map((
+			font-size: (
+				default: em_by_font_size(21),
+				ipad: 19px,
+				tablet: 18px
+			),
+			padding-left: (
+				default: 25px,
+				ipad: 20px,
+				tablet: 17px
+			),
+			border-left-width: (
+				default: 7px,
+				ipad: 5px,
+				tablet: 3px
+			)
+		));
+
+		line-height: 1.5;
+		box-sizing: border-box;
+		
+		a {
+			@extend %orange_link;
+		}
+	}
+	
+	.image_short_info_wrapper {
+		> .short_info_wrapper > .read_more {
+			display: inline-block;
+		}
+		
+		&.extra_large > .short_info_wrapper {
+			@include multi_media(padding-top, (
+				default: 30px,
+				ipad: 25px,
+				tablet: 20px
+			));
+		}
+		
+		&.normal {
+			> .short_info_wrapper {
+				background: $off_white;
+				@include multi_media(padding, (
+					default: 25px,
+					ipad: 20px,
+					tablet: 15px
+				));
+			}
+			
+			> .main_image_wrapper {
+				@include multi_media(height, (
+					default: 170px,
+					big: 200px,
+					extra_big: 220px,
+					ipad: 150px
+				));
+			}
+			
+			> .short_info_wrapper {
+				@include em_by_font_size(14);
+				
+				> .read_more {
+					@include multi_media(margin-top, (
+						default: 15px,
+						ipad: 12px,
+						tablet: 10px
+					));
+				}
+			}
+		}
+		
+		&.no_back_color {
+			@include media(small_tablet) {
+				max-width: 320px;
+				margin: 0 auto;
+			}
+
+			> .main_image_wrapper {
+				@include multi_media(height, (
+					default: 300px,
+					big: 400px,
+					ipad: 250px
+				));
+			}
+			
+			> .short_info_wrapper {
+				@include media(small_tablet) {
+					padding: 12px;
+					background: $off_white;
+				}
+
+				@include multi_media(padding-top, (
+					default: 25px,
+					ipad: 20px,
+					tablet: 15px
+				));
+				
+				> .read_more {
+					@include multi_media(margin-top, (
+						default: 5px,
+						ipad: 4px,
+						tablet: 3px
+					));
+				}
+			}
+		}
+	}
+	
+	.side_image_content_wrapper {
+		direction: rtl;
+		
+		@include table_with_cell(top) {
+			direction: ltr;
+
+			@include media(tablet) {
+				display: block;
+			}
+		}
+		
+		> .image_wrapper {
+			> img {
+				display: block;
+				margin: 0 auto;
+				@include media(ipad) {
+					max-width: 220px;
+				}
+			}
+			
+			&.max_medium_width > img {
+				@include multi_media(max-width, (
+					default: 350px,
+					ipad: 260px
+				));
+			}
+		}
+		
+		> .content_wrapper {
+			width: 100%;
+			@include add_css_from_map((
+				padding-right: (
+					default: 50px,
+					ipad: 40px,
+					tablet: 0px
+				),
+				padding-top: (
+					tablet: 10px
+				)
+			));
+		}
+	}
+	
+	.other_info_box_carousel.owl-carousel {
+		position: relative;
+		
+		> .owl-nav {
+			position: absolute;
+			right: 0%;
+			@include multi_media(top, $half_content_container_padding, (prefix: "-"));
+			@include css3(transform, translateY(-100%));
+			
+			> * {
+				$size: (
+					default: 35px,
+					ipad: 30px,
+					tablet: 25px
+				);
+				$color: $blue;
+				
+				@include inline_valign();
+				@include add_css_from_map((
+					width: $size,
+					height: $size,
+					font-size: (
+						default: 21px,
+						ipad: 18px,
+						tablet: 16px
+					)
+				));
+				background: none;
+				padding: 0;
+				text-align: center;
+				border-radius: 50%;
+				outline: none;
+				box-sizing: border-box;
+
+				border: 2px solid $color;
+				color: $color;
+				@include css3(transition, all 0.3s);
+				
+				&.owl-prev {
+					margin-right: 10px;
+					@include css3(transform, rotate(180deg));
+				}
+				
+				&.disabled {
+					cursor: auto;
+					opacity: 0.3;
+				}
+			}
+		}
+		
+		&.far_owl_nav > .owl-nav {
+			top: -50px;
+		}
+		
+		.owl-item img {
+			width: auto;
+		}
+	}
+	
+	.grey_box {
+		display: block;
+		background: $off_white;
+		color: $content_color;
+		@include multi_media(padding, (
+			default: 25px,
+			ipad: 20px,
+			tablet: 15px
+		));
+		box-sizing: border-box;
+		@include css3(transition, all 0.3s);
+	}
+	
+	a.grey_box {
+		.read_more {
+			color: $content_color;
+		}
+		
+		&:hover {
+			background: #FFF;
+			box-shadow: 0 3px 8px 0 $shadow_color;
+			
+			.read_more {
+				color: $orange;
+			}
+		}
+	}
+	
+	.icon_details_wrapper {
+		> .icon_wrapper {
+			$size: (
+				default: 50px,
+				ipad: 40px,
+				tablet: 35px
+			);
+
+			@include multi_media(height, $size);
+			
+			> i {
+				@include multi_media(("font-size" "line-height"), $size);
+			}
+		}
+		
+		> .details_wrapper {
+			@include table_with_cell(bottom);
+			@include add_css_from_map((
+				margin-top: (
+					default: 15px,
+					ipad: 12px,
+					tablet: 10px
+				),
+				min-height: (
+					default: 120px,
+					ipad: 100px,
+					tablet: 80px
+				)
+			));
+			
+			.read_more {
+				@include inline_valign();
+				margin-top: 15px;
+			}
+		}
+	}
+
+	ul.stats_list > li {
+		text-align: center;
+
+		@include media(small_mobile) {
+			margin-bottom: 5px;
+		}
+
+		> .stats {
+			$size: (
+				default: 150px,
+				ipad: 125px,
+				tablet: 110px,
+				extra_small_mobile: 100px
+			);
+			$default_size: map-get($size, default);
+
+			@include inline_valign();
+			position: relative;
+			@include multi_media(("width" "height"), $size);
+			color: #FFF;
+			border-radius: 50%;
+
+			@mixin set_calculated_font_size($font_size_in_px) {
+				@include multi_media(font-size, modify_map_value($size, (multiplier: $font_size_in_px / $default_size, round: true)));
+			}
+
+			> i {
+				position: absolute;
+				right: convert_to_percent(20px / $default_size);
+				top: convert_to_percent(20px / $default_size);
+				@include set_calculated_font_size(50px);
+			}
+
+			> h4 {
+				position: absolute;
+				left: 0%;
+				width: 100%;
+				@include set_calculated_font_size(16px);
+				font-family: Georgia;
+				padding: 0% convert_to_percent(10px / $default_size);
+				text-align: center;
+				box-sizing: border-box;
+
+				> span {
+					display: block;
+
+					&.count {
+						@include set_calculated_font_size(36px);
+					}
+				}
+			}
+
+			&%blue_back {
+				background: $blue;
+
+				> h4 > .count {
+					color: $orange;
+				}
+			}
+
+			&%orange_back {
+				background: $orange;
+
+				> h4 > .count {
+					color: $blue;
+				}
+			}
+
+			&%standard_icon_heading {			
+				> h4 {
+					top: convert_to_percent(55px / $default_size);
+				}
+			}
+
+			&%standard_icon_double_line_heading {
+				@extend %standard_icon_heading;
+
+				> h4 > .count {
+					margin-bottom: convert_to_percent(7px / $default_size);
+				}
+			}
+
+			&.application_centres {
+				@extend %blue_back;
+				@extend %standard_icon_double_line_heading;
+
+				> h4 > .count {
+					margin-right: convert_to_percent(50px / $default_size);
+				}
+			}
+
+			&.operation_countries {
+				@extend %orange_back;
+				@extend %standard_icon_double_line_heading;
+
+				> h4 > .count {
+					margin-right: convert_to_percent(30px / $default_size);
+				}
+			}
+
+			&.continents {
+				@extend %blue_back;
+				@extend %standard_icon_heading;
+
+				> h4 > .count {
+					margin-bottom: convert_to_percent(15px / $default_size);
+				}
+			}
+
+			&.client_governments {
+				@extend %orange_back;
+
+				> h4 {
+					top: 20%;
+
+					> .count {
+						margin-right: convert_to_percent(45px / $default_size);
+						margin-bottom: convert_to_percent(15px / $default_size);
+					}
+				}
+			}
+
+			&.applications_in_millions {
+				@extend %blue_back;
+
+				> h4 {
+					top: 20%;
+
+					> .prefix {
+						margin-right: convert_to_percent(35px / $default_size);
+					}
+
+					> .count {
+						margin-right: convert_to_percent(50px / $default_size);
+						margin-bottom: convert_to_percent(3px / $default_size);
+					}
+				}
+			}
+		}
+	}
+	.footprint_container > iframe {
+		overflow: hidden;
+		min-height: 550px;
+		transition: all 0.5s;
+
+		@include multi_media(height, (
+			default: 1200px,
+			small_desktop: 590px
+		));
+		
+		@include wrapper_negative_outer_margin();
+
+		@include multi_media(width, $wrapper_main_outer_space, (
+			multiplier: 2,
+			adder: 100%
+		));
+
+		@include media(-$wrapper_max_width) {
+			width: 100%;
+			margin: 0 auto;
+		}
+		@include media(ipad) {
+			margin-top: 0px !important;
+		}
+	}
+	
+	.milestones_container {
+		$main_size: (
+			default: 700px,
+			ipad: 600px
+		);
+		$tablet_main_size: 500px;
+		$complete_main_size: map-merge($main_size, (
+			tablet: $tablet_main_size
+		));
+		$hidden_part: get_percent(65);
+		$shadow_blur: (
+			default: 30px,
+			ipad: 20px
+		);
+		$tablet_shadow_blur: 15px;
+		
+		position: relative;
+
+		> .dropdown_wrapper {
+			text-align: center;
+
+			> .autocomplete-search-box {
+				width: 100%;
+				max-width: 300px;
+				text-align: center;
+
+				> .selected-wrapper {
+					padding-left: 0px;
+					padding-right: $custom_scroll_width;
+				}
+			}
+		}
+		
+		> .line {
+			position: absolute;
+			left: 0%;
+			top: 0%;
+
+			$thickness: (
+				default: 3px,
+				ipad: 2px
+			);
+			$shadow_offset: -1px;
+			$common_shadow_suffix: " 1px " + $dark_shadow_color;
+			$shadow_suffix: modify_map_value((
+				default: 10px,
+				ipad: 7px
+			), (
+				suffix: $common_shadow_suffix
+			));
+			$tablet_shadow_suffix: 5px + $common_shadow_suffix;
+
+			@include add_css_from_map((
+				width: map-merge($thickness, (
+					big_tablet: 100%
+				)),
+				height: (
+					default: 100%,
+					big_tablet: map-get($thickness, ipad)
+				),
+				box-shadow: map-merge(
+					modify_map_value($shadow_suffix, (
+						prefix: $shadow_offset + " 0px "
+					)),
+					(
+						big_tablet: #{"0px " + $shadow_offset + " " + map-get($shadow_suffix, ipad)},
+						tablet: #{"0px " + $shadow_offset + " " + $tablet_shadow_suffix}
+					)
+				)
+			));
+		}
+		
+		> .xy_dragger_container {
+			$dragger_container_size_multiplier: 0.75;
+			$dragger_container_size: modify_map_value($main_size, (
+				multiplier: $dragger_container_size_multiplier
+			));
+			$center_pos_multiplier: -0.5;
+			$tablet_dragger_container_size: $tablet_main_size *  $dragger_container_size_multiplier;
+			
+			position: absolute;
+			@include add_css_from_map((
+				left: (
+					default: 0%,
+					big_tablet: auto
+				),
+				right: (
+					big_tablet: 50%
+				),
+				top: (
+					default: 50%,
+					big_tablet: 0%
+				),
+				margin-top: map-merge(
+					modify_map_value($dragger_container_size, (
+						multiplier: $center_pos_multiplier,
+					)), (
+						big_tablet: 0px
+					)
+				),
+				margin-right: (
+					big_tablet: map-get($dragger_container_size, ipad) * $center_pos_multiplier,
+					tablet: $tablet_dragger_container_size * $center_pos_multiplier
+				),
+				width: (
+					default: 0px,
+					big_tablet: map-get($dragger_container_size, ipad),
+					tablet: $tablet_dragger_container_size
+				),
+				height: map-merge($dragger_container_size, (
+					big_tablet: 0px
+				))
+			));
+			z-index: 2;
+			
+			> .xy_dragger {
+				$dragger_width: 25px;
+				$dragger_height: 10px;
+				$half_dragger_height: $dragger_height / 2;
+				
+				$dragger_top: -$half_dragger_height;
+				
+				width: 0px;
+				height: 0px;
+				position: relative;
+				z-index: 2;
+				
+				&:before {
+					@include default_before_or_after_css();
+					left: 0%;
+					top: $dragger_top;
+					width: $dragger_width;
+					height: $dragger_height;
+					background: $dark_shadow_color;
+					border-radius: 0px $half_dragger_height $half_dragger_height 0px;
+
+					@include media(big_tablet) {
+						@include css3(transform-origin, 0% 50%);
+						@include css3(transform, rotate(90deg));
+					}
+				}
+				
+				&:after {
+					$line_width: get_percent(80);
+					
+					$line_width: $dragger_width * $line_width;
+					
+					@include default_before_or_after_css();
+					left: 0%;
+					top: $dragger_height / 2 + $dragger_top;
+					width: $line_width;
+					height: 1px;
+					background: $off_white;
+					@include css3(transform, translateY(-50%));
+
+					@include media(big_tablet) {
+						@include css3(transform-origin, 0% 50%);
+						@include css3(transform, translateY(-50%) rotate(90deg));
+					}
+				}
+			}
+			
+			> ul.year_list {
+				position: absolute;
+				right: 0%;
+				top: 0%;
+				
+				> li {
+					position: absolute;
+					cursor: pointer;
+
+					$button_size: 20px;
+
+					@include add_css_from_map((
+						width: (
+							default: $button_size,
+							big_tablet: 0px
+						),
+						height: (
+							big_tablet: $button_size
+						)
+					));
+					
+					span {
+						$shift_pos: (
+							default: -5px,
+							ipad: -4px,
+						);
+						$tablet_shift_pos: -3px;
+						$margin_for_animation: (
+							default: 15px,
+							ipad: 12px
+						);
+						$tablet_margin_for_animation: 10px;
+
+						position: absolute;
+						background: $orange;
+						color: #FFF;
+						@include add_css_from_map((
+							left: map-merge($shift_pos, (
+								big_tablet: auto
+							)),
+							right: (
+								big_tablet: 50%
+							),
+							bottom: (
+								default: 50%,
+								big_tablet: auto
+							),
+							top: (
+								big_tablet: map-get($shift_pos, ipad),
+								tablet: $tablet_shift_pos
+							),
+							padding: (
+								default: 0px 3px,
+								ipad: 0px 2px,
+								tablet: 0px 1px
+							),
+							border-radius: (
+								default: 3px,
+								ipad: 2px,
+								tablet: 1px
+							),
+							margin-left: map-merge($margin_for_animation, (
+								big_tablet: 0px
+							)),
+							margin-top: (
+								big_tablet: map-get($margin_for_animation, ipad),
+								tablet: $tablet_margin_for_animation
+							),
+							font-size: (
+								default: 12px,
+								tablet: 11px
+							),
+							css3-transform: (
+								default: translate(-100%, 50%),
+								big_tablet: translate(50%, -100%)
+							)
+						));
+						white-space: nowrap;
+						opacity: 0;
+						visibility: hidden;
+						pointer-events: none;
+						@include css3(transition, all 0.3s);
+						
+						&:before {
+							$arrow_width: 5px;
+							$arrow_half_height: 3px;
+							
+							@include default_before_or_after_css();
+							@include add_css_from_map((
+								left: (
+									default: 100%,
+									big_tablet: 50%
+								),
+								top: (
+									default: 50%,
+									big_tablet: 100%
+								),
+								border-left: (
+									default: $arrow_width solid $orange,
+									big_tablet: $arrow_half_height solid transparent
+								),
+								border-top: (
+									default:  $arrow_half_height solid transparent,
+									big_tablet: $arrow_width solid $orange
+								),
+								border-right: (
+									default: none,
+									big_tablet: $arrow_half_height solid transparent
+								),
+								border-bottom: (
+									default: $arrow_half_height solid transparent,
+									big_tablet: none
+								),
+								css3-transform: (
+									default: translateY(-50%),
+									big_tablet: translateX(-50%)
+								)
+							));
+						}
+					}
+					
+					&:after {
+						$dash_size: 10px;
+
+						@include default_before_or_after_css();
+						@include add_css_from_map((
+							left: (
+								default: 0%,
+								big_tablet: auto
+							),
+							right: (
+								big_tablet: 50%
+							),
+							bottom: (
+								default: 50%,
+								big_tablet: auto
+							),
+							top: (
+								big_tablet: 0%
+							),
+							width: (
+								default: $dash_size,
+								big_tablet: 1px
+							),
+							height: (
+								default: 1px,
+								big_tablet: $dash_size
+							)
+						));
+						background: rgba($content_color, 0.3);
+						z-index: -1;
+						@include css3(transition, all 0.3s);
+					}
+					
+					%hover_span {
+						margin-left: 0px;
+						margin-top: 0px;
+						opacity: 1;
+						visibility: visible;
+					}
+					
+					&%first_and_last_child {
+						> span {
+							font-family: InterUI-Bold, sans-serif;
+							background: none;
+							color: $orange;
+							@extend %hover_span;
+							pointer-events: auto;
+							
+							&:before {
+								display: none;
+							}
+						}
+					}
+					
+					&:first-child {
+						@extend %first_and_last_child;
+						
+						&:after, > span {
+							bottom: 100%;
+							@include media(big_tablet) {
+								left: auto;
+								right: 0%;
+								bottom: auto;
+							}
+						}
+					}
+					
+					&:last-child {
+						@extend %first_and_last_child;
+						
+						&:after, > span {
+							bottom: 0%;
+							@include media(big_tablet) {
+								left: auto;
+								right: 100%;
+								bottom: auto;
+							}
+						}
+					}
+					
+					&:hover {
+						> span {
+							@extend %hover_span;
+						}
+						
+						&:after {
+							background: $orange;
+						}
+					}
+
+					&.active {
+						z-index: 1;
+					}
+				}
+			}
+		}
+		
+		> .milestones_outer_wrapper {
+			position: relative;
+			overflow: hidden;
+			
+			> .main_milestones_wrapper {
+				@include table_with_cell();
+				@include multi_media(padding, modify_map_value(
+					map-merge($shadow_blur, (
+						big_tablet: 0px
+					)),
+					(
+						suffix: " 0px"
+					)
+				));
+				width: 100%;
+
+				> * {
+					@include media(big_tablet) {
+						display: block;
+					}
+				}
+
+				> .year_selection_outer_container {
+					@include multi_media(width, (
+						default: 0%,
+						big_tablet: auto
+					));
+
+					> .main_year_selection_container {
+						position: relative;
+						$hidden_part_from_big_tablet: (
+							big_tablet: map-get($main_size, ipad) * $hidden_part,
+							tablet: $tablet_main_size * $hidden_part
+						);
+
+						> .main_year_selection_wrapper {
+							@mixin set_orange_border() {
+								@include multi_media(border, modify_map_value((
+									default: 3px,
+									ipad: 2px
+								), (
+									suffix: " solid " + $orange
+								)));
+							}
+
+							position: relative;
+							@include set_orange_border();
+
+							@include add_css_from_map((
+								width: $complete_main_size,
+								height: $complete_main_size,
+								margin-left: map-merge(modify_map_value($main_size, (
+									multiplier: -$hidden_part
+								)), (
+									big_tablet: auto
+								)),
+								margin-right: (
+									big_tablet: auto
+								),
+								margin-top: modify_map_value($hidden_part_from_big_tablet, (
+									multiplier: -1
+								)),
+								box-shadow: modify_map_value(
+									map-merge(
+										$shadow_blur, (
+											tablet: $tablet_shadow_blur
+										)
+									),
+									(
+										prefix: "0px 0px ",
+										suffix: modify_map_value(
+											(
+												default: 10px,
+												ipad: 7px,
+												tablet: 5px
+											), 
+											(
+												prefix: " ",
+												suffix: " " + $dark_shadow_color
+											)
+										)
+									)
+								)
+							));
+							border-radius: 50%;
+							z-index: 1;
+
+							> .wheel_dragger {
+								@include absolute_full_cover();
+								border-radius: 50%;
+
+								@include add_css_from_map((
+									border: modify_map_value((
+										default: 20px,
+										ipad: 15px,
+										tablet: 10px
+									), (
+										suffix: " solid #FFF"
+									)),
+									box-shadow: modify_map_value((
+										default: 100px 20px,
+										ipad: 80px 15px,
+										tablet: 60px 12px
+									), (
+										prefix: "inset 0px 0px ",
+										suffix: " " + $shadow_color
+									))
+								));
+								
+								box-sizing: border-box;
+								cursor: move; /* fallback if grab cursor is unsupported */
+								cursor: grab;
+								cursor: -moz-grab;
+								cursor: -webkit-grab;
+								
+								 &.dragging {
+									cursor: grabbing;
+									cursor: -moz-grabbing;
+									cursor: -webkit-grabbing;
+								}
+							}
+
+							> ul.year_list > li {
+								$size: (
+									default: 80px,
+									ipad: 70px,
+									tablet: 55px
+								);
+								
+								@include pseudo_valign();
+								position: absolute;
+								@include set_orange_border();
+
+								@include add_css_from_map((
+									width: $size,
+									height: $size
+								));
+								background: #FFF;
+								text-align: center;
+								border-radius: 50%;
+								box-sizing: border-box;
+								cursor: pointer;
+								@include css3(transform, translate(-50%, -50%));
+								
+								$transition_duration: 0.3s;
+								@include css3(transition, (background $transition_duration, color $transition_duration));
+								
+								&.active {
+									background: $orange;
+									color: #FFF;
+								}
+								
+								> span {
+									@include multi_media(font-size, (
+										default: 16px,
+										ipad: 15px,
+										tablet: 12px
+									));
+									font-family: InterUI-Bold, sans-serif;
+								}
+							}
+						}
+
+						> .content_space_wrapper {
+							@include absolute_full_cover();
+							@include pseudo_valign();
+							text-align: center;
+							box-sizing: border-box;
+
+							@include multi_media(padding-top, $hidden_part_from_big_tablet);
+
+							> h2 {
+								font-family: InterUI-Bold, sans-serif;
+								$heading_padding: (
+									default: 50px,
+									ipad: 30px
+								);
+								$tablet_heading_padding: 25px;
+
+								@include add_css_from_map((
+									font-size: (
+										default: 40px,
+										ipad: 32px,
+										tablet: 26px
+									),
+									padding-right: map-merge($heading_padding, (
+										big_tablet: 0px
+									)),
+									padding-bottom: (
+										big_tablet: map-get($heading_padding, ipad),
+										tablet: $tablet_heading_padding
+									)
+								));
+								color: $orange;
+							}
+						}
+					}
+				}
+
+				> .year_content_container {
+					width: 100%;
+
+					@include multi_media(padding-left, (
+						laptop: 80px,
+						ipad: 60px,
+						big_tablet: 0px
+					));
+
+					> ul.year_content_list {
+						position: relative;
+						@include multi_media(height, map-merge($main_size, (
+							big_tablet: auto
+						)));
+						
+						&:not(.hide) > li.active {
+							opacity: 1;
+							visibility: visible;
+
+							&:after {
+								@include add_css_from_map((
+									width: (
+										default: 0%,
+										big_tablet: 100%
+									),
+									height: (
+										default: 100%,
+										big_tablet: 0%
+									)
+								));
+							}
+						}
+
+						li.active {
+							position: relative;
+						}
+
+						> li {
+							$common_border_color: $dark_off_white;
+							
+							&%transition {
+								@include css3(transition, all 0.7s);
+							}
+
+							@include table_with_cell();
+							position: absolute;
+							left: 0%;
+							width: 100%;
+							opacity: 0;
+							visibility: hidden;
+							@extend %transition;
+
+							@include add_css_from_map((
+								top: (
+									default: 50%,
+									big_tablet: 0%
+								),
+								css3-transform: (
+									default: translateY(-50%),
+									big_tablet: translateY(0%)
+								)
+							));
+
+							> * {
+								@include media(laptop) {
+									display: block;
+								}
+							}
+							
+							&:after {
+								@include default_before_or_after_css();
+								right: 0%;
+								bottom: 0%;
+								width: 100%;
+								height: 100%;
+								background: #FFF;
+								@extend %transition;
+							}
+
+							> .seperator {
+								font-size: 0px;
+								text-align: center;
+
+								&:before {
+									$size: (
+										default: 100px,
+										ipad: 80px
+									);
+									$tablet_size: 50px;
+									$border_width: (
+										default: 3px ,
+										ipad: 2px
+									);
+
+									content: '';
+									display: inline-block;
+									border: 0px dashed $common_border_color;
+									@include add_css_from_map((
+										width: map-merge($size, (
+											big_tablet: 0px
+										)),
+										height: (
+											big_tablet: map-get($size, ipad),
+											tablet: $tablet_size
+										),
+										border-top-width: map-merge($border_width, (
+											big_tablet: none
+										)),
+										border-right-width: (
+											big_tablet: map-get($border_width, ipad)
+										)
+									));
+								}
+
+								@include multi_media(display, (
+									laptop: none,
+									big_tablet: block
+								));
+							}
+
+							> .year_stats_container > .year_stats_wrapper {
+								@include add_css_from_map((
+									width: (
+										default: 280px,
+										laptop: auto,
+										big_mobile: 250px
+									),
+									border: modify_map_value((
+										default: 3px,
+										ipad: 2px
+									), (
+										suffix: " solid " + $common_border_color
+									)),
+									border-radius: (
+										default: 10px,
+										ipad: 7px,
+										tablet: 5px
+									)
+								));
+								margin: 0 auto;
+								box-sizing: border-box;
+								overflow: hidden;
+								
+								$common_space: (
+									default: 12px,
+									ipad: 10px,
+									tablet: 8px
+								);
+								$default_common_space: map-get($common_space, default);
+								
+								> ul.simple_stats_list {
+									display: table;
+									width: 100%;
+
+									> li {
+										$big_mobile_to_laptop: (
+											min: big_mobile,
+											max: laptop
+										);
+
+										display: table-row;
+										
+										@include multi_media(font-size, (
+											default: 14px,
+											ipad: 13px,
+											tablet: 12px
+										));
+
+										@include media($big_mobile_to_laptop) {
+											display: table-cell;
+											vertical-align: top;
+											width: 20%;
+											box-sizing: border-box;
+										}
+
+										@include multi_media(padding, (
+											laptop: 0px 15px,
+											ipad: 0px 12px,
+											tablet: 0px 10px,
+											big_mobile: 0px
+										));
+
+										$default_vertical_padding: 7px;
+										$vertical_non_default_padding: (
+											ipad: 5px,
+											tablet: 3px
+										);
+
+										@mixin set_vertical_padding($vertical_padding) {
+											@include add_css_from_map((
+												padding-top: $vertical_padding,
+												padding-bottom: $vertical_padding
+											));
+										}
+
+										> span {
+											@include table_cell();
+											@include set_vertical_padding(map-merge(
+												(
+													default: $default_vertical_padding
+												),
+												$vertical_non_default_padding
+											));
+
+											@include media($big_mobile_to_laptop) {
+												display: block;
+												position: relative;
+											}
+
+											$line_space: (
+												default: 15px,
+												big_mobile: 8px
+											);
+											$count_span_width: 30%;
+
+											&.count {
+												$border: 1px solid $common_border_color;
+
+												width: $count_span_width;
+												text-align: right;
+												border-right: $border;
+												font-family: InterUI-Bold, sans-serif;
+												@extend %span_classes_css;
+
+												@include multi_media(padding-right, $line_space);
+
+												@include media($big_mobile_to_laptop) {
+													border-right: none;
+													border-bottom: $border;
+												}
+
+												&:after {
+													$size: 7px;
+													$half_size: $size / 2;
+
+													content: '';
+													@include inline_valign();
+													position: relative;
+													top: -2px;
+													width: $size;
+													height: $size;
+													margin-right: -$size;
+													border-radius: 50%;
+													background: $common_border_color;
+
+													@include multi_media(right, modify_map_value($line_space, (
+														adder: -$half_size,
+														round: true,
+														prefix: "-"
+													)));
+
+													@include media($big_mobile_to_laptop) {
+														position: absolute;
+														right: 50%;
+														top: 100%;
+														margin-top: - floor($half_size);
+														margin-right: - ceil($half_size);
+													}
+												}
+											}
+
+											&.text {
+												width: 100 - $count_span_width;
+
+												@include multi_media(padding-left, $line_space);
+												
+												@extend %span_classes_css;
+											}
+										}
+
+										&:first-child > span {
+											@extend %span_laptop_and_below_padding;
+											padding-top: $default_common_space;
+										}
+
+										&:last-child > span {
+											@extend %span_laptop_and_below_padding;
+											padding-bottom: $default_common_space;
+										}
+
+										%span_laptop_and_below_padding {
+											@include set_vertical_padding(map-merge((
+												$big_mobile_to_laptop: $default_vertical_padding
+											), $vertical_non_default_padding));
+										}
+
+										@include media($big_mobile_to_laptop) {
+											%span_classes_css {
+												width: auto;
+												padding-left: 0px;
+												padding-right: 0px;
+												text-align: center;
+											}
+										}
+									}
+								}
+								
+								> ul.stats_content_list {
+									border-top: 1px solid $common_border_color;
+									background: $off_white;
+
+									@include add_css_from_map((
+										padding: $common_space,
+										font-size: (
+											default: 14px,
+											ipad: 13px,
+											tablet: 12px
+										)
+									));
+									
+									> li {
+										@include multi_media(padding-bottom, (
+											default: 7px,
+											ipad: 5px,
+											tablet: 3px
+										));
+										
+										&:last-child {
+											padding-bottom: 0px;
+										}
+									}
+								}
+							}
+
+							> .main_content_outer_wrapper {
+								width: 100%;
+								
+								> .main_content_wrapper {
+									$padding: (
+										laptop: 20px,
+										ipad: 15px,
+										tablet: 12px
+									);
+									$margin_incrementer: (
+										laptop: 5,
+										ipad: 3,
+										tablet: 2
+									);
+									$margin: modify_map_value($padding, (
+										adder: $margin_incrementer
+									));
+
+									position: relative;
+									padding-left: map-get($padding, laptop);
+									margin-left: map-get($margin, laptop);
+
+									@include media(laptop) {
+										padding-left: 0px;
+										margin-left: 0px;
+									}
+
+									@include add_css_from_map((
+										padding-top: $padding,
+										margin-top: $margin
+									));
+
+									> .main_content {
+										$decrement: (
+											default: 0,
+											laptop: -225,
+											ipad: -190
+										);
+
+										@include multi_media(max-height, map-merge(modify_map_value(
+											$decrement, 
+											(
+												adder: map-merge($main_size, (
+													laptop: map-get($main_size, default)
+												))
+											)
+										), (
+											big_tablet: none
+										)));
+										
+										overflow: auto;
+										@include multi_media(padding-right, (
+											default: 10px,
+											ipad: 8px,
+											big_tablet: 0px
+										));
+										
+										> ul.content_info_list {
+											@include multi_media(font-size, (
+												default: 14px,
+												ipad: 13px,
+												tablet: 12px
+											));
+										}
+									}
+
+									&:before {
+										$thickness: 3px;
+
+										@include default_before_or_after_css();
+										left: 0%;
+										top: 0%;
+										width: $thickness;
+										height: 100%;
+
+										$gradient_fallback_color: $dark_off_white;
+										$gradient: transparent 0%, $dark_off_white 50%, transparent 100%;
+
+										@include linear_gradient($gradient_fallback_color, to bottom, $gradient);
+
+										@include media(laptop) {
+											width: 100%;
+											height: $thickness;
+											@include linear_gradient($gradient_fallback_color, to right, $gradient);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.bg_map {
+	$extra_horizontal_space: 3vw;
+	
+	background-image: url(../images/bg-map.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	@include multi_media(background-position, $half_content_container_padding, (prefix: "center "));
+	margin: 0 #{-$extra_horizontal_space};
+	padding-left: $extra_horizontal_space;
+	padding-right: $extra_horizontal_space;
+}
+
+.footer_container {
+	background: $off_white;
+	
+	.need_visa_info_form_wrapper {
+		@include multi_media(padding, $content_container_padding, (suffix: " 0px"));
+	
+		.big_heading {
+			@include multi_media(padding-bottom, (
+				default: 30px,
+				ipad: 25px,
+				tablet: 20px
+			));
+		}
+	}
+	
+	.main_footer_content {
+		ul.all_links {
+			@include add_css_from_map((
+				padding-top: $content_container_padding,
+				padding-bottom: $half_content_container_padding
+			));
+		}
+		
+		ul.many_links, ul.few_links {
+			> li {
+				a {
+					color: $content_color;
+					text-decoration: underline;
+				}
+				
+				> a {
+					@include em_by_font_size(18);
+				}
+				
+				> ul {
+					margin-top: 15px;
+					
+					> li {
+						font-size: 14px;
+						margin-bottom: 10px;
+					}
+				}
+			}
+		}
+	}
+	
+	footer {
+		$certification_hide_from: small_ipad;
+
+		border-top: 1px solid $seperator_color;
+		@include multi_media(padding, (
+			default: 40px 0px,
+			ipad: 30px 0px,
+			tablet: 20px 0px
+		));
+
+		$vertical_space: 10px;
+		
+		%top_margin {
+			@include multi_media(margin-top, $vertical_space);
+		}
+		
+		> .certification_copyright_wrapper {
+			position: relative;
+			float: left;
+
+			@include media(small_desktop) {
+				@include table_with_cell();
+				float: none;
+				width: 100%;
+			}
+			
+			> * {
+				position: relative;
+				float: left;
+
+				@include media(small_desktop) {
+					float: none;
+				}
+			}
+
+			> .links_copyright_wrapper {
+				padding-bottom: 20px;
+				box-sizing: border-box;
+				text-align: left;
+
+				@include media($certification_hide_from) {
+					padding-bottom: 0px;
+					text-align: center;
+				}
+			}
+		}
+		
+		> .extra_content_wrapper {
+			float: right;
+			text-align: right;
+
+			> .main_content > .autocomplete-search-box {
+				@extend %top_margin;
+			}
+		}
+
+		.outer_certification_wrapper {
+			@extend .hide_from_#{$certification_hide_from};
+			@include multi_media(("padding-left" "margin-left"), (
+				default: 40px,
+				laptop: 20px
+			));
+			border-left: 1px solid $seperator_color;
+
+			> .certification_wrapper {
+				display: table;
+
+				@include media(small_desktop) {
+					float: right;
+				}
+				
+				> h5 {
+					color: $content_color;
+					font-size: inherit;
+					text-align: center;
+					
+					a {
+						color: inherit;
+						text-decoration: underline;
+					}
+				}
+				
+				> ul {
+					display: table;
+					margin-left: auto;
+					margin-right: auto;
+					@extend %top_margin;
+					
+					> li {
+						@include inline_valign(top);
+						margin-right: 20px;
+						
+						&:last-child {
+							margin-right: 0px;
+						}
+	
+						img {
+							display: block;
+						}
+					}
+				}
+			}
+		}
+		
+		ul.main_links > li {
+			@include link_li(25px, $content_color);
+			
+			> ul {
+				display: none;
+			}
+		}
+		
+		ul.extra_links {
+			@extend %top_margin;
+			@include em_by_font_size(14);
+			
+			> li {
+				@include link_li(15px, $light_content_color);
+			}
+		}
+
+		.social_language_wrapper {
+			@extend %top_margin;
+
+			@include multi_media(padding-bottom, $vertical_space);
+			direction: rtl;
+
+			@include media(small_desktop) {
+				display: block;
+			}
+
+			> * {
+				@include inline_valign();
+				direction: ltr;
+			}
+
+			> .autocomplete-search-box {
+				@include multi_media(margin-right, (
+					default: 15px,
+					ipad: 12px,
+					tablet: 10px
+				));
+			}
+		}
+		
+		.copyright {
+			position: absolute;
+			left: 0%;
+			bottom: 0%;
+			width: 100%;
+			@include em_by_font_size(14);
+			color: $light_content_color;
+
+			@include media($certification_hide_from) {
+				position: relative;
+			}
+		}
+	}
+}
+
+.cur_no_transition, .no_transition, .no_transition * {
+	@include css3(transition, none !important);
+}

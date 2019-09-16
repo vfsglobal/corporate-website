@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06345B" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW"/>
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico" />
+<link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<master-page type="basic-inner-page">
+  <h1 class="main_big_heading max_content_width padb_big">Certification and Accreditation</h1>
+  <ul class="bottom_seperator_list large">
+    <li :id="cur_content.id" v-for="(cur_content, index) in certification_content" :key="index">
+      <div class="max_content_width">
+        <icon-heading-wrapper type="normal_content_heading" :content="cur_content.icon_heading" tag_name="h3" class="align_middle padb_small"></icon-heading-wrapper>
+        <p v-dynamic-html="cur_content.content"></p>
+      </div>
+    </li>
+  </ul>
+</master-page>
+<script type="text/javascript" src="../assets/js/vendor/common.min.js"></script> 
+<script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+<script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+<script type="text/javascript" src="../assets/js/script.min.js"></script> 
+</body>
+</html>

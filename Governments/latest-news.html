@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06345B" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW"/>
+<meta name="description" content="Keeping you updated with the latest VFS Global News">
+<meta name="keywords" content="latest news, news coverage, events, awards, social responsibility, media release">
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico" />
+<link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<master-page type="news-section" :content="news.latest">
+  <ul class="bottom_seperator_list large">
+	  <li v-for="(cur_section, index) in page_data.all_sections" :key="index">
+		  <heading-link-wrapper :content="cur_section.heading_link" read_more_link_html="View all" class="padb_half_big"></heading-link-wrapper>
+		  <component :is="cur_section.component_name" 
+					 v-bind="news.latest[cur_section.data_key]"
+					 v-if="cur_section.use_bind"></component>
+		  <component :is="cur_section.component_name" 
+					 :type="cur_section.component_type"
+					 :content="news.latest[cur_section.data_key]"
+					 v-else></component>
+	  </li>
+  </ul>
+</master-page>
+<script type="text/javascript" src="../assets/js/vendor/common.min.js"></script> 
+<script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+<script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+<script type="text/javascript" src="../assets/js/script.min.js"></script> 
+<script>
+	var master_page_data = {
+		main_sub_heading: 'Keeping you updated with the latest VFS Global News'
+	};
+	
+	var page_data = {
+		all_sections: [{
+			heading_link: {
+				heading: 'Media Releases',
+				read_more: {
+					href: 'media-releases.html'
+				}
+			},
+			data_key: 'media_releases',
+			component_name: 'grey-box-list',
+			component_type: 'heading-link-list',
+			use_bind: false
+		}, {
+			heading_link: {
+				heading: 'News Coverage',
+				read_more: {
+					href: 'news-coverage.html'
+				}
+			},
+			data_key: 'news_coverage',
+			component_name: 'side-heading-details-list',
+			use_bind: true
+		}, {
+			heading_link: {
+				heading: 'Events',
+				read_more: {
+					href: 'events.html'
+				}
+			},
+			data_key: 'events',
+			component_name: 'side-image-content-wrapper',
+			component_type: 'image_max_medium_width',
+			use_bind: false
+		}, {
+			heading_link: {
+				heading: 'Awards',
+				read_more: {
+					href: 'awards.html'
+				}
+			},
+			data_key: 'awards',
+			component_name: 'grey-box-list',
+			component_type: 'multi-type-heading',
+			use_bind: false
+		}, {
+			heading_link: {
+				heading: 'Social Responsibility',
+				read_more: {
+					href: 'news-corporate-social-responsibility.html'
+				}
+			},
+			data_key: 'csr',
+			component_name: 'side-image-content-wrapper',
+			component_type: 'image_max_medium_width',
+			use_bind: false
+		}]
+	}
+</script> 
+</body>
+</html>

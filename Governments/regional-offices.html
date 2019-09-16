@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#06345B" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta NAME="ROBOTS" CONTENT="INDEX, FOLLOW"/>
+<link rel="shortcut icon" type="image/x-icon" href="../assets/images/icons/vfs.ico" />
+<link href="../assets/css/style.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<master-page type="basic-inner-page">
+  <h1 class="main_big_heading max_content_width padb_big">Regional Offices</h1>
+  <grey-box-list :content="page_data.offices" type="heading-content"></grey-box-list>  
+</master-page>
+<script type="text/javascript" src="../assets/js/vendor/common.min.js"></script> 
+<script type="text/javascript" src="../assets/js/vendor/gsap.min.js"></script>
+<script type="text/javascript" src="../assets/js/compatibility-detector.min.js"></script>
+<script type="text/javascript" src="../assets/js/script.min.js"></script> 
+<script>
+	var page_data = {
+		offices: [{
+			heading: 'South Asia',
+			main_content: 'Shivaji Stadium Metro Station,<br/>\
+			Mezzanine Level, Baba Kharak Singh Marg,<br/>\
+			Connaught Place, New Delhi- 110001'
+		}, {
+			heading: 'CIS and Eastern Europe',
+			main_content: 'Build. 5, 31 Schabolovka Street,<br/>\
+			Moscow city, 115162, Russian Federation'
+		}, {
+			heading: 'Europe',
+			main_content: '3<sup>rd</sup> Floor, 66 Wilson Street,<br/>\
+          	London EC2A 2BT, United Kingdom'
+		}, {
+			heading: 'Middle East',
+			main_content: 'VFS GCC LLC<br/>\
+			WAFI Mall, Level 3, Falcon, Phase 2, Umm Hurair2, <br/>\
+			Dubai 114 100, UAE'
+		}, {
+			heading: 'Africa',
+			main_content: 'VFS Visa Processing SA ( Pty) LTD<br/>\
+          	1<sup>st</sup> Floor Rivonia Village|Corner Rivonia Boulevard and Mutual Road|Sandton, Johannesburg,<br/>\
+          	Gauteng Province, South Africa<br/>\
+          	PO Box 5986|Rivonia|2128'
+		}, {
+			heading: 'Americas [North America and Caribbean]',
+			main_content: 'VFS Global Services (USA) Inc.<br/>\
+			1025 Vermont Ave NW, 2nd floor, Washington DC 20005, USA'
+		}, {
+			heading: 'Latin America',
+			main_content: 'VFS Colombia SAS<br/>\
+          	Carrera 13 No. 97 – 76 of. 301, Bogotá, Colombia'
+		}, {
+			heading: 'Australasia',
+			main_content: '10/198-203 Trendy Tower 29<sup>th</sup> Floor. Soi Sukhumvit 13,<br/>\
+		  	Sukhumvit Rd, Klangtoey Nua,<br/>\
+		  	Wattana, Bangkok 10110'
+		}, {
+			heading: 'China [Beijing]',
+			main_content: 'Room 916, Building A, Pacific Century Place,<br/>\
+          	# 2 Jia Gongti Beilu, Chaoyang District,<br/>\
+          	Beijing – 100020, China'
+		}, {
+			heading: 'China [Shanghai]',
+			main_content: 'Room 1401-1404, 14 Floor Hui Shang Building,<br/>\
+          	No.1286 Minsheng Road,<br/>\
+          	Pudong ,Shanghai. – 200 135, China'
+		}, {
+			heading: 'Greece',
+			main_content: 'VFS Global Services Hellas Single Member PC<br/>\
+          	Navarchou Nikodimou 2, Athens, 10557'
+		}, {
+			heading: 'Cyprus',
+			main_content: 'AVISA SERVICES LIMITED LLC, Themistokli Dervi,<br/>\
+          	48, ATHIENITIS CENTENNIAL BUILDING, 8<sup>th</sup> floor, <br/>\
+          	Flat/Office 803, 1066, Nicosia, Cyprus'
+		}]
+	};
+</script> 
+</body>
+</html>
